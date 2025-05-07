@@ -1,3 +1,5 @@
+# Plaython
+Plaython: plataforma de matchmaking para retos y eventos de programación. Conecta profesionales de distintas especialidades, forma equipos balanceados y coordina actividades. Su algoritmo inteligente optimiza la asignación de roles y la planificación de tareas, asegurando colaboraciones exitosas en hackathons y codeathons.
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
