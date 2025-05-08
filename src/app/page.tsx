@@ -1,7 +1,13 @@
-import Image from "next/image";
+import { Footer } from "../../Components/index/Footer";
+import Hero from "../../Components/index/Hero";
+import Navbar from "../../Components/index/Nab";
 
-export default function Home() {
+export default function index() {
   return (
-    <div>index</div>
+    <main>
+      <Navbar />
+      <Hero />
+      <Footer />
+    </main>
   );
 }

@@ -1,4 +1,5 @@
 # Plaython
+
 Plaython: plataforma de matchmaking para retos y eventos de programación. Conecta profesionales de distintas especialidades, forma equipos balanceados y coordina actividades. Su algoritmo inteligente optimiza la asignación de roles y la planificación de tareas, asegurando colaboraciones exitosas en hackathons y codeathons.
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
@@ -38,4 +39,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 ## Dependencies:
+
 1. npm install @clerk/nextjs
+
+npm install --save-dev @types/react @types/react-dom
