@@ -43,3 +43,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 1. npm install @clerk/nextjs
 
 npm install --save-dev @types/react @types/react-dom
+npm install lucide-react
