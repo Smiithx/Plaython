@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useSession, UserButton } from "@clerk/nextjs"
 import { supabaseClient } from "@/lib/supabaseClient"
 import { Loading } from "../../Components/ui/loading/Loading"
-// import { createClient } from "@supabase/supabase-js";
+import ChallengeShowcase from "../../Components/challenge/ChallengeShowcase";
 
 export default function HomePage() {
     const { isLoaded, session } = useSession()
@@ -27,7 +27,7 @@ export default function HomePage() {
 
     return (
         <div>
-            Dashboard page
+            <ChallengeShowcase />
             <UserButton />
             <pre>{JSON.stringify(data, null, 2)}</pre>
         </div>
