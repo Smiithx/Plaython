@@ -1,16 +1,35 @@
-"use client";
-import { UserButton, useUser } from "@clerk/nextjs";
-import { Loading } from "../../Components/ui/loading/Loading";
+"use client"
+import { useEffect, useState } from "react"
+import { useSession, UserButton } from "@clerk/nextjs"
+import { supabaseClient } from "@/lib/supabaseClient"
+import { Loading } from "../../Components/ui/loading/Loading"
+// import { createClient } from "@supabase/supabase-js";
 
 export default function HomePage() {
-  const { isLoaded, isSignedIn, user } = useUser();
+    const { isLoaded, session } = useSession()
+    const [data, setData] = useState<any[]>([])
 
-  if (!isLoaded) return <Loading />;
+    useEffect(() => {
+        if (!isLoaded || !session) return
 
-  return (
-    <div>
-      Dashboard page
-      <UserButton />
-    </div>
-  );
+        // Ahora puedes hacer consultas
+        supabaseClient
+            .from("test")
+            .select("*")
+            .then(({ data, error }) => {
+                if (error) console.error(error);
+                else setData(data!);
+                console.log(data)
+            });
+    }, [isLoaded, session])
+
+    if (!isLoaded) return <Loading />
+
+    return (
+        <div>
+            Dashboard page
+            <UserButton />
+            <pre>{JSON.stringify(data, null, 2)}</pre>
+        </div>
+    )
 }

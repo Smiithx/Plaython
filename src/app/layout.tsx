@@ -4,7 +4,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "../../Components/index/Nab";
 import Hero from "../../Components/index/Hero";
-import SyncProfile from "../../Components/dashboard/sync-profile";
 import { Footer } from "../../Components/index/Footer";
 
 const geistSans = Geist({
@@ -43,7 +42,6 @@ export default function RootLayout({
 
           <main>
             <SignedIn>
-              <SyncProfile />
               {children}
             </SignedIn>
           </main>
