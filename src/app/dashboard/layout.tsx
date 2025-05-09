@@ -2,6 +2,7 @@ import { type Metadata } from "next";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import { SidebarDesktop } from "../../../components/dashboard/sidebar.desktop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +26,12 @@ export default function DashboardLayout({
 }>) {
   return (
     <ClerkProvider>
-      <SignedIn>{children}</SignedIn>
+      <SignedIn>
+        <main className="flex h-screen w-full bg-[#0F0F0F] text-white overflow-hidden">
+          <SidebarDesktop />
+          {children}
+        </main>
+      </SignedIn>
     </ClerkProvider>
   );
 }
