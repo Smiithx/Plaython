@@ -8,36 +8,67 @@ interface Props {
 export default function ChallengeCard({ challenge }: Props) {
   const router = useRouter();
 
-  return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 transition-transform duration-300 hover:shadow-xl hover:-translate-y-1">
-      {/* Banner superior con gradiente */}
-      <div className="h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+  // Mapeo de estados técnicos a nombres en español
+  const statusLabels: Record<Challenge["status"], string> = {
+    finished: "Finalizado",
+    ongoing: "En curso",
+    next: "Próximamente",
+  };
 
-      <div className="p-4 flex flex-col h-full">
+  // Colores por estado
+  const statusColors = {
+    finished: "bg-gray-700 text-gray-300 border border-gray-500",
+    ongoing: "bg-green-900/50 text-green-400 border border-green-500",
+    next: "bg-purple-900/50 text-purple-300 border border-purple-500",
+  };
+
+  return (
+    <div className="bg-gray-900 rounded-xl shadow-md overflow-hidden border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20 hover:-translate-y-1 h-full flex flex-col justify-between">
+      {/* Banner superior */}
+      <div
+        className={`h-2 ${
+          challenge.status === "finished"
+            ? "from-gray-600 to-gray-500 bg-gradient-to-r"
+            : challenge.status === "ongoing"
+            ? "from-green-500 to-blue-500 bg-gradient-to-r"
+            : "from-purple-600 via-pink-500 to-red-500 bg-gradient-to-r"
+        }`}
+      ></div>
+
+      <div className="p-5 flex-grow flex flex-col">
+        {/* Estado */}
+        <span
+          className={`inline-flex items-center px-3 py-1 text-xs font-medium rounded-full mb-2 self-start ${statusColors[challenge.status]}`}
+        >
+          {statusLabels[challenge.status]}
+        </span>
+
         {/* Título */}
-        <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-1">
+        <h3 className="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-blue-400 transition-colors">
           {challenge.title}
         </h3>
 
         {/* Descripción */}
-        <p className="text-sm text-gray-600 mb-4 flex-grow line-clamp-2">
+        <p className="text-sm text-gray-300 mb-4 flex-grow line-clamp-2">
           {challenge.description}
         </p>
 
-        {/* Dificultad */}
-        <div className="mb-3">
-          <span
-            className={`inline-flex items-center px-3 py-1 text-xs font-medium rounded-full ${
-              challenge.difficulty === "Fácil"
-                ? "bg-green-100 text-green-800"
-                : challenge.difficulty === "Medio"
-                ? "bg-yellow-100 text-yellow-800"
-                : challenge.difficulty === "Difícil"
-                ? "bg-orange-100 text-orange-800"
-                : "bg-red-100 text-red-800"
-            }`}
-          >
-            {challenge.difficulty}
+        {/* Dificultad + Equipo */}
+        <div className="flex justify-between mb-3 text-xs text-gray-400">
+          <span>
+            Dificultad:{" "}
+            <strong>
+              {challenge.difficulty === "easy"
+                ? "Fácil"
+                : challenge.difficulty === "mid"
+                ? "Medio"
+                : challenge.difficulty === "hard"
+                ? "Difícil"
+                : "Experto"}
+            </strong>
+          </span>
+          <span>
+            Equipo: <strong>{challenge.teamSize || 1} persona{challenge.teamSize !== 1 ? "s" : ""}</strong>
           </span>
         </div>
 
@@ -46,17 +77,23 @@ export default function ChallengeCard({ challenge }: Props) {
           {challenge.tags.map((tag, i) => (
             <span
               key={i}
-              className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors"
+              className="text-xs bg-indigo-800 text-indigo-200 px-2 py-1 rounded-full hover:bg-indigo-700 transition-colors"
             >
               {tag}
             </span>
           ))}
         </div>
 
+        {/* Fechas */}
+        <div className="text-xs text-gray-500 mt-auto mb-4">
+          {challenge.startDate && new Date(challenge.startDate).toLocaleDateString()} -{" "}
+          {challenge.endDate ? new Date(challenge.endDate).toLocaleDateString() : "Abierto"}
+        </div>
+
         {/* Botón */}
         <button
           onClick={() => router.push(`/challenge/${challenge.id}`)}
-          className="mt-auto w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          className="w-full py-2 px-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-sm font-semibold rounded-lg transition-transform duration-300 hover:scale-105 focus:outline-none"
         >
           Ver reto
         </button>
@@ -64,3 +101,20 @@ export default function ChallengeCard({ challenge }: Props) {
     </div>
   );
 }
+
+// Versión Skeleton para carga
+ChallengeCard.Skeleton = function Skeleton() {
+  return (
+    <div className="bg-gray-900 rounded-xl shadow-md border border-gray-700 animate-pulse h-full flex flex-col justify-between">
+      <div className="h-16 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500"></div>
+      <div className="p-5 space-y-3">
+        <div className="h-5 bg-gray-700 rounded w-3/4"></div>
+        <div className="h-4 bg-gray-700 rounded w-full"></div>
+        <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+        <div className="h-4 bg-gray-700 rounded w-1/4"></div>
+        <div className="h-4 bg-gray-700 rounded w-1/4"></div>
+        <div className="h-10 bg-gray-700 rounded mt-2"></div>
+      </div>
+    </div>
+  );
+};
