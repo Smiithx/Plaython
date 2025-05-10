@@ -467,13 +467,14 @@ export default function ChallengeShowcase() {
                 No hay retos con esos filtros
               </p>
               <button
-                onClick={() =>
+                onClick={() => {
                   setFilters({
                     search: "",
                     difficulty: "all",
                     tags: [],
-                  })
-                }
+                  });
+                  setShowLanguageMenu(false);
+                }}
                 className="mt-4 px-5 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg transition-transform duration-300 hover:scale-105 shadow-md shadow-purple-500/30"
               >
                 Restablecer filtros
