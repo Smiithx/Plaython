@@ -11,7 +11,7 @@ interface Challenge {
   tags: string[];
   teamSize: number;
   startDate: string;
-  endDate: string;
+  endDate?: string;
   status: "ongoing" | "next" | "finished";
 }
 
@@ -163,7 +163,7 @@ const LOCAL_CHALLENGES: Challenge[] = [
   },
 ];
 
-// Configuraciones globales
+// Traducción de dificultades técnicas a español
 const difficultyLabels = {
   all: "Todos",
   easy: "Fácil",
@@ -172,6 +172,7 @@ const difficultyLabels = {
   expert: "Experto",
 };
 
+// Colores por tecnología
 const tagColors = {
   JavaScript: "bg-yellow-500/20 text-yellow-400 border-yellow-500",
   TypeScript: "bg-blue-500/20 text-blue-400 border-blue-500",
@@ -195,6 +196,7 @@ const tagColors = {
   APIs: "bg-slate-500/20 text-slate-400 border-slate-500",
 };
 
+// Lenguajes disponibles
 const languages = [
   "JavaScript",
   "TypeScript",
@@ -218,6 +220,7 @@ const languages = [
   "APIs",
 ];
 
+// Colores por nivel de dificultad seleccionada
 const difficultyActiveColors = {
   all: "bg-gray-700 text-white ring-gray-500",
   easy: "bg-green-800 text-green-200 ring-green-500",
@@ -268,7 +271,9 @@ export default function ChallengeShowcase() {
     if (!items.length) return null;
     return (
       <section key={status} className="mb-12">
-        <h3 className={`text-3xl font-extrabold mb-6 ${bgColor} pb-2 inline-block`}>
+        <h3
+          className={`text-3xl font-extrabold mb-6 ${bgColor} pb-2 inline-block`}
+        >
           {title}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -285,38 +290,70 @@ export default function ChallengeShowcase() {
     );
   };
 
-  // Manejar toggle de tags
+  // Manejar toggle de tags (con eliminación de duplicados)
   const toggleTag = (tag: string) =>
-    setFilters((prev) => ({
-      ...prev,
-      tags: prev.tags.includes(tag)
+    setFilters((prev) => {
+      const newTags = prev.tags.includes(tag)
         ? prev.tags.filter((t) => t !== tag)
-        : [...prev.tags, tag],
-    }));
+        : [...prev.tags, tag];
+
+      // Elimina duplicados y asegura consistencia
+      const uniqueTags = Array.from(new Set(newTags));
+
+      return { ...prev, tags: uniqueTags };
+    });
+
+  // Estado para abrir/cerrar menú de lenguajes
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
   return (
     <main className="min-h-screen bg-black text-white py-10 px-4 overflow-hidden">
       {/* Fondo animado */}
       <div className="fixed inset-0 z-0 bg-grid-pattern opacity-[0.03]"></div>
 
-      {/* Contenido principal */}
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Barra de búsqueda */}
-        <div className="relative w-full max-w-3xl mx-auto mb-10 group">
+        {/* Chips de tags seleccionados - centrados y sin salto */}
+        <div className="h-[36px] flex justify-center items-center mb-4">
+          {filters.tags.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-2">
+              {filters.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                    tagColors[tag as keyof typeof tagColors]
+                  }`}
+                >
+                  {tag}
+                  <button
+                    onClick={() => toggleTag(tag)}
+                    className="ml-2 w-5 h-5 flex items-center justify-center rounded-full hover:bg-opacity-70"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Barra de búsqueda - con botón de filtro integrado */}
+        <div className="relative w-full max-w-3xl mx-auto mb-6 group">
           <input
             type="text"
             placeholder="Buscar reto..."
             value={filters.search}
             onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-            className="w-full pl-14 pr-6 py-4 rounded-xl bg-gray-900 border border-purple-600 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 hover:border-pink-500 shadow-lg shadow-purple-500/10"
+            className="w-full pl-14 pr-14 py-4 rounded-xl bg-gray-900 border border-purple-600 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 hover:border-pink-500 shadow-lg shadow-purple-500/10"
           />
+
+          {/* Icono de lupa - izquierda */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6 absolute left-5 top-1/2 transform -translate-y-1/2 text-purple-400 transition-transform duration-300 group-focus-within:scale-110"
+            className="w-6 h-6 absolute left-5 top-1/2 transform -translate-y-1/2 text-purple-400"
           >
             <path
               strokeLinecap="round"
@@ -324,18 +361,84 @@ export default function ChallengeShowcase() {
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
             />
           </svg>
+
+          {/* Botón de filtro - derecha */}
+          <div className="absolute right-5 top-1/2 transform -translate-y-1/2 flex items-center space-x-2">
+            <button
+              onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+              className="text-gray-400 hover:text-white transition-colors focus:outline-none"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707v6.414a1 1 0 01-.293.707l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 01-.293-.707V13.293a1 1 0 00-.293-.707L3 6.586A1 1 0 013 5.879V4z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Menú desplegable de tecnologías/tags */}
+          {showLanguageMenu && (
+            <div className="absolute right-0 mt-2 w-48 bg-gray-900 border border-gray-700 rounded-lg shadow-xl z-50 pointer-events-auto animate-fadeIn">
+              <div className="max-h-60 overflow-y-auto p-2 space-y-1">
+                {languages.map((tag) => (
+                  <label
+                    key={tag}
+                    className={`block px-3 py-1.5 text-sm rounded-full cursor-pointer transition-all ${
+                      filters.tags.includes(tag)
+                        ? `${
+                            tagColors[tag as keyof typeof tagColors]
+                          } ring-1 ring-offset-2 ring-opacity-60`
+                        : "hover:bg-gray-800"
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={filters.tags.includes(tag)}
+                      onChange={() => toggleTag(tag)}
+                      className="hidden"
+                    />
+                    <span className="flex items-center">
+                      <span className="mr-2 flex-shrink-0 w-4 h-4 rounded-full border border-current flex items-center justify-center">
+                        {filters.tags.includes(tag) && (
+                          <span className="w-2 h-2 rounded-full bg-current"></span>
+                        )}
+                      </span>
+                      {tag}
+                    </span>
+                  </label>
+                ))}
+
+                {/* Botón de cerrar menú */}
+                <div className="border-t border-gray-700 pt-2 mt-2">
+                  <button
+                    onClick={() => setShowLanguageMenu(false)}
+                    className="w-full text-center text-xs text-gray-500 hover:text-gray-300"
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Filtros */}
+        {/* Filtros: Dificultad */}
         <div className="flex flex-wrap justify-center gap-3 mb-6">
           {(["all", "easy", "mid", "hard", "expert"] as const).map((level) => {
             const isActive = filters.difficulty === level;
             return (
               <button
                 key={level}
-                onClick={() =>
-                  setFilters({ ...filters, difficulty: level })
-                }
+                onClick={() => setFilters({ ...filters, difficulty: level })}
                 className={`px-5 py-2 rounded-full capitalize font-semibold transition-all duration-300 ${
                   isActive
                     ? `${difficultyActiveColors[level]} ring-2 ring-offset-2 ring-opacity-70 scale-105`
@@ -348,25 +451,8 @@ export default function ChallengeShowcase() {
           })}
         </div>
 
-        {/* Tags */}
-        <div className="flex flex-wrap justify-center gap-2 mt-4">
-          {languages.map((tag) => (
-            <button
-              key={tag}
-              onClick={() => toggleTag(tag)}
-              className={`px-4 py-1 text-sm sm:text-base rounded-full font-medium transition-all ${
-                filters.tags.includes(tag)
-                  ? `${tagColors[tag as keyof typeof tagColors]} ring-2 ring-offset-2 ring-opacity-60 shadow-md`
-                  : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
-              }`}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-
-        {/* Separador neon */}
-        <div className="my-10 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent animate-pulse"></div>
+        {/* Separador neón */}
+        <div className="my-8 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent animate-pulse"></div>
 
         {/* Listado de retos */}
         <div className="space-y-12">
@@ -377,7 +463,9 @@ export default function ChallengeShowcase() {
           {/* Estado vacío */}
           {filteredList.length === 0 && (
             <div className="text-center py-16 bg-gray-800/70 backdrop-blur-sm rounded-xl border border-dashed border-gray-600">
-              <p className="text-gray-400 text-lg">No hay retos con esos filtros</p>
+              <p className="text-gray-400 text-lg">
+                No hay retos con esos filtros
+              </p>
               <button
                 onClick={() =>
                   setFilters({

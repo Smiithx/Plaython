@@ -26,28 +26,29 @@ export default function ChallengeCard({ challenge }: Props) {
     easy: "Fácil",
     mid: "Medio",
     hard: "Difícil",
-    expert: "Experto"
+    expert: "Experto",
   };
 
   // Estados técnicos a español
   const statusLabels = {
     finished: "Finalizado",
     ongoing: "En curso",
-    next: "Próximo"
+    next: "Próximo",
   };
 
   // Colores por estado
   const statusColors = {
     finished: "bg-gray-700 text-gray-300 border-gray-500",
     ongoing: "bg-green-900/50 text-green-400 border-green-500",
-    next: "bg-purple-900/50 text-purple-300 border-purple-500"
+    next: "bg-purple-900/50 text-purple-300 border-purple-500",
   };
 
   // Degradados por estado para el banner superior
   const statusGradient = {
     finished: "bg-gradient-to-r from-gray-600 to-gray-400",
-    ongoing: "bg-gradient-to-r from-green-500 via-teal-400 to-blue-500 animate-pulse",
-    next: "bg-gradient-to-r from-purple-600 via-pink-500 to-red-500"
+    ongoing:
+      "bg-gradient-to-r from-green-500 via-teal-400 to-blue-500 animate-pulse",
+    next: "bg-gradient-to-r from-purple-600 via-pink-500 to-red-500",
   };
 
   // Colores por nivel de dificultad
@@ -55,12 +56,11 @@ export default function ChallengeCard({ challenge }: Props) {
     easy: "text-green-400 border-green-500 bg-green-500/10",
     mid: "text-yellow-400 border-yellow-500 bg-yellow-500/10",
     hard: "text-orange-400 border-orange-500 bg-orange-500/10",
-    expert: "text-red-400 border-red-500 bg-red-500/10"
+    expert: "text-red-400 border-red-500 bg-red-500/10",
   };
 
   return (
     <div className="relative bg-gray-900/80 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden border border-gray-700 transition-all duration-500 transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/30 group h-full flex flex-col">
-      
       {/* Banner superior con gradiente */}
       <div className={`h-1 ${statusGradient[challenge.status]}`}></div>
 
@@ -77,10 +77,11 @@ export default function ChallengeCard({ challenge }: Props) {
 
       {/* Contenido principal */}
       <div className="p-6 flex flex-col h-full z-10">
-        
         {/* Estado */}
         <span
-          className={`inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-full mb-4 self-start ${statusColors[challenge.status]} backdrop-blur-sm drop-shadow-md group-hover:scale-105 transition-transform duration-300`}
+          className={`inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-full mb-4 self-start ${
+            statusColors[challenge.status]
+          } backdrop-blur-sm drop-shadow-md group-hover:scale-105 transition-transform duration-300`}
         >
           {statusLabels[challenge.status]}
         </span>
@@ -97,11 +98,19 @@ export default function ChallengeCard({ challenge }: Props) {
 
         {/* Dificultad + Equipo */}
         <div className="flex justify-between items-center mb-5 text-sm text-gray-400">
-          <span className={`px-3 py-1 rounded-full ${difficultyStyles[challenge.difficulty]} inline-block`}>
+          <span
+            className={`px-3 py-1 rounded-full ${
+              difficultyStyles[challenge.difficulty]
+            } inline-block`}
+          >
             {difficultyLabels[challenge.difficulty]}
           </span>
           <span className="text-gray-500">
-            Equipo: <strong>{challenge.teamSize || 1} persona{challenge.teamSize !== 1 ? "s" : ""}</strong>
+            Equipo:{" "}
+            <strong>
+              {challenge.teamSize || 1} persona
+              {challenge.teamSize !== 1 ? "s" : ""}
+            </strong>
           </span>
         </div>
 
@@ -121,7 +130,9 @@ export default function ChallengeCard({ challenge }: Props) {
         {/* Fechas */}
         <div className="text-sm text-gray-500 mt-auto mb-6 opacity-70 group-hover:opacity-90 transition-opacity">
           {new Date(challenge.startDate).toLocaleDateString()} -{" "}
-          {challenge.endDate ? new Date(challenge.endDate).toLocaleDateString() : "Abierto"}
+          {challenge.endDate
+            ? new Date(challenge.endDate).toLocaleDateString()
+            : "Abierto"}
         </div>
 
         {/* Botón con efecto glitch */}
