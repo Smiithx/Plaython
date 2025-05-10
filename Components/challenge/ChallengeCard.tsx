@@ -116,23 +116,20 @@ export default function ChallengeCard({ challenge }: Props) {
 
         {/* Fechas */}
         <div className="text-sm text-gray-500 mt-auto mb-6 opacity-70 group-hover:opacity-90 transition-opacity">
-          {challenge.startDate
-            ? new Date(challenge.startDate).toLocaleDateString()
-            : "Fecha no disponible"}{" "}
-          -{" "}
+          {challenge.startDate ? new Date(challenge.startDate).toLocaleDateString() : "Fecha no disponible"} -{" "}
           {challenge.endDate
             ? new Date(challenge.endDate).toLocaleDateString()
             : "Abierto"}
         </div>
 
         {/* Botón con efecto glitch */}
-        <button
-          onClick={() => router.push(`/challenge/${challenge.id}`)}
-          className="relative w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-[1.02] hover:from-purple-700 hover:to-pink-700 overflow-hidden group"
+        <Link 
+          href={`/challenges/${challenge.id}`}
+          className="relative w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-[1.02] hover:from-purple-700 hover:to-pink-700 overflow-hidden group flex items-center justify-center"
         >
           <span className="relative z-10">Ver reto</span>
           <span className="absolute inset-0 bg-[linear-gradient(45deg,var(--tw-gradient-stops))] from-cyan-400 via-pink-500 to-yellow-500 opacity-0 group-hover:opacity-10 blur-sm scale-110 transition-opacity duration-300"></span>
-        </button>
+        </Link>
       </div>
     </div>
   );
