@@ -1,5 +1,18 @@
+// ChallengeCard.tsx
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+
+interface Challenge {
+  id: string;
+  title: string;
+  description: string;
+  difficulty: "easy" | "mid" | "hard" | "expert";
+  tags: string[];
+  teamSize: number;
+  startDate: string;
+  endDate?: string;
+  status: "ongoing" | "next" | "finished";
+}
 
 interface Props {
   challenge: Challenge;
@@ -8,112 +21,135 @@ interface Props {
 export default function ChallengeCard({ challenge }: Props) {
   const router = useRouter();
 
-  // Mapeo de estados técnicos a nombres en español
-  const statusLabels: Record<Challenge["status"], string> = {
+  // Traducción de dificultad a español
+  const difficultyLabels = {
+    easy: "Fácil",
+    mid: "Medio",
+    hard: "Difícil",
+    expert: "Experto"
+  };
+
+  // Estados técnicos a español
+  const statusLabels = {
     finished: "Finalizado",
     ongoing: "En curso",
-    next: "Próximamente",
+    next: "Próximo"
   };
 
   // Colores por estado
   const statusColors = {
-    finished: "bg-gray-700 text-gray-300 border border-gray-500",
-    ongoing: "bg-green-900/50 text-green-400 border border-green-500",
-    next: "bg-purple-900/50 text-purple-300 border border-purple-500",
+    finished: "bg-gray-700 text-gray-300 border-gray-500",
+    ongoing: "bg-green-900/50 text-green-400 border-green-500",
+    next: "bg-purple-900/50 text-purple-300 border-purple-500"
+  };
+
+  // Degradados por estado para el banner superior
+  const statusGradient = {
+    finished: "bg-gradient-to-r from-gray-600 to-gray-400",
+    ongoing: "bg-gradient-to-r from-green-500 via-teal-400 to-blue-500 animate-pulse",
+    next: "bg-gradient-to-r from-purple-600 via-pink-500 to-red-500"
+  };
+
+  // Colores por nivel de dificultad
+  const difficultyStyles = {
+    easy: "text-green-400 border-green-500 bg-green-500/10",
+    mid: "text-yellow-400 border-yellow-500 bg-yellow-500/10",
+    hard: "text-orange-400 border-orange-500 bg-orange-500/10",
+    expert: "text-red-400 border-red-500 bg-red-500/10"
   };
 
   return (
-    <div className="bg-gray-900 rounded-xl shadow-md overflow-hidden border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20 hover:-translate-y-1 h-full flex flex-col justify-between">
-      {/* Banner superior */}
+    <div className="relative bg-gray-900/80 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden border border-gray-700 transition-all duration-500 transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/30 group h-full flex flex-col">
+      
+      {/* Banner superior con gradiente */}
+      <div className={`h-1 ${statusGradient[challenge.status]}`}></div>
+
+      {/* Efecto neón al hacer hover */}
       <div
-        className={`h-2 ${
-          challenge.status === "finished"
-            ? "from-gray-600 to-gray-500 bg-gradient-to-r"
-            : challenge.status === "ongoing"
-            ? "from-green-500 to-blue-500 bg-gradient-to-r"
-            : "from-purple-600 via-pink-500 to-red-500 bg-gradient-to-r"
+        className={`absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 rounded-xl transition-opacity duration-300 ${
+          challenge.status === "ongoing"
+            ? "ring-2 ring-green-500/60"
+            : challenge.status === "next"
+            ? "ring-2 ring-purple-500/60"
+            : "ring-2 ring-gray-500/60"
         }`}
       ></div>
 
-      <div className="p-5 flex-grow flex flex-col">
+      {/* Contenido principal */}
+      <div className="p-6 flex flex-col h-full z-10">
+        
         {/* Estado */}
         <span
-          className={`inline-flex items-center px-3 py-1 text-xs font-medium rounded-full mb-2 self-start ${statusColors[challenge.status]}`}
+          className={`inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-full mb-4 self-start ${statusColors[challenge.status]} backdrop-blur-sm drop-shadow-md group-hover:scale-105 transition-transform duration-300`}
         >
           {statusLabels[challenge.status]}
         </span>
 
         {/* Título */}
-        <h3 className="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-blue-400 transition-colors">
+        <h3 className="text-xl font-extrabold text-white mb-3 line-clamp-1 group-hover:text-blue-300 transition-colors duration-300">
           {challenge.title}
         </h3>
 
         {/* Descripción */}
-        <p className="text-sm text-gray-300 mb-4 flex-grow line-clamp-2">
+        <p className="text-base text-gray-300 mb-5 flex-grow line-clamp-3 group-hover:text-gray-100 group-hover:font-medium">
           {challenge.description}
         </p>
 
         {/* Dificultad + Equipo */}
-        <div className="flex justify-between mb-3 text-xs text-gray-400">
-          <span>
-            Dificultad:{" "}
-            <strong>
-              {challenge.difficulty === "easy"
-                ? "Fácil"
-                : challenge.difficulty === "mid"
-                ? "Medio"
-                : challenge.difficulty === "hard"
-                ? "Difícil"
-                : "Experto"}
-            </strong>
+        <div className="flex justify-between items-center mb-5 text-sm text-gray-400">
+          <span className={`px-3 py-1 rounded-full ${difficultyStyles[challenge.difficulty]} inline-block`}>
+            {difficultyLabels[challenge.difficulty]}
           </span>
-          <span>
+          <span className="text-gray-500">
             Equipo: <strong>{challenge.teamSize || 1} persona{challenge.teamSize !== 1 ? "s" : ""}</strong>
           </span>
         </div>
 
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1.5 mb-4">
+        {/* Tags con brillo dinámico */}
+        <div className="flex flex-wrap gap-2 mb-6">
           {challenge.tags.map((tag, i) => (
             <span
               key={i}
-              className="text-xs bg-indigo-800 text-indigo-200 px-2 py-1 rounded-full hover:bg-indigo-700 transition-colors"
+              className="relative inline-block px-3 py-1.5 rounded-full text-sm font-medium bg-indigo-900/60 text-indigo-200 overflow-hidden group-hover:bg-indigo-700 transition-all duration-300"
             >
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20 animate-shine"></span>
               {tag}
             </span>
           ))}
         </div>
 
         {/* Fechas */}
-        <div className="text-xs text-gray-500 mt-auto mb-4">
-          {challenge.startDate && new Date(challenge.startDate).toLocaleDateString()} -{" "}
+        <div className="text-sm text-gray-500 mt-auto mb-6 opacity-70 group-hover:opacity-90 transition-opacity">
+          {new Date(challenge.startDate).toLocaleDateString()} -{" "}
           {challenge.endDate ? new Date(challenge.endDate).toLocaleDateString() : "Abierto"}
         </div>
 
-        {/* Botón */}
+        {/* Botón con efecto glitch */}
         <button
           onClick={() => router.push(`/challenge/${challenge.id}`)}
-          className="w-full py-2 px-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-sm font-semibold rounded-lg transition-transform duration-300 hover:scale-105 focus:outline-none"
+          className="relative w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-[1.02] hover:from-purple-700 hover:to-pink-700 overflow-hidden group"
         >
-          Ver reto
+          <span className="relative z-10">Ver reto</span>
+          <span className="absolute inset-0 bg-[linear-gradient(45deg,var(--tw-gradient-stops))] from-cyan-400 via-pink-500 to-yellow-500 opacity-0 group-hover:opacity-10 blur-sm scale-110 transition-opacity duration-300"></span>
         </button>
       </div>
     </div>
   );
 }
 
-// Versión Skeleton para carga
+// Skeleton UI para carga
 ChallengeCard.Skeleton = function Skeleton() {
   return (
-    <div className="bg-gray-900 rounded-xl shadow-md border border-gray-700 animate-pulse h-full flex flex-col justify-between">
-      <div className="h-16 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500"></div>
-      <div className="p-5 space-y-3">
-        <div className="h-5 bg-gray-700 rounded w-3/4"></div>
-        <div className="h-4 bg-gray-700 rounded w-full"></div>
-        <div className="h-4 bg-gray-700 rounded w-1/2"></div>
-        <div className="h-4 bg-gray-700 rounded w-1/4"></div>
-        <div className="h-4 bg-gray-700 rounded w-1/4"></div>
-        <div className="h-10 bg-gray-700 rounded mt-2"></div>
+    <div className="bg-gray-900 rounded-xl shadow-md border border-gray-700 overflow-hidden h-full flex flex-col">
+      {/* Banner shimmer */}
+      <div className="h-1 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500"></div>
+      <div className="p-6 space-y-5 animate-shimmer">
+        <div className="h-6 bg-gray-800 rounded w-4/5"></div>
+        <div className="h-5 bg-gray-800 rounded w-full"></div>
+        <div className="h-5 bg-gray-800 rounded w-4/5"></div>
+        <div className="h-4 bg-gray-800 rounded w-2/5"></div>
+        <div className="h-4 bg-gray-800 rounded w-1/3"></div>
+        <div className="h-12 bg-gray-800 rounded mt-1"></div>
       </div>
     </div>
   );
