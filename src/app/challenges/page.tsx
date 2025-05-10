@@ -3,7 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { Loading } from "../../../Components/ui/loading/Loading";
 import Navbar from "../../../Components/index/Nab";
-import ChallengeShowcase from "../../../Components/challenge/ChallengeShowcase";
+import ChallengeShowcaseServer from "../../../Components/challenge/ChallengeShowcaseServer";
 import { Footer } from "../../../Components/index/Footer";
 
 export default function ChallengesPage() {
@@ -14,7 +14,7 @@ export default function ChallengesPage() {
   return (
     <div>
       <Navbar />
-      <ChallengeShowcase />
+      <ChallengeShowcaseServer />
       <Footer />
     </div>
   );
