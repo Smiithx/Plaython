@@ -116,7 +116,10 @@ export default function ChallengeCard({ challenge }: Props) {
 
         {/* Fechas */}
         <div className="text-sm text-gray-500 mt-auto mb-6 opacity-70 group-hover:opacity-90 transition-opacity">
-          {challenge.startDate ? new Date(challenge.startDate).toLocaleDateString() : "Fecha no disponible"} -{" "}
+          {challenge.startDate
+            ? new Date(challenge.startDate).toLocaleDateString()
+            : "Fecha no disponible"}{" "}
+          -{" "}
           {challenge.endDate
             ? new Date(challenge.endDate).toLocaleDateString()
             : "Abierto"}
