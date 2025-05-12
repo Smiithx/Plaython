@@ -8,7 +8,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import Link from "next/link";
-import { Gamepad2 } from "lucide-react";
+import { Code2, Gamepad2 } from "lucide-react";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -43,48 +43,45 @@ const Navbar = () => {
     `}
       >
         <div className="container mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="rounded-lg bg-[#107C10] p-1.5">
-              <Gamepad2 className="h-5 w-5" />
+          <div className="flex space-x-7 items-center">
+            <div className="flex gap-2">
+              <div className="rounded-lg bg-gradient-to-r from-[#FF9A8B] via-[#5865F2] to-[#9146FF] p-1.5">
+                <Code2 className="h-5 w-5" />
+              </div>
+              <span className="text-2xl bg-gradient-to-r from-[#FF9A8B] via-[#5865F2] to-[#9146FF] text-transparent bg-clip-text">
+                Plaython
+              </span>
             </div>
-            <span className="font-bold text-xl">Plaython</span>
+            <nav className="flex md:flex gap-6 font-semibold">
+              <span className="border-b-2 border-transparent transition-colors duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40 hover:rounded-t-lg px-4 py-2">
+                <Link
+                  href="/challenges"
+                  className="font-[var(--font-bebas)] text-sm text-white/80 inline-block"
+                >
+                  Eventos
+                </Link>
+              </span>
+
+              <span className="border-b-2 border-transparent transition-colors duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40 hover:rounded-t-lg px-4 py-2">
+                <Link
+                  href="#"
+                  className="font-[var(--font-bebas)] text-sm text-white/80 inline-block"
+                >
+                  Cómo Funciona
+                </Link>
+              </span>
+            </nav>
           </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link
-              href="#features"
-              className="text-sm font-medium text-white/80 hover:text-white transition-colors"
-            >
-              Características
-            </Link>
-            <Link
-              href="#events"
-              className="text-sm font-medium text-white/80 hover:text-white transition-colors"
-            >
-              Eventos
-            </Link>
-            <Link
-              href="#matchmaking"
-              className="text-sm font-medium text-white/80 hover:text-white transition-colors"
-            >
-              Cómo Funciona
-            </Link>
-            <Link
-              href="#teams"
-              className="text-sm font-medium text-white/80 hover:text-white transition-colors"
-            >
-              Equipos
-            </Link>
-          </nav>
           <div className="hidden md:block">
-            <div className="flex items-center space-x-2 md:block">
+            <div className="space-x-7 items-center md:flex">
               <SignInButton>
-                <button className="py-2 px-4 rounded text-white/80 hover:text-white hover:bg-[#1E1E1E]">
+                <button className="py-2 px-4 rounded text-white/80 hover:text-white duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40">
                   Iniciar Sesión
                 </button>
               </SignInButton>
 
               <SignUpButton>
-                <button className="bg-[#107C10] hover:bg-[#0B5D0B] text-white font-medium py-2 px-4 rounded">
+                <button className="bg-gradient-to-r from-cyan-400 via-[#5865F2] to-[#9146FF] text-white font-semibold rounded-lg transition-colors duration-300 hover:from-purple-700 hover:to-pink-600 py-2 px-4">
                   Registrarse
                 </button>
               </SignUpButton>

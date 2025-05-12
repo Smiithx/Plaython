@@ -1,19 +1,13 @@
 import { type Metadata } from "next";
-import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
-import { Geist, Geist_Mono } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Bebas_Neue } from "next/font/google";
 import "./globals.css";
-import Navbar from "../../Components/index/Nab";
-import Hero from "../../Components/index/Hero";
-import { Footer } from "../../Components/index/Footer";
+import CustomCursor from "../../components/ui/animations/cursormoviment";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const bebas = Bebas_Neue({
+  weight: "400",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-bebas",
 });
 
 export const metadata: Metadata = {
