@@ -3,7 +3,7 @@ declare global {
     id: string;
     title: string;
     description: string;
-    difficulty: "easy" | "mid" | "hard" | "expert";
+    difficulty: string;
     tags: string[];
     estimatedTime?: string;
     teamSize?: number;

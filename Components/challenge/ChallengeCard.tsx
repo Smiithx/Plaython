@@ -87,10 +87,10 @@ export default function ChallengeCard({ challenge }: Props) {
         <div className="flex justify-between items-center mb-5 text-sm text-gray-400">
           <span
             className={`px-3 py-1 rounded-full ${
-              difficultyStyles[challenge.difficulty]
+              difficultyStyles[challenge.difficulty as keyof typeof difficultyStyles]
             } inline-block`}
           >
-            {difficultyLabels[challenge.difficulty]}
+            {difficultyLabels[challenge.difficulty as keyof typeof difficultyLabels]}
           </span>
           <span className="text-gray-500">
             Equipo:{" "}
