@@ -23,33 +23,32 @@ export async function getAllChallenges(): Promise<Challenge[]> {
             tag_id,
             tags ( name )
           ),
-          status:challenge_statuses ( label )
+          status:challenge_statuses ( label ),
           difficulty:challenge_difficulties ( label )
         `
         )
         .order("start_date", {ascending: true});
 
     if (error) throw error;
-
     // Transformar la estructura para exponer tags como string[]
     return data.map((c) => ({
         id: c.id,
         title: c.title,
         description: c.description,
         difficulty_id: c.difficulty_id,
-        difficulty: c.difficulty,
+        difficulty: c.difficulty?.label ?? "",
         status_id: c.status_id,
         team_size: c.team_size,
         start_date: c.start_date,
         end_date: c.end_date,
-        tags: c.challenge_tags?.map((ct) => ct.tags.name) ?? [],
+        tags: c.challenge_tags?.map((ct: { tags: { name: any; }; }) => ct.tags.name) ?? [],
         status: c.status?.label ?? "",
     }));
 }
 
 export async function getChallengeById(id: string): Promise<Challenge> {
     const {data, error} = await supabase
-        .from<Challenge>("challenges")
+        .from("challenges")
         .select(`
           *,
           challenge_tags (
@@ -63,7 +62,20 @@ export async function getChallengeById(id: string): Promise<Challenge> {
         .single();
 
     if (error) throw error;
-    return data;
+    const c = data;
+    return {
+        id: c.id,
+        title: c.title,
+        description: c.description,
+        difficulty_id: c.difficulty_id,
+        difficulty: c.difficulty?.label ?? "",
+        status_id: c.status_id,
+        team_size: c.team_size,
+        start_date: c.start_date,
+        end_date: c.end_date,
+        tags: c.challenge_tags?.map((ct: { tags: { name: any; }; }) => ct.tags.name) ?? [],
+        status: c.status?.label ?? "",
+    };
 }
 
 export async function createChallenge(input: Omit<Challenge, "id">) {
