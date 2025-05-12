@@ -5,6 +5,7 @@ export interface Challenge {
     title: string;
     description: string;
     difficulty_id: number;
+    difficulty?: string;
     status_id: number;
     status?: string;
     team_size: number;
@@ -35,6 +36,7 @@ export async function getAllChallenges(): Promise<Challenge[]> {
         title: c.title,
         description: c.description,
         difficulty_id: c.difficulty_id,
+        difficulty: c.difficulty?.label ?? "",
         status_id: c.status_id,
         team_size: c.team_size,
         start_date: c.start_date,
