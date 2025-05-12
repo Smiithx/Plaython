@@ -8,8 +8,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-bebas);
+  --font-mono: var(--font-bebas);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +23,60 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #ff9a8b, #5865f2, #9146ff);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #ff9a8b, #00ffff, #9146ff);
+}
+
+/* Animations */
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Horizontal scroll sections */
+.horizontal-section {
+  min-width: 100vw;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* .vertical-section {
+  padding: 2rem;
+  box-sizing: border-box;
+  min-width: 100%;
+} */
+.vertical-section {
+  box-sizing: border-box;
+  min-width: 100%;
+  min-height: 30%;
 }
