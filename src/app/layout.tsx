@@ -1,16 +1,13 @@
 import { type Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Bebas_Neue } from "next/font/google";
 import "./globals.css";
+import CustomCursor from "../../components/ui/animations/cursormoviment";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const bebas = Bebas_Neue({
+  weight: "400",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-bebas",
 });
 
 export const metadata: Metadata = {
@@ -26,10 +23,11 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          {children}
+        <body className={`${bebas.variable} antialiased`}>
+          <>
+            <CustomCursor />
+            {children}
+          </>
         </body>
       </html>
     </ClerkProvider>
