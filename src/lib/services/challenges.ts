@@ -5,6 +5,7 @@ export interface Challenge {
     title: string;
     description: string;
     difficulty_id: number;
+    difficulty?: string;
     status_id: number;
     status?: string;
     team_size: number;
@@ -23,6 +24,7 @@ export async function getAllChallenges(): Promise<Challenge[]> {
             tags ( name )
           ),
           status:challenge_statuses ( label )
+          difficulty:challenge_difficulties ( label )
         `
         )
         .order("start_date", {ascending: true});
@@ -35,6 +37,7 @@ export async function getAllChallenges(): Promise<Challenge[]> {
         title: c.title,
         description: c.description,
         difficulty_id: c.difficulty_id,
+        difficulty: c.difficulty,
         status_id: c.status_id,
         team_size: c.team_size,
         start_date: c.start_date,
@@ -47,7 +50,15 @@ export async function getAllChallenges(): Promise<Challenge[]> {
 export async function getChallengeById(id: string): Promise<Challenge> {
     const {data, error} = await supabase
         .from<Challenge>("challenges")
-        .select("*")
+        .select(`
+          *,
+          challenge_tags (
+            tag_id,
+            tags ( name )
+          ),
+          status:challenge_statuses ( label )
+          difficulty:challenge_difficulties ( label )
+        `)
         .eq("id", id)
         .single();
 
