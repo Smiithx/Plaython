@@ -16,31 +16,20 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
+                                     children,
+                                   }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <SignedOut>
-            <div className="flex flex-col min-h-screen bg-[#0F0F0F] text-white">
-              <Navbar />
-              <Hero />
-              <Footer />
-            </div>
-          </SignedOut>
-
-          <main>
-            <SignedIn>
-              {children}
-            </SignedIn>
-          </main>
+      <ClerkProvider>
+        <html lang="en">
+        <body className={`${bebas.variable} antialiased`}>
+        <>
+          <CustomCursor />
+          {children}
+        </>
         </body>
-      </html>
-    </ClerkProvider>
+        </html>
+      </ClerkProvider>
   );
 }

@@ -48,13 +48,13 @@ export function Footer() {
           <div className="flex flex-row">
             <p className="text-white/50 text-sm">
               Hecho con{" "}
-              <motion.span
+              {/*<motion.span
                 className="inline-block"
                 animate={{ scale: [1, 1.3, 1] }}
                 transition={{ duration: 0.5, repeat: Infinity }}
               >
                 ❤️
-              </motion.span>{" "}
+              </motion.span>*/}{" "}
               by
             </p>
 
