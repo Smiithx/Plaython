@@ -5,6 +5,7 @@ import { Challenge } from "@/lib/services/challenges";
 import { Tag } from "@/lib/services/tags";
 import { Difficulty } from "@/lib/services/difficulties";
 import { Status } from "@/lib/services/statuses";
+import ParticleEffect from "../ui/animations/paticle-events";
 
 interface Props {
   challenges: Challenge[];
@@ -28,40 +29,39 @@ export default function ChallengeShowcase({
 
   // Crear mapeo de difficulty_id a clave de CONFIG
   const difficultyIdToKey = useMemo(() => {
-    const map: Record<number, keyof typeof CONFIG.difficulty> = {};
+  const map: Record<number, keyof typeof CONFIG.difficulty> = {};
+  
+  difficulties.forEach(serverDifficulty => {
+    // Buscar en CONFIG.difficulty una coincidencia aproximada (ignorando mayúsculas)
+    const configEntry = Object.entries(CONFIG.difficulty).find(
+      ([, config]) => 
+        config.label.toLowerCase() === serverDifficulty.label.toLowerCase()
+    );
     
-    difficulties.forEach(serverDifficulty => {
-      // Buscar en CONFIG.difficulty la coincidencia por etiqueta
-      const configEntry = Object.entries(CONFIG.difficulty).find(
-        ([, config]) => config.label === serverDifficulty.label
-      );
-      
-      if (configEntry) {
-        map[serverDifficulty.id] = configEntry[0] as keyof typeof CONFIG.difficulty;
-      }
-    });
-    
-    return map;
-  }, [difficulties]);
+    if (configEntry) {
+      map[serverDifficulty.id] = configEntry[0] as keyof typeof CONFIG.difficulty;
+    }
+  });
+  
+  return map;
+}, [difficulties]);
 
   const filteredChallenges = useMemo(() => {
-    return challenges.filter(challenge => {
-      // Verificar dificultad
-      const challengeDifficultyKey = difficultyIdToKey[challenge.difficulty_id] || 'all';
-      const matchesDifficulty = filters.difficulty === "all" || 
-                              challengeDifficultyKey === filters.difficulty;
-      
-      // Verificar búsqueda
-      const matchesSearch = challenge.title.toLowerCase()
-                              .includes(filters.search.toLowerCase());
-      
-      // Verificar tags
-      const matchesTags = !filters.tags.length || 
-                        filters.tags.every(tag => challenge.tags.includes(tag));
-      
-      return matchesSearch && matchesDifficulty && matchesTags;
-    });
-  }, [filters, challenges, difficultyIdToKey]);
+  return challenges.filter(challenge => {
+    const challengeDifficultyKey = difficultyIdToKey[challenge.difficulty_id] || 'all';
+    const matchesDifficulty = filters.difficulty === "all" || challenge.difficulty === filters.difficulty;
+    
+    const matchesSearch = challenge.title.toLowerCase()
+                            .includes(filters.search.toLowerCase());
+    
+    const matchesTags = !filters.tags.length || 
+                      filters.tags.every(tag => 
+                        challenge.tags?.includes(tag) || false
+                      );
+    
+    return matchesSearch && matchesDifficulty && matchesTags;
+  });
+}, [filters, challenges, difficultyIdToKey]);
 
   const challengesByStatus = useMemo(() => {
     return {
@@ -104,9 +104,9 @@ export default function ChallengeShowcase({
   };
 
   return (
-    <main className="min-h-screen bg-black text-white py-10 px-4 overflow-hidden">
-      <div className="fixed inset-0 z-0 bg-grid-pattern opacity-[0.03]"></div>
+    <main className="min-h-screen bg-transparent text-white py-10 px-4 overflow-hidden">
       <div className="max-w-6xl mx-auto relative z-10">
+        <ParticleEffect />
         {/* Chips de tags seleccionados */}
         <div className="h-[36px] flex justify-center items-center mb-4">
           {filters.tags.length > 0 && (
@@ -153,31 +153,34 @@ export default function ChallengeShowcase({
           {filters.showLanguageMenu && (
             <div className="absolute right-0 mt-2 w-48 bg-gray-900 border border-gray-700 rounded-lg shadow-xl z-50 animate-fadeIn">
               <div className="max-h-60 overflow-y-auto p-2 space-y-1">
-                {tags.map((tag) => (
-                  <label
-                    key={tag.id}
-                    className={`block px-3 py-1.5 text-sm rounded-full cursor-pointer transition-all ${
-                      filters.tags.includes(tag.name)
-                        ? `${CONFIG.tags[tag.name as keyof typeof CONFIG.tags]} ring-1 ring-offset-2 ring-opacity-60`
-                        : "hover:bg-gray-800"
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={filters.tags.includes(tag.name)}
-                      onChange={() => toggleTag(tag.name)}
-                      className="hidden"
-                    />
-                    <span className="flex items-center">
-                      <span className="mr-2 flex-shrink-0 w-4 h-4 rounded-full border border-current flex items-center justify-center">
-                        {filters.tags.includes(tag.name) && (
-                          <span className="w-2 h-2 rounded-full bg-current"></span>
-                        )}
+                {/* En el menú desplegable */}
+                {tags.map((tag) => {
+                  // Usa tag.name directamente y compara en minúsculas
+                  const isActive = filters.tags.includes(tag.name);
+                  return (
+                    <label
+                      key={tag.id}
+                      className={`block px-3 py-1.5 text-sm rounded-full cursor-pointer transition-all ${
+                        isActive
+                          ? `${CONFIG.tags[tag.name as keyof typeof CONFIG.tags]} ring-1 ring-offset-2 ring-opacity-60`
+                          : "hover:bg-gray-800"
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isActive}
+                        onChange={() => toggleTag(tag.name)}
+                        className="hidden"
+                      />
+                      <span className="flex items-center">
+                        <span className="mr-2 flex-shrink-0 w-4 h-4 rounded-full border border-current flex items-center justify-center">
+                          {isActive && <span className="w-2 h-2 rounded-full bg-current"></span>}
+                        </span>
+                        {tag.name}
                       </span>
-                      {tag.name}
-                    </span>
-                  </label>
-                ))}
+                    </label>
+                  );
+                })}
                 <div className="border-t border-gray-700 pt-2 mt-2">
                   <button
                     onClick={() => setFilters(prev => ({ ...prev, showLanguageMenu: false }))}

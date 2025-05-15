@@ -1,13 +1,13 @@
-import { getChallengeById } from "../../../../challenges";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { getChallengeById } from "@/lib/services/challenges";
 
-export default function ChallengeDetail({
+export default async function ChallengeDetail({
   params,
 }: {
   params: { id: string };
 }) {
-  const challenge = getChallengeById(params.id);
+  const challenge = await getChallengeById(params.id);
 
   if (!challenge) {
     notFound();
