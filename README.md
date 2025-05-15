@@ -44,3 +44,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 npm install --save-dev @types/react @types/react-dom
 npm install lucide-react
+npm install motion
+npm install lenis
+npm i react-simple-typewriter
+
+## Theme
+
+npm install @radix-ui/themes
+npm i tailwind-merge
+npm i clsx
+npm install class-variance-authority

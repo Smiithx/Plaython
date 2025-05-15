@@ -1,19 +1,12 @@
 import { type Metadata } from "next";
-import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
-import { Geist, Geist_Mono } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Bebas_Neue } from "next/font/google";
 import "./globals.css";
-import Navbar from "../../Components/index/Nab";
-import Hero from "../../Components/index/Hero";
-import { Footer } from "../../Components/index/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const bebas = Bebas_Neue({
+  weight: "400",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-bebas",
 });
 
 export const metadata: Metadata = {
@@ -27,24 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <SignedOut>
-            <div className="flex flex-col min-h-screen bg-[#0F0F0F] text-white">
-              <Navbar />
-              <Hero />
-              <Footer />
-            </div>
-          </SignedOut>
-
-          <main>
-            <SignedIn>{children}</SignedIn>
-          </main>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={`${bebas.variable} antialiased`}>
+        <ClerkProvider>{children}</ClerkProvider>
+      </body>
+    </html>
   );
 }
