@@ -1,3 +1,5 @@
+"use client";
+
 import { DiscIcon, InstagramIcon, TwitchIcon } from "lucide-react";
 import Link from "next/link";
 import StarField from "../ui/animations/star-footer";

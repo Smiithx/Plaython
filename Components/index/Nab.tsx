@@ -1,6 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Code } from "lucide-react";
@@ -48,7 +54,7 @@ const Navbar = () => {
                 <Code className="w-6 h-6 text-white" />
               </motion.div>
               <span className="items-center self-center place-self-center text-2xl bg-gradient-to-r from-[#FF9A8B] via-[#5865F2] to-[#9146FF] text-transparent bg-clip-text">
-                Plaython
+                <Link href="/"> Plaython</Link>
               </span>
             </div>
             <nav className="flex md:flex gap-6 font-semibold">
@@ -60,30 +66,58 @@ const Navbar = () => {
                   Eventos
                 </Link>
               </span>
+              <SignedIn>
+                {/* <span className="border-b-2 border-transparent transition-colors duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40 hover:rounded-t-lg px-4 py-2">
+                  <Link
+                    href="/challenges"
+                    className="font-[var(--font-bebas)] text-sm text-white/80 inline-block"
+                  >
+                    Eventos
+                  </Link>
+                </span> */}
 
-              <span className="border-b-2 border-transparent transition-colors duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40 hover:rounded-t-lg px-4 py-2">
-                <Link
-                  href="#"
-                  className="font-[var(--font-bebas)] text-sm text-white/80 inline-block"
-                >
-                  Cómo Funciona
-                </Link>
-              </span>
+                <span className="border-b-2 border-transparent transition-colors duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40 hover:rounded-t-lg px-4 py-2">
+                  <Link
+                    href="/dashboard"
+                    className="font-[var(--font-bebas)] text-sm text-white/80 inline-block"
+                  >
+                    Panel
+                  </Link>
+                </span>
+              </SignedIn>
+              <SignedOut>
+                <span className="border-b-2 border-transparent transition-colors duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40 hover:rounded-t-lg px-4 py-2">
+                  <Link
+                    href="#"
+                    className="font-[var(--font-bebas)] text-sm text-white/80 inline-block"
+                  >
+                    Cómo Funciona
+                  </Link>
+                </span>
+              </SignedOut>
             </nav>
           </div>
           <div className="hidden md:block">
-            <div className="space-x-7 items-center md:flex">
-              <SignInButton>
-                <button className="py-2 px-4 rounded text-white/80 hover:text-white duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40">
-                  Iniciar Sesión
-                </button>
-              </SignInButton>
+            <div className="space-x-7 items-center md:flex gap-3">
+              <SignedOut>
+                <SignInButton>
+                  <button className="py-2 px-4 rounded text-white/80 hover:text-white duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40">
+                    Iniciar Sesión
+                  </button>
+                </SignInButton>
 
-              <SignUpButton>
-                <button className="relative overflow-hidden bg-gradient-to-r from-cyan-400 via-[#5865F2] to-[#9146FF] text-white font-semibold rounded-lg transition-colors duration-300 hover:from-purple-700 hover:to-pink-600 py-2 px-4 shiny-btn">
-                  Registrarse
-                </button>
-              </SignUpButton>
+                <SignUpButton>
+                  <button className="relative overflow-hidden bg-gradient-to-r from-cyan-400 via-[#5865F2] to-[#9146FF] text-white font-semibold rounded-lg transition-colors duration-300 hover:from-purple-700 hover:to-pink-600 py-2 px-4 shiny-btn">
+                    Registrarse
+                  </button>
+                </SignUpButton>
+              </SignedOut>
+
+              <SignedIn>
+                <div className="hidden md:flex items-center gap-2 bg-white/10 rounded-full px-3 py-1.5">
+                  <UserButton />
+                </div>
+              </SignedIn>
             </div>
           </div>
           {/* Mobile menu button */}

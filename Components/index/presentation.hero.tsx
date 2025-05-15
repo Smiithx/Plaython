@@ -18,7 +18,7 @@ export function Presentation() {
     <section className="section-vertical bg-black flex flex-col items-center justify-center relative">
       <StarField />
       <ParticleEffect />
-      <div className="space-y-8 max-w-2xl container mx-auto px-6 text-center">
+      <div className="space-y-8 mb-12 max-w-2xl container mx-auto px-6 text-center">
         <div className="space-y-8 text-center">
           <motion.h1
             className="flex flex-row place-content-center text-4xl md:text-6xl font-bold text-white justify-items-center"

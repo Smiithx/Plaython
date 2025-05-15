@@ -1,19 +1,12 @@
 "use client";
-import { UserButton, useUser } from "@clerk/nextjs";
-import { Loading } from "../../../components/ui/loading/Loading";
-import { SidebarDesktop } from "../../../components/dashboard/sidebar.desktop";
-import { DashHeader } from "../../../components/dashboard/header";
+
+import { DashHeader } from "../../../Components/dashboard/header";
 import { PlusCircle, Trophy } from "lucide-react";
-import { Button } from "../../../components/ui/button";
-import { UserContent } from "../../../components/dashboard/component/user.sidebar";
-import { CustomStats } from "../../../components/dashboard/component/stats";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../../../components/ui/card";
-import { HSkills } from "../../../components/dashboard/component/skills";
+import { Button } from "../../../Components/ui/button";
+import { UserContent } from "../../../Components/dashboard/component/user.sidebar";
+import { CustomStats } from "../../../Components/dashboard/component/stats";
+import { Card, CardHeader, CardTitle } from "../../../Components/ui/card";
+import { HSkills } from "../../../Components/dashboard/component/skills";
 
 export default function DashboardPage() {
   // const { isLoaded, isSignedIn, user } = useUser();
