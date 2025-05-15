@@ -7,7 +7,10 @@ export default async function ChallengeDetail({
 }: {
   params: { id: string };
 }) {
-  const challenge = await getChallengeById(params.id);
+
+  const { id } = await params
+
+  const challenge = await getChallengeById(id);
 
   if (!challenge) {
     notFound();
