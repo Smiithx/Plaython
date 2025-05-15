@@ -55,7 +55,7 @@ export async function getChallengeById(id: string): Promise<Challenge> {
             tag_id,
             tags ( name )
           ),
-          status:challenge_statuses ( label )
+          status:challenge_statuses ( label ),
           difficulty:challenge_difficulties ( label )
         `)
         .eq("id", id)
