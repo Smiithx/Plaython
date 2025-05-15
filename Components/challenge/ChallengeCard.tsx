@@ -8,13 +8,17 @@ interface Props {
 export default function ChallengeCard({ challenge }: Props) {
   const router = useRouter();
 
-  // Traducción de dificultad a español
+  // Traducción de dificultad a español con mapeo seguro
   const difficultyLabels = {
     easy: "Fácil",
     mid: "Medio",
     hard: "Difícil",
     expert: "Experto",
   };
+
+  // Usamos type assertion para garantizar el tipo y un fallback
+  const difficultyKey = challenge.difficulty as keyof typeof difficultyLabels;
+  const difficultyLabel = difficultyLabels[difficultyKey] || "Desconocido";
 
   // Estados técnicos a español
   const statusLabels = {
@@ -33,8 +37,7 @@ export default function ChallengeCard({ challenge }: Props) {
   // Degradados por estado para el banner superior
   const statusGradient = {
     finished: "bg-gradient-to-r from-gray-600 to-gray-400",
-    ongoing:
-      "bg-gradient-to-r from-green-500 via-teal-400 to-blue-500 animate-pulse",
+    ongoing: "bg-gradient-to-r from-green-500 via-teal-400 to-blue-500 animate-pulse",
     next: "bg-gradient-to-r from-purple-600 via-pink-500 to-red-500",
   };
 
@@ -47,13 +50,19 @@ export default function ChallengeCard({ challenge }: Props) {
   };
 
   return (
-    <div className="relative bg-gray-900/80 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden border border-gray-700 transition-all duration-500 transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/30 group h-full flex flex-col">
+    <div 
+      className="relative backdrop-blur-sm rounded-xl shadow-xl overflow-hidden border border-gray-700 
+                 transition-all duration-500 transform hover:-translate-y-2 hover:shadow-2xl 
+                 hover:shadow-purple-500/30 group h-full flex flex-col"
+      style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} // Fondo transparente
+    >
       {/* Banner superior con gradiente */}
       <div className={`h-1 ${statusGradient[challenge.status]}`}></div>
 
       {/* Efecto neón al hacer hover */}
       <div
-        className={`absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 rounded-xl transition-opacity duration-300 ${
+        className={`absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 rounded-xl 
+                   transition-opacity duration-300 ${
           challenge.status === "ongoing"
             ? "ring-2 ring-green-500/60"
             : challenge.status === "next"
@@ -70,7 +79,7 @@ export default function ChallengeCard({ challenge }: Props) {
             statusColors[challenge.status]
           } backdrop-blur-sm drop-shadow-md group-hover:scale-105 transition-transform duration-300`}
         >
-          {statusLabels[challenge.status]}
+          {statusLabels[challenge.status as keyof typeof statusLabels]}
         </span>
 
         {/* Título */}
@@ -87,28 +96,31 @@ export default function ChallengeCard({ challenge }: Props) {
         <div className="flex justify-between items-center mb-5 text-sm text-gray-400">
           <span
             className={`px-3 py-1 rounded-full ${
-              difficultyStyles[challenge.difficulty as keyof typeof difficultyStyles]
+              difficultyStyles[difficultyKey] || "text-gray-400 border-gray-500"
             } inline-block`}
           >
-            {difficultyLabels[challenge.difficulty as keyof typeof difficultyLabels]}
+            {difficultyLabel}
           </span>
           <span className="text-gray-500">
             Equipo:{" "}
             <strong>
-              {challenge.teamSize || 1} persona
-              {challenge.teamSize !== 1 ? "s" : ""}
+              {challenge.team_size || 1} persona
+              {challenge.team_size !== 1 ? "s" : ""}
             </strong>
           </span>
         </div>
 
         {/* Tags con brillo dinámico */}
         <div className="flex flex-wrap gap-2 mb-6">
-          {challenge.tags.map((tag, i) => (
+          {challenge.tags?.map((tag, i) => (
             <span
               key={i}
-              className="relative inline-block px-3 py-1.5 rounded-full text-sm font-medium bg-indigo-900/60 text-indigo-200 overflow-hidden group-hover:bg-indigo-700 transition-all duration-300"
+              className="relative inline-block px-3 py-1.5 rounded-full text-sm font-medium 
+                        bg-indigo-900/60 text-indigo-200 overflow-hidden 
+                        group-hover:bg-indigo-700 transition-all duration-300"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20 animate-shine"></span>
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent 
+                              opacity-0 group-hover:opacity-20 animate-shine"></span>
               {tag}
             </span>
           ))}
@@ -116,19 +128,24 @@ export default function ChallengeCard({ challenge }: Props) {
 
         {/* Fechas */}
         <div className="text-sm text-gray-500 mt-auto mb-6 opacity-70 group-hover:opacity-90 transition-opacity">
-          {challenge.startDate ? new Date(challenge.startDate).toLocaleDateString() : "Fecha no disponible"} -{" "}
-          {challenge.endDate
-            ? new Date(challenge.endDate).toLocaleDateString()
+          {challenge.start_date ? new Date(challenge.start_date).toLocaleDateString() : "Fecha no disponible"} -{" "}
+          {challenge.end_date
+            ? new Date(challenge.end_date).toLocaleDateString()
             : "Abierto"}
         </div>
 
         {/* Botón con efecto glitch */}
         <Link 
           href={`/challenges/${challenge.id}`}
-          className="relative w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-[1.02] hover:from-purple-700 hover:to-pink-700 overflow-hidden group flex items-center justify-center"
+          className="relative w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 
+                   text-white font-semibold rounded-lg transition-all duration-300 
+                   hover:scale-[1.02] hover:from-purple-700 hover:to-pink-700 overflow-hidden 
+                   group flex items-center justify-center"
         >
           <span className="relative z-10">Ver reto</span>
-          <span className="absolute inset-0 bg-[linear-gradient(45deg,var(--tw-gradient-stops))] from-cyan-400 via-pink-500 to-yellow-500 opacity-0 group-hover:opacity-10 blur-sm scale-110 transition-opacity duration-300"></span>
+          <span className="absolute inset-0 bg-[linear-gradient(45deg,var(--tw-gradient-stops))] 
+                          from-cyan-400 via-pink-500 to-yellow-500 opacity-0 
+                          group-hover:opacity-10 blur-sm scale-110 transition-opacity duration-300"></span>
         </Link>
       </div>
     </div>
@@ -138,7 +155,7 @@ export default function ChallengeCard({ challenge }: Props) {
 // Skeleton UI para carga
 ChallengeCard.Skeleton = function Skeleton() {
   return (
-    <div className="bg-gray-900 rounded-xl shadow-md border border-gray-700 overflow-hidden h-full flex flex-col">
+    <div className="rounded-xl shadow-md border border-gray-700 overflow-hidden h-full flex flex-col">
       {/* Banner shimmer */}
       <div className="h-1 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500"></div>
       <div className="p-6 space-y-5 animate-shimmer">
