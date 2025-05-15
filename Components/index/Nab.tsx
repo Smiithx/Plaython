@@ -1,14 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { Code2, Gamepad2 } from "lucide-react";
+import { motion } from "motion/react";
+import { Code } from "lucide-react";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -34,21 +29,25 @@ const Navbar = () => {
   return (
     <>
       <header
-        className={`border-b border-[#2D2D2D] px-4 py-3 sticky top-0 z-10
+        className={`px-4 py-3 sticky top-0 z-10
     ${
       scrolled
         ? "bg-transparent backdrop-blur-md shadow-md"
-        : "bg-[#141414]/80 backdrop-blur "
+        : "bg-black backdrop-blur"
     }
     `}
       >
         <div className="container mx-auto flex items-center justify-between">
           <div className="flex space-x-7 items-center">
             <div className="flex gap-2">
-              <div className="rounded-lg bg-gradient-to-r from-[#FF9A8B] via-[#5865F2] to-[#9146FF] p-1.5">
-                <Code2 className="h-5 w-5" />
-              </div>
-              <span className="text-2xl bg-gradient-to-r from-[#FF9A8B] via-[#5865F2] to-[#9146FF] text-transparent bg-clip-text">
+              <motion.div
+                whileHover={{ rotate: 180 }}
+                transition={{ duration: 0.5 }}
+                className="bg-purple-600 rounded-lg p-2"
+              >
+                <Code className="w-6 h-6 text-white" />
+              </motion.div>
+              <span className="items-center self-center place-self-center text-2xl bg-gradient-to-r from-[#FF9A8B] via-[#5865F2] to-[#9146FF] text-transparent bg-clip-text">
                 Plaython
               </span>
             </div>
@@ -81,7 +80,7 @@ const Navbar = () => {
               </SignInButton>
 
               <SignUpButton>
-                <button className="bg-gradient-to-r from-cyan-400 via-[#5865F2] to-[#9146FF] text-white font-semibold rounded-lg transition-colors duration-300 hover:from-purple-700 hover:to-pink-600 py-2 px-4">
+                <button className="relative overflow-hidden bg-gradient-to-r from-cyan-400 via-[#5865F2] to-[#9146FF] text-white font-semibold rounded-lg transition-colors duration-300 hover:from-purple-700 hover:to-pink-600 py-2 px-4 shiny-btn">
                   Registrarse
                 </button>
               </SignUpButton>

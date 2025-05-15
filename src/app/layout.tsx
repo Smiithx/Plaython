@@ -2,7 +2,7 @@ import { type Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Bebas_Neue } from "next/font/google";
 import "./globals.css";
-import CustomCursor from "../../components/ui/animations/cursormoviment";
+import CustomCursor from "../../Components/ui/animations/cursor-effect";
 
 const bebas = Bebas_Neue({
   weight: "400",
@@ -16,20 +16,20 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-                                     children,
-                                   }: Readonly<{
+  children,
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-      <ClerkProvider>
-        <html lang="en">
+    <ClerkProvider>
+      <html lang="en">
         <body className={`${bebas.variable} antialiased`}>
-        <>
-          <CustomCursor />
-          {children}
-        </>
+          <>
+            <CustomCursor />
+            {children}
+          </>
         </body>
-        </html>
-      </ClerkProvider>
+      </html>
+    </ClerkProvider>
   );
 }

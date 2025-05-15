@@ -1,36 +1,15 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-bebas);
-  --font-mono: var(--font-bebas);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
-
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
-  height: 0px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -63,20 +42,116 @@ body {
   animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+.section-vertical {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-horizontal {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.horizontal-inner {
+  display: flex;
+  height: 100%;
+  width: max-content;
+}
+
+.panel {
+  width: 100vw;
+  height: 100%;
+  flex-shrink: 0;
+  padding-top: 72px;
+}
+
+/* .horizontal-section {
+  padding: 2rem;
+  box-sizing: border-box;
+  min-width: 100vw;
+} */
+
 /* Horizontal scroll sections */
+/* .main-container {
+  height: 100vh;
+  overflow-y: auto;
+} */
+/* 
+.vertical-section {
+  padding: 2rem;
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
 .horizontal-section {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+} */
+
+/* .scroll-inner {
+  display: flex;
+  height: 100%;
+  width: max-content;
+  will-change: transform;
+}
+
+.item {
+  min-width: 100vw;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+} */
+
+
+/* .horizontal-section {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scroll-behavior: smooth;
   min-width: 100vw;
   padding: 2rem;
   box-sizing: border-box;
 }
 
-/* .vertical-section {
+.vertical-section {
   padding: 2rem;
   box-sizing: border-box;
-  min-width: 100%;
+  min-width: 100vw;
 } */
-.vertical-section {
-  box-sizing: border-box;
-  min-width: 100%;
-  min-height: 30%;
+
+@layer utilities {
+  .shiny-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.6) 50%,
+        rgba(255, 255, 255, 0.2) 100%);
+    transform: skewX(-20deg);
+    animation: shine 2.5s infinite;
+  }
+
+  @keyframes shine {
+    0% {
+      left: -75%;
+    }
+
+    100% {
+      left: 125%;
+    }
+  }
 }

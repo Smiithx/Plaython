@@ -1,20 +1,21 @@
 "use client";
 
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function CustomCursor() {
   const cursorX = useMotionValue(0);
   const cursorY = useMotionValue(0);
-
-  const springX = useSpring(cursorX, { stiffness: 200, damping: 20 });
-  const springY = useSpring(cursorY, { stiffness: 200, damping: 20 });
+  const springConfig = { stiffness: 200, damping: 20 };
+  const springX = useSpring(cursorX, springConfig);
+  const springY = useSpring(cursorY, springConfig);
 
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
     };
+
     window.addEventListener("mousemove", moveCursor);
     return () => window.removeEventListener("mousemove", moveCursor);
   }, [cursorX, cursorY]);
