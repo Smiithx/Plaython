@@ -1,13 +1,10 @@
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 interface Props {
   challenge: Challenge;
 }
 
 export default function ChallengeCard({ challenge }: Props) {
-  const router = useRouter();
-
   // Traducción de dificultad a español con mapeo seguro
   const difficultyLabels = {
     easy: "Fácil",
@@ -37,7 +34,8 @@ export default function ChallengeCard({ challenge }: Props) {
   // Degradados por estado para el banner superior
   const statusGradient = {
     finished: "bg-gradient-to-r from-gray-600 to-gray-400",
-    ongoing: "bg-gradient-to-r from-green-500 via-teal-400 to-blue-500 animate-pulse",
+    ongoing:
+      "bg-gradient-to-r from-green-500 via-teal-400 to-blue-500 animate-pulse",
     next: "bg-gradient-to-r from-purple-600 via-pink-500 to-red-500",
   };
 
@@ -50,11 +48,11 @@ export default function ChallengeCard({ challenge }: Props) {
   };
 
   return (
-    <div 
+    <div
       className="relative backdrop-blur-sm rounded-xl shadow-xl overflow-hidden border border-gray-700 
                  transition-all duration-500 transform hover:-translate-y-2 hover:shadow-2xl 
                  hover:shadow-purple-500/30 group h-full flex flex-col"
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} // Fondo transparente
+      style={{ backgroundColor: "rgba(0, 0, 0, 0)" }} // Fondo transparente
     >
       {/* Banner superior con gradiente */}
       <div className={`h-1 ${statusGradient[challenge.status]}`}></div>
@@ -63,12 +61,12 @@ export default function ChallengeCard({ challenge }: Props) {
       <div
         className={`absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 rounded-xl 
                    transition-opacity duration-300 ${
-          challenge.status === "ongoing"
-            ? "ring-2 ring-green-500/60"
-            : challenge.status === "next"
-            ? "ring-2 ring-purple-500/60"
-            : "ring-2 ring-gray-500/60"
-        }`}
+                     challenge.status === "ongoing"
+                       ? "ring-2 ring-green-500/60"
+                       : challenge.status === "next"
+                       ? "ring-2 ring-purple-500/60"
+                       : "ring-2 ring-gray-500/60"
+                   }`}
       ></div>
 
       {/* Contenido principal */}
@@ -119,8 +117,10 @@ export default function ChallengeCard({ challenge }: Props) {
                         bg-indigo-900/60 text-indigo-200 overflow-hidden 
                         group-hover:bg-indigo-700 transition-all duration-300"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent 
-                              opacity-0 group-hover:opacity-20 animate-shine"></span>
+              <span
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent 
+                              opacity-0 group-hover:opacity-20 animate-shine"
+              ></span>
               {tag}
             </span>
           ))}
@@ -128,24 +128,29 @@ export default function ChallengeCard({ challenge }: Props) {
 
         {/* Fechas */}
         <div className="text-sm text-gray-500 mt-auto mb-6 opacity-70 group-hover:opacity-90 transition-opacity">
-          {challenge.start_date ? new Date(challenge.start_date).toLocaleDateString() : "Fecha no disponible"} -{" "}
+          {challenge.start_date
+            ? new Date(challenge.start_date).toLocaleDateString()
+            : "Fecha no disponible"}{" "}
+          -{" "}
           {challenge.end_date
             ? new Date(challenge.end_date).toLocaleDateString()
             : "Abierto"}
         </div>
 
         {/* Botón con efecto glitch */}
-        <Link 
-          href={`/challenges/${challenge.id}`}
+        <Link
+          href={`/challenge/${challenge.id}`}
           className="relative w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 
                    text-white font-semibold rounded-lg transition-all duration-300 
                    hover:scale-[1.02] hover:from-purple-700 hover:to-pink-700 overflow-hidden 
                    group flex items-center justify-center"
         >
           <span className="relative z-10">Ver reto</span>
-          <span className="absolute inset-0 bg-[linear-gradient(45deg,var(--tw-gradient-stops))] 
+          <span
+            className="absolute inset-0 bg-[linear-gradient(45deg,var(--tw-gradient-stops))] 
                           from-cyan-400 via-pink-500 to-yellow-500 opacity-0 
-                          group-hover:opacity-10 blur-sm scale-110 transition-opacity duration-300"></span>
+                          group-hover:opacity-10 blur-sm scale-110 transition-opacity duration-300"
+          ></span>
         </Link>
       </div>
     </div>
