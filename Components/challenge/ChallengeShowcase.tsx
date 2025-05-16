@@ -2,11 +2,8 @@
 
 import { useMemo, useState } from "react";
 import ChallengeCard from "./ChallengeCard";
-import { Challenge } from "@/lib/services/challenges";
-import { Tag } from "@/lib/services/tags";
-import { Difficulty } from "@/lib/services/difficulties";
-import { Status } from "@/lib/services/statuses";
 import ParticleEffect from "../ui/animations/paticle-events";
+import { Challenge, Tag, Difficulty, Status } from "@/lib/types";
 
 interface Props {
   challenges: Challenge[];
@@ -28,7 +25,7 @@ export default function ChallengeShowcase({
     showLanguageMenu: false,
   });
 
-  // Crear mapeo de difficulty_id a clave de CONFIG
+  // Crear mapeo de difficultyId a clave de CONFIG
   const difficultyIdToKey = useMemo(() => {
     const map: Record<number, keyof typeof CONFIG.difficulty> = {};
 
@@ -50,8 +47,6 @@ export default function ChallengeShowcase({
 
   const filteredChallenges = useMemo(() => {
     return challenges.filter((challenge) => {
-      const challengeDifficultyKey =
-        difficultyIdToKey[challenge.difficulty_id] || "all";
       const matchesDifficulty =
         filters.difficulty === "all" ||
         challenge.difficulty === filters.difficulty;

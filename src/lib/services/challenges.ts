@@ -1,18 +1,5 @@
 import {supabase} from "../supabaseClient";
-
-export interface Challenge {
-    id: string;
-    title: string;
-    description: string;
-    difficulty_id: number;
-    difficulty?: string;
-    status_id: number;
-    status?: string;
-    team_size: number;
-    start_date: string;
-    end_date?: string;
-    tags?: string[];
-}
+import { Challenge } from "@/types";
 
 export async function getAllChallenges(): Promise<Challenge[]> {
     const {data, error} = await supabase
@@ -20,7 +7,6 @@ export async function getAllChallenges(): Promise<Challenge[]> {
         .select(`
           *,
           challenge_tags (
-            tag_id,
             tags ( name )
           ),
           status:challenge_statuses ( label ),
@@ -35,14 +21,14 @@ export async function getAllChallenges(): Promise<Challenge[]> {
         id: c.id,
         title: c.title,
         description: c.description,
-        difficulty_id: c.difficulty_id,
+        difficultyId: c.difficulty_id,
         difficulty: c.difficulty?.label ?? "",
-        status_id: c.status_id,
-        team_size: c.team_size,
-        start_date: c.start_date,
-        end_date: c.end_date,
-        tags: c.challenge_tags?.map((ct: { tags: { name: any; }; }) => ct.tags.name) ?? [],
+        statusId: c.status_id,
         status: c.status?.label ?? "",
+        teamSize: c.team_size,
+        startDate: c.start_date,
+        endDate: c.end_date ?? undefined,
+        tags: c.challenge_tags?.map((ct) => ct.tags.name) ?? [],
     }));
 }
 
@@ -52,7 +38,6 @@ export async function getChallengeById(id: string): Promise<Challenge> {
         .select(`
           *,
           challenge_tags (
-            tag_id,
             tags ( name )
           ),
           status:challenge_statuses ( label ),
@@ -67,14 +52,14 @@ export async function getChallengeById(id: string): Promise<Challenge> {
         id: c.id,
         title: c.title,
         description: c.description,
-        difficulty_id: c.difficulty_id,
+        difficultyId: c.difficulty_id,
         difficulty: c.difficulty?.label ?? "",
-        status_id: c.status_id,
-        team_size: c.team_size,
-        start_date: c.start_date,
-        end_date: c.end_date,
-        tags: c.challenge_tags?.map((ct: { tags: { name: any; }; }) => ct.tags.name) ?? [],
+        statusId: c.status_id,
         status: c.status?.label ?? "",
+        teamSize: c.team_size,
+        startDate: c.start_date,
+        endDate: c.end_date ?? undefined,
+        tags: c.challenge_tags?.map((ct) => ct.tags.name) ?? [],
     };
 }
 

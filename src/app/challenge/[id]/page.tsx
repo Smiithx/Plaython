@@ -49,8 +49,8 @@ export default async function ChallengeDetail({
     notFound();
   }
   // // Formatear fechas
-  const startDate = new Date(eventData.start_date);
-  const endDate = new Date(eventData.end_date);
+  const startDate = new Date(eventData.startDate);
+  const endDate = new Date(eventData.endDate);
 
   const formatDate = (date) => {
     return date.toLocaleDateString("es-ES", {

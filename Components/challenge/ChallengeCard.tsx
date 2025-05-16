@@ -102,8 +102,8 @@ export default function ChallengeCard({ challenge }: Props) {
           <span className="text-gray-500">
             Equipo:{" "}
             <strong>
-              {challenge.team_size || 1} persona
-              {challenge.team_size !== 1 ? "s" : ""}
+              {challenge.teamSize || 1} persona
+              {challenge.teamSize !== 1 ? "s" : ""}
             </strong>
           </span>
         </div>
@@ -128,12 +128,12 @@ export default function ChallengeCard({ challenge }: Props) {
 
         {/* Fechas */}
         <div className="text-sm text-gray-500 mt-auto mb-6 opacity-70 group-hover:opacity-90 transition-opacity">
-          {challenge.start_date
-            ? new Date(challenge.start_date).toLocaleDateString()
+          {challenge.startDate
+            ? new Date(challenge.startDate).toLocaleDateString()
             : "Fecha no disponible"}{" "}
           -{" "}
-          {challenge.end_date
-            ? new Date(challenge.end_date).toLocaleDateString()
+          {challenge.endDate
+            ? new Date(challenge.endDate).toLocaleDateString()
             : "Abierto"}
         </div>
 
