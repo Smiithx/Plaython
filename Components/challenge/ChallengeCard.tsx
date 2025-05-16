@@ -139,7 +139,7 @@ export default function ChallengeCard({ challenge }: Props) {
 
         {/* Botón con efecto glitch */}
         <Link
-          href={`/challenge/${challenge.id}`}
+          href={`/challenges/${challenge.id}`}
           className="relative w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 
                    text-white font-semibold rounded-lg transition-all duration-300 
                    hover:scale-[1.02] hover:from-purple-700 hover:to-pink-700 overflow-hidden 
