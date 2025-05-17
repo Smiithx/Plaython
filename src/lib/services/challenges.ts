@@ -29,6 +29,7 @@ export async function getAllChallenges(): Promise<Challenge[]> {
         startDate: c.start_date,
         endDate: c.end_date ?? undefined,
         tags: c.challenge_tags?.map((ct) => ct.tags.name) ?? [],
+        organizer:  "Plaython",
     }));
 }
 
@@ -60,6 +61,7 @@ export async function getChallengeById(id: string): Promise<Challenge> {
         startDate: c.start_date,
         endDate: c.end_date ?? undefined,
         tags: c.challenge_tags?.map((ct) => ct.tags.name) ?? [],
+        organizer:  "Plaython",
     };
 }
 

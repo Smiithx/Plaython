@@ -13,12 +13,12 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "../../../../components/ui/card";
+} from "../../../../Components/ui/card";
 
-import { Button } from "../../../../components/ui/button";
-import { SearchInput } from "../../../../components/ui/input";
-import { Badge } from "../../../../components/ui/badge";
-import { MatchCard } from "../../../../components/matches/marchesCard";
+import { Button } from "../../../../Components/ui/button";
+import { SearchInput } from "../../../../Components/ui/input";
+import { Badge } from "../../../../Components/ui/badge";
+import { MatchCard } from "../../../../Components/matches/marchesCard";
 
 export default function PageMatches() {
   return (

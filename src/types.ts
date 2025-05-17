@@ -11,6 +11,7 @@ export interface Challenge {
     endDate?: string;
     tags: string[];
     estimatedTime?: string;
+    organizer?: string;
 }
 
 export interface Tag {
@@ -26,4 +27,8 @@ export interface Difficulty {
 export interface Status {
     id: number;
     label: string;
+}
+
+export interface ChallengePageProps {
+    params: Promise<{ id: string }>;
 }

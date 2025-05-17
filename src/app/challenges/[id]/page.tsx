@@ -28,6 +28,7 @@ import { getChallengeById } from "@/lib/services/challenges";
 import { notFound } from "next/navigation";
 import { Button } from "../../../../Components/ui/button";
 import StarField from "../../../../Components/ui/animations/star-footer";
+import { ChallengePageProps } from "@/types";
 
 const statusGradient = {
   finished: "bg-gradient-to-r from-gray-600 to-gray-400",
@@ -38,9 +39,7 @@ const statusGradient = {
 
 export default async function ChallengeDetail({
   params,
-}: {
-  params: { id: string };
-}) {
+}: ChallengePageProps) {
   // const [isJoined, setIsJoined] = useState(false);
   // const [activeTab, setActiveTab] = useState("info");
   const { id } = await params;
@@ -65,7 +64,7 @@ export default async function ChallengeDetail({
     });
   };
 
-  const formatTime = (date) => {
+  const formatTime = (date: Date): string => {
     return date.toLocaleTimeString("es-ES", {
       hour: "2-digit",
       minute: "2-digit",
@@ -73,8 +72,9 @@ export default async function ChallengeDetail({
   };
 
   // // Calcular duración del evento
-  const calculateDuration = () => {
-    const diffTime = Math.abs(endDate - startDate);
+  const calculateDuration = (): string => {
+    // obtenemos el número de milisegundos de cada Date
+    const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const diffHours = Math.ceil(diffTime / (1000 * 60 * 60)) % 24;
 

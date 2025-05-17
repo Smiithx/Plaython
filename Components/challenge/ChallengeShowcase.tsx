@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import ChallengeCard from "./ChallengeCard";
 import ParticleEffect from "../ui/animations/paticle-events";
-import { Challenge, Tag, Difficulty, Status } from "@/lib/types";
+import { Challenge, Tag, Difficulty, Status } from "@/types";
 
 interface Props {
   challenges: Challenge[];
