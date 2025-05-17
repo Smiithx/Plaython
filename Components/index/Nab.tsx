@@ -100,13 +100,13 @@ const Navbar = () => {
           <div className="hidden md:block">
             <div className="space-x-7 items-center md:flex gap-3">
               <SignedOut>
-                <SignInButton>
+                <SignInButton mode="modal">
                   <button className="py-2 px-4 rounded text-white/80 hover:text-white duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40">
                     Iniciar Sesión
                   </button>
                 </SignInButton>
 
-                <SignUpButton>
+                <SignUpButton mode="modal">
                   <button className="relative overflow-hidden bg-gradient-to-r from-cyan-400 via-[#5865F2] to-[#9146FF] text-white font-semibold rounded-lg transition-colors duration-300 hover:from-purple-700 hover:to-pink-600 py-2 px-4 shiny-btn">
                     Registrarse
                   </button>
