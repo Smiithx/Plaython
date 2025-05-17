@@ -13,6 +13,7 @@
     "seed:challenges": "node scripts/seedChallenges.js"
   },
   "dependencies": {
+    "@clerk/localizations": "^3.16.0",
     "@clerk/nextjs": "^6.19.1",
     "@radix-ui/themes": "^3.2.1",
     "@supabase/supabase-js": "^2.49.4",
