@@ -6,6 +6,7 @@ import ParticleEffect from "../ui/animations/paticle-events";
 import StarField from "../ui/animations/star-footer";
 import GlitchText from "../ui/animations/glitch-text";
 import { AnimatedCounter } from "../ui/animations/animated-counter";
+import Link from "next/link";
 
 const phrases = [
   "DIVIÉRTETE PROGRAMANDO",
@@ -46,7 +47,10 @@ export function Presentation() {
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 space-x-8">
-          <button className="relative inline-flex items-center gap-2 px-6 py-3 overflow-hidden text-lg font-medium text-white transition-all duration-500 rounded-full group hover:text-white bg-gradient-to-r from-purple-700 to-pink-700">
+          <Link
+            href="/challenges"
+            className="relative inline-flex items-center gap-2 px-6 py-3 overflow-hidden text-lg font-medium text-white transition-all duration-500 rounded-full group hover:text-white bg-gradient-to-r from-purple-700 to-pink-700"
+          >
             <span className="absolute inset-0 w-full h-full transition-transform duration-500 transform -translate-x-full bg-pink-800 group-hover:translate-x-0 z-0 rounded-full"></span>
 
             <span className="relative z-10">Encontrar Evento</span>
@@ -61,7 +65,7 @@ export function Presentation() {
                 className="fill-gray-100 group-hover:fill-gray-900"
               />
             </svg>
-          </button>
+          </Link>
 
           <button className="overflow-hidden relative w-full py-2 px-4  sm:w-auto text-white border-none rounded-md text-lg font-bold cursor-pointer z-10 group">
             Cómo Funciona

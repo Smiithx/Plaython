@@ -4,11 +4,11 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "../../../../components/ui/tabs";
-import { Button } from "../../../../components/ui/button";
-import { SearchInput } from "../../../../components/ui/input";
-import { TeamCard } from "../../../../components/teams/teamCard";
-import { TeamInvitationCard } from "../../../../components/teams/teamInvitationCard";
+} from "../../../../Components/ui/tabs";
+import { Button } from "../../../../Components/ui/button";
+import { SearchInput } from "../../../../Components/ui/input";
+import { TeamCard } from "../../../../Components/teams/teamCard";
+import { TeamInvitationCard } from "../../../../Components/teams/teamInvitationCard";
 
 export default function PageTeams() {
   return (

@@ -16,12 +16,8 @@ const Hero = () => {
   return (
     <HorizontalScroll>
       <Presentation />
-      {/* <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black to-transparent -z-10 pointer-events-none" /> */}
       <FeaturesSection />
-      {/* <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black to-transparent -z-10 pointer-events-none" /> */}
       <ContenHero />
-
-      {/* <div className="h-16  inset-0 -z-10  bg-gradient-to-t  from-black to-[#011d62b9]"></div> */}
     </HorizontalScroll>
   );
 };
