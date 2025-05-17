@@ -43,16 +43,20 @@ export default async function ChallengeDetail({
 }) {
   // const [isJoined, setIsJoined] = useState(false);
   // const [activeTab, setActiveTab] = useState("info");
-  const eventData = await getChallengeById(params.id);
+  const { id } = await params;
+  const eventData = await getChallengeById(id);
   console.log(" datos by id ", eventData);
   if (!eventData) {
     notFound();
   }
   // // Formatear fechas
-  const startDate = new Date(eventData.startDate);
-  const endDate = new Date(eventData.endDate);
+  const startDate = new Date(eventData.startDate!);
+  const endDate = new Date(eventData.endDate!);
 
-  const formatDate = (date) => {
+  const formatDate = (date: Date): string => {
+    if (isNaN(date.getTime())) {
+      throw new Error("Fecha inválida");
+    }
     return date.toLocaleDateString("es-ES", {
       weekday: "long",
       day: "numeric",
