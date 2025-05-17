@@ -1,16 +1,16 @@
 "use client";
 import { useState } from "react";
 import { Filter } from "lucide-react";
-import { SearchInput } from "../../../../components/ui/input";
+import { SearchInput } from "../../../../Components/ui/input";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "../../../../components/ui/tabs";
-import { Button } from "../../../../components/ui/button";
-import { EventCard } from "../../../../components/events/eventCard";
-import { EventHeader } from "../../../../components/events/event.header";
+} from "../../../../Components/ui/tabs";
+import { Button } from "../../../../Components/ui/button";
+import { EventCard } from "../../../../Components/events/eventCard";
+import { EventHeader } from "../../../../Components/events/event.header";
 export default function PageEvents() {
   const [filter, setFilter] = useState("all");
   return (

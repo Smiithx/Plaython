@@ -1,4 +1,4 @@
-// components/AnimatedText.tsx
+// Components/AnimatedText.tsx
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef } from "react";

@@ -1,17 +1,21 @@
 import { supabase } from "../supabaseClient";
+import {Difficulty} from "@/types";
 
-export interface Difficulty {
-    id: number;
-    label: string;
-    sort_order: number;
+// 2) Función pura de mapeo
+function mapRawToDifficulty(r: any): Difficulty {
+    return {
+        id:        r.id,
+        label:     r.label,
+        sortOrder: r.sort_order,
+    };
 }
 
 export async function getAllDifficulties(): Promise<Difficulty[]> {
     const { data, error } = await supabase
-        .from<Difficulty>("challenge_difficulties")
+        .from("challenge_difficulties")
         .select("*")
         .order("sort_order", { ascending: true });
 
     if (error) throw error;
-    return data;
+    return (data ?? []).map(mapRawToDifficulty);
 }

@@ -1,92 +1,81 @@
 import {supabase} from "../supabaseClient";
+import { Challenge } from "@/types";
 
-export interface Challenge {
+interface RawChallenge {
     id: string;
     title: string;
     description: string;
-    difficulty_id: number;
-    difficulty?: string;
-    status_id: number;
-    status?: string;
+    difficulty_id?: number;
+    difficulty?: { label: string };
+    status_id?: number;
+    status?: { label: string };
     team_size: number;
     start_date: string;
-    end_date?: string;
-    tags?: string[];
+    end_date: string | null;
+    challenge_tags?: Array<{ tags: { name: string } }>;
 }
+
+/**
+ * Función pura que mapea un registro “raw” al interfaz Challenge
+ */
+function mapRawToChallenge(c: RawChallenge): Challenge {
+    return {
+        id:            c.id,
+        title:         c.title,
+        description:   c.description,
+        difficultyId:  c.difficulty_id,
+        difficulty:    c.difficulty?.label ?? "",
+        statusId:      c.status_id,
+        status:        c.status?.label ?? "",
+        teamSize:      c.team_size,
+        startDate:     c.start_date,
+        endDate:       c.end_date ?? undefined,
+        tags:          c.challenge_tags?.map((ct: any) => ct.tags.name) ?? [],
+        organizer:     "Plaython",
+    };
+}
+
+/**
+ * El SELECT que queremos repetir en TODOS los queries
+ */
+const DEFAULT_SELECT = `
+  *,
+  challenge_tags ( tags ( name ) ),
+  status:challenge_statuses ( label ),
+  difficulty:challenge_difficulties ( label )
+`;
 
 export async function getAllChallenges(): Promise<Challenge[]> {
     const {data, error} = await supabase
         .from("challenges")
-        .select(`
-          *,
-          challenge_tags (
-            tag_id,
-            tags ( name )
-          ),
-          status:challenge_statuses ( label ),
-          difficulty:challenge_difficulties ( label )
-        `
-        )
+        .select(DEFAULT_SELECT)
         .order("start_date", {ascending: true});
 
     if (error) throw error;
     // Transformar la estructura para exponer tags como string[]
-    return data.map((c) => ({
-        id: c.id,
-        title: c.title,
-        description: c.description,
-        difficulty_id: c.difficulty_id,
-        difficulty: c.difficulty?.label ?? "",
-        status_id: c.status_id,
-        team_size: c.team_size,
-        start_date: c.start_date,
-        end_date: c.end_date,
-        tags: c.challenge_tags?.map((ct: { tags: { name: any; }; }) => ct.tags.name) ?? [],
-        status: c.status?.label ?? "",
-    }));
+    return (data ?? []).map(mapRawToChallenge);
 }
 
 export async function getChallengeById(id: string): Promise<Challenge> {
     const {data, error} = await supabase
         .from("challenges")
-        .select(`
-          *,
-          challenge_tags (
-            tag_id,
-            tags ( name )
-          ),
-          status:challenge_statuses ( label )
-          difficulty:challenge_difficulties ( label )
-        `)
+        .select(DEFAULT_SELECT)
         .eq("id", id)
         .single();
 
     if (error) throw error;
-    const c = data;
-    return {
-        id: c.id,
-        title: c.title,
-        description: c.description,
-        difficulty_id: c.difficulty_id,
-        difficulty: c.difficulty?.label ?? "",
-        status_id: c.status_id,
-        team_size: c.team_size,
-        start_date: c.start_date,
-        end_date: c.end_date,
-        tags: c.challenge_tags?.map((ct: { tags: { name: any; }; }) => ct.tags.name) ?? [],
-        status: c.status?.label ?? "",
-    };
+    return mapRawToChallenge(data!);
 }
 
 export async function createChallenge(input: Omit<Challenge, "id">) {
     const {data, error} = await supabase
-        .from<Challenge>("challenges")
+        .from("challenges")
         .insert(input)
-        .select()
+        .select(DEFAULT_SELECT)
         .single();
 
     if (error) throw error;
-    return data;
+    return mapRawToChallenge(data!);
 }
 
 // …puedes añadir updateChallenge, deleteChallenge, etc.

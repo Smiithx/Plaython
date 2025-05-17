@@ -1,16 +1,20 @@
 import { supabase } from "../supabaseClient";
+import { Tag } from "@/types";
 
-export interface Tag {
-    id: number;
-    name: string;
+// Función pura de mapeo
+function mapRawToTag(r: any): Tag {
+    return {
+        id:   r.id,
+        name: r.name,
+    };
 }
 
 export async function getAllTags(): Promise<Tag[]> {
     const { data, error } = await supabase
-        .from<Tag>("tags")
+        .from("tags")
         .select("*")
         .order("name", { ascending: true });
 
     if (error) throw error;
-    return data;
+    return (data ?? []).map(mapRawToTag);
 }
