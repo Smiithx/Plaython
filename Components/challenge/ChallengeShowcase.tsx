@@ -16,7 +16,6 @@ export default function ChallengeShowcase({
   challenges,
   tags,
   difficulties,
-  statuses,
 }: Props) {
   const [filters, setFilters] = useState({
     search: "",
@@ -61,7 +60,7 @@ export default function ChallengeShowcase({
 
       return matchesSearch && matchesDifficulty && matchesTags;
     });
-  }, [filters, challenges, difficultyIdToKey]);
+  }, [filters, challenges]);
 
   const challengesByStatus = useMemo(() => {
     return {

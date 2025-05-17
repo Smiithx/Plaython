@@ -22,11 +22,13 @@ export interface Tag {
 export interface Difficulty {
     id: number;
     label: string;
+    sortOrder: number;
 }
 
 export interface Status {
     id: number;
     label: string;
+    sortOrder: number;
 }
 
 export interface ChallengePageProps {
