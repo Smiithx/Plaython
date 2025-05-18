@@ -136,7 +136,7 @@ export default function ChallengeDetailClient({
               <Tabs
                 defaultValue="info"
                 className="w-full"
-                // onValueChange={setActiveTab}
+                onValueChange={(value) => setActiveTab(value as "info" | "participants" | "schedule" | "discussion")}
               >
                 <div className="px-6 pt-6 justify-self-center">
                   <TabsList className="grid grid-cols-4 gap-4 bg-gray-800 p-1 rounded-lg">
@@ -453,7 +453,14 @@ export default function ChallengeDetailClient({
               <>
                 <div className="bg-gray-900 rounded-xl border border-gray-800 p-6 mb-6 sticky top-4">
                   <div className="mb-6">
-                    <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+                    <Button 
+                      onClick={handleJoinEvent}
+                      className={`w-full ${
+                        isJoined
+                          ? "bg-green-600 hover:bg-green-700"
+                          : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                      }`}
+                    >
                       {isJoined ? (
                         <>
                           <CheckCircle className="mr-2 h-5 w-5" />
@@ -466,6 +473,12 @@ export default function ChallengeDetailClient({
                         </>
                       )}
                     </Button>
+                    {!isJoined && eventData.maxParticipants && eventData.currentParticipants && (
+                      <p className="text-center text-gray-400 text-sm mt-2">
+                        {eventData.maxParticipants - eventData.currentParticipants}{" "}
+                        plazas disponibles
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-4">
@@ -684,166 +697,3 @@ export default function ChallengeDetailClient({
     </div>
   );
 }
-// <div className="min-h-screen bg-gray-950 text-white">
-//   {/* Header */}
-//   <div className="relative h-80 bg-gradient-to-r from-purple-900 via-blue-800 to-indigo-900 overflow-hidden">
-//     <div className="absolute inset-0 opacity-30 mix-blend-overlay" />
-//     <div className="absolute inset-0 bg-gradient-to-t from-gray-950 to-transparent" />
-//     <div className="relative container mx-auto px-4 h-full flex flex-col justify-end pb-8">
-//       <Link
-//         href="/challenges"
-//         className="z-10 absolute top-4 left-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition text-gray-300"
-//       >
-//         <ChevronLeft className="h-5 w-5" />
-//         Volver a retos
-//       </Link>
-//       <div className="flex flex-wrap items-center gap-3 mb-8">
-//         {eventData.tags.map((category, index) => (
-//           <Badge
-//             key={index}
-//             className="bg-white/20 hover:bg-white/30 text-white"
-//           >
-//             {category}
-//           </Badge>
-//         ))}
-//       </div>
-//       <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">
-//         {eventData.title}
-//       </h1>
-//       <div className="flex flex-wrap items-center gap-6 font-bold">
-//         <div className="flex items-center">
-//           <Calendar className="h-5 w-5 mr-2 text-purple-400" />
-//           <span>{formatDate(startDate)}</span>
-//         </div>
-//         <div className="flex items-center">
-//           <Clock className="h-5 w-5 mr-2 text-blue-400" />
-//           <span>{calculateDuration()}</span>
-//         </div>
-//         <div className="flex items-center">
-//           <MapPin className="h-5 w-5 mr-2 text-pink-400" />
-//           {/* <span>{eventData.location}</span> */}
-//         </div>
-//         <div className="flex items-center">
-//           <Users className="h-5 w-5 mr-2 text-green-400" />
-//           {/* <span>{eventData.currentParticipants}/{eventData.maxParticipants}</span> */}
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-//   <StarField />
-
-//   {/* Main Content */}
-//   <div className="relative container mx-auto px-4 py-8 z-10">
-//     <div className="flex flex-col lg:flex-row gap-8">
-//       <div className="lg:w-2/3">
-//         <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden mb-8">
-//           <Tabs
-//             value={activeTab}
-//             onValueChange={setActiveTab}
-//             defaultValue="info"
-//           >
-//             <div className="px-6 pt-6">
-//               <TabsList className="grid grid-cols-4 gap-4 bg-gray-800 p-1 rounded-lg">
-//                 <TabsTrigger
-//                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white rounded-md"
-//                   value="info"
-//                 >
-//                   Información
-//                 </TabsTrigger>
-//                 <TabsTrigger
-//                   value="participants"
-//                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white rounded-md"
-//                 >
-//                   Participantes
-//                 </TabsTrigger>
-//                 <TabsTrigger
-//                   value="schedule"
-//                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white rounded-md"
-//                 >
-//                   Agenda
-//                 </TabsTrigger>
-//                 <TabsTrigger
-//                   value="discussion"
-//                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white rounded-md"
-//                 >
-//                   Discusión
-//                 </TabsTrigger>
-//               </TabsList>
-//             </div>
-//             <TabsContent value="info" className="p-6 text-gray-300">
-//               {eventData.description}
-//             </TabsContent>
-//             <TabsContent value="participants" className="p-6">
-//               {/* Participantes content here */}
-//             </TabsContent>
-//             <TabsContent value="schedule" className="p-6">
-//               {/* Agenda content here */}
-//             </TabsContent>
-//             <TabsContent value="discussion" className="p-6">
-//               {/* Discussion content here */}
-//             </TabsContent>
-//           </Tabs>
-//         </div>
-//         <Button
-//           onClick={handleJoinEvent}
-//           className="w-full py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-//         >
-//           {isJoined ? (
-//             <>
-//               <CheckCircle className="mr-2" />
-//               Ya estás inscrito
-//             </>
-//           ) : (
-//             <>
-//               <Zap className="mr-2" />
-//               Unirse al evento
-//             </>
-//           )}
-//         </Button>
-//       </div>
-
-//       <aside className="lg:w-1/3 space-y-6">
-//         {/* Sidebar metadata here, similar extraction */}
-//       </aside>
-//     </div>
-//   </div>
-// </div>
-
-// onClick={handleJoinEvent}
-// className={`w-full text-lg py-6 ${
-//   isJoined
-//     ? "bg-green-600 hover:bg-green-700"
-//     : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-// }`}
-{
-  /* {!isJoined && (
-                   <p className="text-center text-gray-400 text-sm mt-2">
-                     {eventData.maxParticipants - eventData.currentParticipants}{" "}
-                     plazas disponibles
-                   </p>
-                 )} */
-}
-
-{
-  /* <div className="flex mr-1">
-                       {[...Array(5)].map((_, i) => (
-                         <Star
-                           key={i}
-                           className={`h-4 w-4 ${
-                             i < Math.floor(eventData.rating)
-                               ? "text-yellow-400 fill-yellow-400"
-                               : i < eventData.rating
-                               ? "text-yellow-400 fill-yellow-400 opacity-50"
-                               : "text-gray-600"
-                           }`}
-                         />
-                       ))}
-                     </div> */
-}
-{
-  /* <span className="font-medium text-white">
-                       {eventData.rating} ({eventData.reviews})
-                     </span> */
-}
-
-////////

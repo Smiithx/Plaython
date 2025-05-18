@@ -119,7 +119,7 @@ Here's an example test for a UI component:
 ```tsx
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Badge } from '@/Components/ui/badge';
+import { Badge } from '@/ui/badge';
 
 describe('Badge Component', () => {
   it('renders with default styling', () => {
@@ -169,7 +169,7 @@ Use the `@/` prefix to import from the `src` or `Components` directories:
 import { someUtil } from '@/lib/utils';
 
 // Importing from Components
-import { Badge } from '@/Components/ui/badge';
+import { Badge } from '@/ui/badge';
 ```
 
 ### Linting
