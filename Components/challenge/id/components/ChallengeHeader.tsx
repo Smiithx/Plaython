@@ -3,6 +3,7 @@ import { Badge } from "@/ui/badge";
 import Link from "next/link";
 import { Calendar, Clock, MapPin, Users } from "lucide-react";
 import { Challenge } from "@/types";
+import {SignedIn, UserButton} from "@clerk/nextjs";
 
 interface ChallengeHeaderProps {
   eventData: Challenge;
@@ -41,6 +42,22 @@ export function ChallengeHeader({
           </svg>
           Volver a retos
         </Link>
+
+        <div className="z-10 inline-flex items-center absolute top-4 right-4 gap-10 px-4 transition-all duration-300 text-gray-300">
+          <SignedIn>
+                <span className="border-b-2 border-transparent transition-colors duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40 hover:rounded-t-lg px-4 py-2">
+                  <Link
+                      href="/dashboard"
+                      className="font-[var(--font-bebas)] text-sm text-white/80 inline-block"
+                  >
+                    Panel
+                  </Link>
+                </span>
+            <div className="hidden md:flex items-center gap-2 bg-white/10 rounded-full px-3 py-1.5">
+              <UserButton />
+            </div>
+          </SignedIn>
+        </div>
         <div className="flex flex-wrap items-center gap-3 mb-8">
           {eventData?.tags.map((category, index) => (
             <Badge

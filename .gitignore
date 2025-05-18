@@ -183,3 +183,4 @@ package-lock.json
 .junie
 pnpm-lock.yaml
 docs/tasks.md
+docs/plan.md
