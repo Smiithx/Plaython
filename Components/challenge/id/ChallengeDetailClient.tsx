@@ -6,13 +6,13 @@ import StarField from "@/ui/animations/star-footer";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 // Import components
-import { ChallengeHeader } from "./components/ChallengeHeader";
-import { InfoTab } from "./components/InfoTab";
-import { ParticipantsTab } from "./components/ParticipantsTab";
-import { ScheduleTab } from "./components/ScheduleTab";
-import { DiscussionTab } from "./components/DiscussionTab";
-import { SignedOutSidebar } from "./components/SignedOutSidebar";
-import { SignedInSidebar } from "./components/SignedInSidebar";
+import { InfoTab } from "@/challenge/id/components/InfoTab";
+import { ParticipantsTab } from "@/challenge/id/components/ParticipantsTab";
+import { ScheduleTab } from "@/challenge/id/components/ScheduleTab";
+import { DiscussionTab } from "@/challenge/id/components/DiscussionTab";
+import { SignedOutSidebar } from "@/challenge/id/components/SignedOutSidebar";
+import { SignedInSidebar } from "@/challenge/id/components/SignedInSidebar";
+import { ChallengeHeader } from "@/challenge/id/components/ChallengeHeader";
 
 interface ChallengeDetailClientProps {
   eventData: Challenge;
@@ -75,7 +75,11 @@ export default function ChallengeDetailClient({
               <Tabs
                 defaultValue="info"
                 className="w-full"
-                onValueChange={(value) => setActiveTab(value as "info" | "participants" | "schedule" | "discussion")}
+                onValueChange={(value) =>
+                  setActiveTab(
+                    value as "info" | "participants" | "schedule" | "discussion"
+                  )
+                }
               >
                 <div className="px-6 pt-6 justify-self-center">
                   <TabsList className="grid grid-cols-4 gap-4 bg-gray-800 p-1 rounded-lg">
