@@ -180,3 +180,6 @@ next-env.d.ts
 # clerk configuration (can include secrets)
 /.clerk/
 package-lock.json
+.junie
+pnpm-lock.yaml
+docs/tasks.md

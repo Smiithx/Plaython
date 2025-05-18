@@ -10,7 +10,10 @@
     "type-check": "tsc --noEmit",
     "check": "npm run lint && npm run type-check",
     "seed": "node scripts/seed.js",
-    "seed:challenges": "node scripts/seedChallenges.js"
+    "seed:challenges": "node scripts/seedChallenges.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@clerk/localizations": "^3.16.0",
