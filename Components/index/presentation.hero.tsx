@@ -67,7 +67,10 @@ export function Presentation() {
             </svg>
           </Link>
 
-          <button className="overflow-hidden relative w-full py-2 px-4  sm:w-auto text-white border-none rounded-md text-lg font-bold cursor-pointer z-10 group">
+          <Link
+            href="/como-funciona"
+            className="overflow-hidden relative w-full py-2 px-4  sm:w-auto text-white border-none rounded-md text-lg font-bold cursor-pointer z-10 group"
+          >
             Cómo Funciona
             <span className="absolute w-full h-32 -top-8 -left-2 bg-pink-200 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-500 duration-1000 origin-right"></span>
             <span className="absolute w-full h-32 -top-8 -left-2 bg-pink-300 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-700 duration-700 origin-right"></span>
@@ -75,7 +78,7 @@ export function Presentation() {
             <span className="group-hover:opacity-100 group-hover:duration-1000 duration-100 opacity-0 absolute top-2.5 left-6 z-10">
               Click Aqui!
             </span>
-          </button>
+          </Link>
         </div>
 
         <div className="mx-auto pt-5 w-full flex items-center justify-center rounded-2xl bg-gray-400/10 backdrop-blur-sm p-6 text-white/60 text-sm">

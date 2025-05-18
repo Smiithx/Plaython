@@ -32,9 +32,6 @@ export default function FeaturesSection() {
   return (
     <section id="features" className="section-horizontal pt-16">
       <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-black via-[#0b0b0b] to-transparent z-10 pointer-events-none"></div>
-      {/* <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-black via-[#0b0b0b] to-transparent z-10 pointer-events-none"></div> */}
-      {/* <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" /> */}
-
       <HexagonGrid />
       <div className="horizontal-inner space-x-4 gap-3 pt-16">
         <div className="relative panel items-center justify-center text-center px-4">
@@ -95,22 +92,3 @@ export default function FeaturesSection() {
     </section>
   );
 }
-{
-  /* <div>
-        <div className="absolute inset-0 opacity-30 mix-blend-overlay"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-950 to-transparent"></div>
-      </div> */
-}
-//  <div className="panel items-center justify-center text-center">
-//           <h2 className="text-4xl md:text-6xl font-bold mb-9">
-//             <span className="relative">
-//               Características Principales
-//               <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 blur-xl opacity-50 -z-10 rounded-full"></div>
-//               {/* <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-[#107C10] to-[#52B043]"></span> */}
-//             </span>
-//           </h2>
-//           <p className="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto">
-//             Nuestra plataforma combina tecnología avanzada con un enfoque en la
-//             experiencia del programador
-//           </p>
-//         </div>

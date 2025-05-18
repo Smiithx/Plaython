@@ -108,8 +108,8 @@ export default function ChallengeShowcase({
   };
 
   return (
-    <main className="min-h-screen bg-transparent text-white py-10 px-4 overflow-hidden">
-      <div className="max-w-6xl mx-auto relative z-10">
+    <main className="min-h-screen bg-black text-white py-10 px-4 overflow-hidden">
+      <div className="relative max-w-6xl mx-auto">
         <ParticleEffect />
         {/* Chips de tags seleccionados */}
         <div className="h-[36px] flex justify-center items-center mb-4">

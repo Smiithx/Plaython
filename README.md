@@ -54,3 +54,7 @@ npm install @radix-ui/themes
 npm i tailwind-merge
 npm i clsx
 npm install class-variance-authority
+
+## Clerk
+
+npm i @clerk/localizations

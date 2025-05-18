@@ -88,7 +88,7 @@ const Navbar = () => {
               <SignedOut>
                 <span className="border-b-2 border-transparent transition-colors duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40 hover:rounded-t-lg px-4 py-2">
                   <Link
-                    href="#"
+                    href="/como-funciona"
                     className="font-[var(--font-bebas)] text-sm text-white/80 inline-block"
                   >
                     Cómo Funciona
