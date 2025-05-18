@@ -405,7 +405,10 @@ export default function ChallengeDetailClient({
                   </p>
                 </div>
 
-                <SignInButton mode="modal">
+                <SignInButton
+                  mode="modal"
+                  fallbackRedirectUrl={`/challenges/${eventData.id}`}
+                >
                   <Button
                     className="w-full bg-gradient-to-r from-purple-600 to-indigo-600"
                     size="lg"
