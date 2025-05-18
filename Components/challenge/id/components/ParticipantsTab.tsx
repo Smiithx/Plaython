@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Challenge } from "@/types";
 import { Button } from "@/ui/button";
+import { Badge } from "@/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/ui/avatar";
 
 interface ParticipantsTabProps {
   eventData: Challenge;
+}
+interface Participant {
+  id: string;
+  name: string;
+  avatar: string;
+  skills: string[];
+  specialty: string;
+  teamId: string | null;
+}
+
+interface Team {
+  id: string;
+  name: string;
+  members: Participant[];
+  complete: boolean;
 }
 
 export function ParticipantsTab({ eventData }: ParticipantsTabProps) {

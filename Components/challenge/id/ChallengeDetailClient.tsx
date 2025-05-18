@@ -82,19 +82,28 @@ export default function ChallengeDetailClient({
                 }
               >
                 <div className="px-6 pt-6 justify-self-center">
-                  <TabsList className="grid grid-cols-4 gap-4 bg-gray-800 p-1 rounded-lg">
+                  <TabsList
+                    className={`grid ${
+                      isJoined ? "grid-cols-4 gap-4" : "grid-cols-3 gap-3"
+                    } bg-gray-800 p-1 rounded-lg`}
+                  >
                     <TabsTrigger
                       value="info"
                       className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white rounded-md"
                     >
                       Información
                     </TabsTrigger>
-                    <TabsTrigger
-                      value="participants"
-                      className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white rounded-md"
-                    >
-                      Participantes
-                    </TabsTrigger>
+
+                    <SignedIn>
+                      {isJoined && (
+                        <TabsTrigger
+                          value="participants"
+                          className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white rounded-md"
+                        >
+                          Mi grupo
+                        </TabsTrigger>
+                      )}
+                    </SignedIn>
                     <TabsTrigger
                       value="schedule"
                       className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white rounded-md"
@@ -111,7 +120,7 @@ export default function ChallengeDetailClient({
                 </div>
 
                 <TabsContent value="info" className="p-6">
-                  <InfoTab eventData={eventData} />
+                  <InfoTab eventData={eventData} isJoined={isJoined} />
                 </TabsContent>
 
                 <TabsContent value="participants" className="p-6">
@@ -137,6 +146,7 @@ export default function ChallengeDetailClient({
             <SignedIn>
               <SignedInSidebar
                 eventData={eventData}
+                setIsJoined={setIsJoined}
                 isJoined={isJoined}
                 handleJoinEvent={handleJoinEvent}
                 formatDate={formatDate}
