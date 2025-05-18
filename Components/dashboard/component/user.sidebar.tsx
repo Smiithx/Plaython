@@ -8,13 +8,13 @@ export function UserSidebar() {
   return (
     <div className="p-4 border-t border-[#2D2D2D]">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-[#107C10] flex items-center justify-center text-white">
+        <div className="w-10 h-10 rounded-full bg-[#9146FF] flex items-center justify-center text-white">
           <span className="font-bold">{TwoName(user?.firstName)}</span>
         </div>
         <div>
           <p className="font-medium text-white">{user?.fullName}</p>
           <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-green-500"></div>
+            <div className="w-2 h-2 rounded-full bg-purple-500"></div>
             <p className="text-xs text-gray-400">Nivel 42 • 12,345 XP</p>
           </div>
         </div>
@@ -32,7 +32,7 @@ export function UserContent() {
       </h1>
       <p className="text-gray-400">
         Bienvenid@ de nuevo,
-        <span className="text-[#107C10]"> {user?.firstName}</span>. Aquí tienes
+        <span className="text-[#9146FF]"> {user?.firstName}</span>. Aquí tienes
         tu resumen.
       </p>
     </div>

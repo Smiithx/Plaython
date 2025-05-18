@@ -27,7 +27,7 @@ export default function DashboardPage() {
         </div>
         <CustomStats point={8} title="Participaciones en Eventos" icon="" />
 
-        <Card className="bg-[#1E1E1E]/60 border-[#2D2D2D] shadow-[0_4px_15px_rgba(0,0,0,0.5)] backdrop-blur-md">
+        {/* <Card className="bg-[#1E1E1E]/60 border-[#2D2D2D] shadow-[0_4px_15px_rgba(0,0,0,0.5)] backdrop-blur-md">
           <CardHeader>
             <CardTitle className="font-bold flex items-center">
               <Trophy className="text-[#107C10] mr-2 h-5 w-5" />
@@ -50,7 +50,7 @@ export default function DashboardPage() {
               ]}
             />
           </CardHeader>
-        </Card>
+        </Card> */}
       </main>
     </div>
   );

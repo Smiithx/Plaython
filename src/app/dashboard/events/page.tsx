@@ -37,13 +37,13 @@ export default function PageEvents() {
         </div>
 
         <Tabs defaultValue="upcoming" className="w-full p-2">
-          <TabsList className="bg-[#567344]/60 border space-x-2 border-[#2D2D2D] grid grid-cols-3 w-full max-w-md">
-            <TabsTrigger
+          <TabsList className="bg-[#567344]/60 border space-x-2 border-[#2D2D2D] grid grid-cols-2 w-full max-w-md">
+            {/* <TabsTrigger
               value="upcoming"
               className="data-[state=active]:bg-[#107C10] data-[state=active]:text-black hover:bg-[#0B5D0B]/30"
             >
               Próximos
-            </TabsTrigger>
+            </TabsTrigger> */}
             <TabsTrigger
               value="registered"
               className="data-[state=active]:bg-[#107C10] data-[state=active]:text-black hover:bg-[#0B5D0B]/30"

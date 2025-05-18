@@ -59,13 +59,13 @@ export default function ChallengeDetailClient({
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
-      <ChallengeHeader 
-        eventData={eventData} 
-        formatDate={formatDate} 
-        calculateDuration={calculateDuration} 
+      <ChallengeHeader
+        eventData={eventData}
+        formatDate={formatDate}
+        calculateDuration={calculateDuration}
       />
       <StarField />
-      
+
       {/* Main content */}
       <div className="relative container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
@@ -131,7 +131,7 @@ export default function ChallengeDetailClient({
               <SignedOutSidebar eventData={eventData} />
             </SignedOut>
             <SignedIn>
-              <SignedInSidebar 
+              <SignedInSidebar
                 eventData={eventData}
                 isJoined={isJoined}
                 handleJoinEvent={handleJoinEvent}
