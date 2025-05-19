@@ -13,6 +13,8 @@ interface RawChallenge {
     start_date: string;
     end_date: string | null;
     challenge_tags?: Array<{ tags: { name: string } }>;
+    created_at: string;
+    updated_at: string;
 }
 
 /**
@@ -32,6 +34,8 @@ function mapRawToChallenge(c: RawChallenge): Challenge {
         endDate:       c.end_date ?? undefined,
         tags:          c.challenge_tags?.map((ct: any) => ct.tags.name) ?? [],
         organizer:     "Plaython",
+        createdAt:    c.created_at,
+        updatedAt:    c.updated_at,
     };
 }
 

@@ -7,6 +7,8 @@ function mapRawToDifficulty(r: any): Difficulty {
         id:        r.id,
         label:     r.label,
         sortOrder: r.sort_order,
+        createdAt: r.created_at,
+        updatedAt: r.updated_at,
     };
 }
 
