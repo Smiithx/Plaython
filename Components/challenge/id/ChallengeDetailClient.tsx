@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Challenge } from "@/types";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/ui/tabs";
 import StarField from "@/ui/animations/star-footer";
@@ -14,6 +14,13 @@ import { SignedOutSidebar } from "@/challenge/id/components/SignedOutSidebar";
 import { SignedInSidebar } from "@/challenge/id/components/SignedInSidebar";
 import { ChallengeHeader } from "@/challenge/id/components/ChallengeHeader";
 
+// Import server actions
+import {
+  registerForChallenge,
+  unregisterFromChallenge,
+  checkRegistrationStatus
+} from "@/lib/actions/challenge-registration";
+
 interface ChallengeDetailClientProps {
   eventData: Challenge;
 }
@@ -25,9 +32,28 @@ export default function ChallengeDetailClient({
     "info" | "participants" | "schedule" | "discussion"
   >("info");
   const [isJoined, setIsJoined] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [groupId, setGroupId] = useState<string | null>(null);
 
   const startDate = new Date(eventData.startDate!);
   const endDate = new Date(eventData.endDate!);
+
+  // Check registration status on component mount
+  useEffect(() => {
+    async function checkStatus() {
+      try {
+        const status = await checkRegistrationStatus(eventData.id);
+        setIsJoined(status.isRegistered);
+        setGroupId(status.groupId);
+      } catch (err) {
+        console.error("Error checking registration status:", err);
+        setError("Failed to check registration status");
+      }
+    }
+
+    checkStatus();
+  }, [eventData.id]);
 
   const formatDate = (date: Date): string => {
     if (isNaN(date.getTime())) {
@@ -55,7 +81,39 @@ export default function ChallengeDetailClient({
     return `${diffHours} horas`;
   };
 
-  const handleJoinEvent = () => setIsJoined((prev) => !prev);
+  const handleJoinEvent = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      if (isJoined) {
+        // Unregister from the challenge
+        const result = await unregisterFromChallenge(eventData.id);
+        if (result.success) {
+          setIsJoined(false);
+          setGroupId(null);
+        } else {
+          setError(result.message);
+        }
+      } else {
+        // Register for the challenge
+        const result = await registerForChallenge(eventData.id);
+        if (result.success) {
+          setIsJoined(true);
+          // Check if a group was assigned
+          const status = await checkRegistrationStatus(eventData.id);
+          setGroupId(status.groupId);
+        } else {
+          setError(result.message);
+        }
+      }
+    } catch (err) {
+      console.error("Error handling event registration:", err);
+      setError("An error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
@@ -138,6 +196,9 @@ export default function ChallengeDetailClient({
               <SignedInSidebar
                 eventData={eventData}
                 isJoined={isJoined}
+                isLoading={isLoading}
+                error={error}
+                groupId={groupId}
                 handleJoinEvent={handleJoinEvent}
                 formatDate={formatDate}
                 formatTime={formatTime}
