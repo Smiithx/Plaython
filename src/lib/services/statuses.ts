@@ -1,4 +1,4 @@
-import { supabase } from "../supabaseClient";
+import {createServerSupabaseClient} from "../supabaseClient";
 import { Status } from "@/types";
 
 function mapRawToStatus(r: any): Status {
@@ -10,6 +10,7 @@ function mapRawToStatus(r: any): Status {
 }
 
 export async function getAllStatuses(): Promise<Status[]> {
+    const supabase = createServerSupabaseClient();
     const { data, error } = await supabase
         .from("challenge_statuses")
         .select("*")

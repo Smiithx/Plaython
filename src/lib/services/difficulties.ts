@@ -1,4 +1,4 @@
-import { supabase } from "../supabaseClient";
+import { createServerSupabaseClient } from "../supabaseClient";
 import {Difficulty} from "@/types";
 
 // 2) Función pura de mapeo
@@ -11,6 +11,7 @@ function mapRawToDifficulty(r: any): Difficulty {
 }
 
 export async function getAllDifficulties(): Promise<Difficulty[]> {
+    const supabase = createServerSupabaseClient();
     const { data, error } = await supabase
         .from("challenge_difficulties")
         .select("*")

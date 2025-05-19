@@ -1,4 +1,4 @@
-import {supabase} from "../supabaseClient";
+import { createServerSupabaseClient } from "../supabaseClient";
 import { Challenge } from "@/types";
 
 interface RawChallenge {
@@ -46,6 +46,7 @@ const DEFAULT_SELECT = `
 `;
 
 export async function getAllChallenges(): Promise<Challenge[]> {
+    const supabase = createServerSupabaseClient();
     const {data, error} = await supabase
         .from("challenges")
         .select(DEFAULT_SELECT)
@@ -57,6 +58,7 @@ export async function getAllChallenges(): Promise<Challenge[]> {
 }
 
 export async function getChallengeById(id: string): Promise<Challenge> {
+    const supabase = createServerSupabaseClient();
     const {data, error} = await supabase
         .from("challenges")
         .select(DEFAULT_SELECT)
@@ -68,6 +70,7 @@ export async function getChallengeById(id: string): Promise<Challenge> {
 }
 
 export async function createChallenge(input: Omit<Challenge, "id">) {
+    const supabase = createServerSupabaseClient();
     const {data, error} = await supabase
         .from("challenges")
         .insert(input)

@@ -1,4 +1,4 @@
-import { supabase } from "../supabaseClient";
+import {createServerSupabaseClient} from "../supabaseClient";
 import { Tag } from "@/types";
 
 // Función pura de mapeo
@@ -10,6 +10,7 @@ function mapRawToTag(r: any): Tag {
 }
 
 export async function getAllTags(): Promise<Tag[]> {
+    const supabase = createServerSupabaseClient();
     const { data, error } = await supabase
         .from("tags")
         .select("*")

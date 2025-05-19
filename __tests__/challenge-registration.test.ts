@@ -1,4 +1,4 @@
-import { registerForChallenge, checkRegistrationStatus, unregisterFromChallenge } from '@/lib/actions/challenge-registration';
+import { registerForChallenge, checkRegistrationStatus, unregisterFromChallenge, getCurrentUserId } from '@/lib/actions/challenge-registration';
 import { auth } from '@clerk/nextjs/server';
 
 // Mock the auth module
@@ -182,6 +182,26 @@ describe('Challenge Registration Actions', () => {
       expect(result.success).toBe(true);
       expect(result.message).toContain('Successfully unregistered');
       expect(result.isRegistered).toBe(false);
+    });
+  });
+
+  describe('getCurrentUserId', () => {
+    it('should return the user ID when authenticated', () => {
+      // Mock auth to return a user ID
+      jest.mocked(auth).mockReturnValue({ userId: mockUserId } as any);
+
+      const result = getCurrentUserId();
+
+      expect(result).toBe(mockUserId);
+    });
+
+    it('should return null when not authenticated', () => {
+      // Mock auth to return no user
+      jest.mocked(auth).mockReturnValue({ userId: null } as any);
+
+      const result = getCurrentUserId();
+
+      expect(result).toBeNull();
     });
   });
 });
