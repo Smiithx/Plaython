@@ -1,4 +1,3 @@
-// src/app/dashboard/events/EventsPageClient.tsx
 "use client";
 
 import {useState} from "react";
@@ -11,144 +10,115 @@ import {
     TabsTrigger,
 } from "@/ui/tabs";
 import {Button} from "@/ui/button";
-import {EventCard} from "@/events/eventCard";
+import {EventCard, EventCardData} from "@/events/eventCard";
 import {EventHeader} from "@/events/event.header";
-import {Challenge, Difficulty, Status, Tag} from "@/types";
+import {Challenge} from "@/types";
+import {Loader2} from "lucide-react";
 
-interface Props {
-    challenges: Challenge[];
+// Conversión de Challenge → EventCardData
+function toEventCardData(ch: Challenge): EventCardData {
+    // Formatea rango de fechas
+    const start = new Date(ch.startDate).toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+    });
+    const date = ch.endDate
+        ? `${start} – ${new Date(ch.endDate).toLocaleDateString("es-ES", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+        })}`
+        : start;
+
+    return {
+        id: ch.id,
+        title: ch.title,
+        organizer: ch.organizer,
+        date,
+        location: ch.location ?? "Remoto",
+        participants: ch.teamSize,
+        prize: "$10,000", // ch.prize
+        tags: ch.tags,
+        featured: ch.status == "ongoing",
+        status: ch.status,    // "ongoing"|"next"|"finished"
+        result: "",
+    };
 }
 
-export default function EventsPageClient({challenges}: Props) {
+interface Props {
+    current: Challenge[];
+    upcoming: Challenge[];
+    past: Challenge[];
+}
+
+export default function EventsPageClient({
+                                             current,
+                                             upcoming,
+                                             past,
+                                         }: Props) {
     const [filter, setFilter] = useState("all");
 
     return (
         <div className="flex-1 h-screen flex flex-col relative z-10">
-            {/* header fijo */}
+            {/* Header */}
             <div
                 className="px-4 py-3 sticky top-0 z-10 bg-[#121212] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <EventHeader/>
-                <Button
-                    className="relative overflow-hidden group bg-[#107C10] hover:bg-[#0B5D0B] shadow-[0_0_15px_rgba(16,124,16,0.3)]">
-                    <span
-                        className="absolute inset-0 w-full h-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                    Ver Todos los Eventos
-                </Button>
+                <Button className="…">Ver Todos los Eventos</Button>
             </div>
 
             <main className="flex-1 overflow-auto py-6 px-4 md:px-6 space-y-6">
+                {/* Búsqueda y filtros */}
                 <div className="flex flex-col md:flex-row gap-4">
                     <SearchInput placeholder="Buscar eventos..."/>
-                    <Button
-                        variant="outline"
-                        className="border-[#2D2D2D] hover:bg-[#0B5D0B]/30 hover:border-[#107C10]/50"
-                    >
+                    <Button variant="outline" className="…">
                         <Filter className="h-4 w-4 mr-2"/>
                         Filtros
                     </Button>
                 </div>
 
-                <Tabs defaultValue="upcoming" className="w-full p-2">
-                    <TabsList
-                        className="bg-[#567344]/60 border space-x-2 border-[#2D2D2D] grid grid-cols-2 w-full max-w-md">
-                        <TabsTrigger
-                            value="registered"
-                            className="data-[state=active]:bg-[#107C10] data-[state=active]:text-black hover:bg-[#0B5D0B]/30"
-                        >
-                            Registrados
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value="past"
-                            className="data-[state=active]:bg-[#107C10] data-[state=active]:text-black hover:bg-[#0B5D0B]/30"
-                        >
-                            Pasados
-                        </TabsTrigger>
+                {/* Pestañas */}
+                <Tabs defaultValue="current" className="w-full p-2">
+                    <TabsList className="grid grid-cols-3 …">
+                        <TabsTrigger value="current">Registrados</TabsTrigger>
+                        <TabsTrigger value="upcoming">Próximos</TabsTrigger>
+                        <TabsTrigger value="past">Pasados</TabsTrigger>
                     </TabsList>
 
+                    {/** En curso */}
+                    <TabsContent value="current" className="mt-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {current.map((c) => (
+                                <EventCard
+                                    key={c.id}
+                                    event={toEventCardData(c)}
+                                />
+                            ))}
+                        </div>
+                    </TabsContent>
+
+                    {/** Próximos */}
                     <TabsContent value="upcoming" className="mt-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <EventCard
-                                title="AI & Machine Learning Hackathon"
-                                organizer="TechCorp"
-                                date="15-17 Junio, 2023"
-                                location="Online"
-                                participants={123}
-                                prize="$10,000"
-                                tags={["Python", "Machine Learning", "TensorFlow"]}
-                                featured={true}
-                            />
-                            <EventCard
-                                title="Blockchain Revolution"
-                                organizer="CryptoVentures"
-                                date="8-10 Julio, 2023"
-                                location="Madrid, España"
-                                participants={86}
-                                prize="$8,000"
-                                tags={["Blockchain", "Smart Contracts", "Web3"]}
-                            />
-                            <EventCard
-                                title="Frontend Challenge"
-                                organizer="UXPros"
-                                date="12 Julio, 2023"
-                                location="Valencia, España"
-                                participants={110}
-                                prize="$5,000"
-                                tags={["React", "UX/UI", "JavaScript"]}
-                            />
-                            <EventCard
-                                title="HealthTech Solutions"
-                                organizer="MediTech"
-                                date="22-24 Julio, 2023"
-                                location="Barcelona, España"
-                                participants={72}
-                                prize="$7,500"
-                                tags={["Salud", "IoT", "Mobile"]}
-                            />
+                            {upcoming.map((c) => (
+                                <EventCard
+                                    key={c.id}
+                                    event={toEventCardData(c)}
+                                />
+                            ))}
                         </div>
                     </TabsContent>
 
-                    <TabsContent value="registered">
+                    {/** Pasados */}
+                    <TabsContent value="past" className="mt-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <EventCard
-                                title="AI & Machine Learning Hackathon"
-                                organizer="TechCorp"
-                                date="15-17 Junio, 2023"
-                                location="Online"
-                                participants={123}
-                                prize="$10,000"
-                                tags={["Python", "Machine Learning", "TensorFlow"]}
-                                featured={true}
-                                status="registered"
-                            />
-                        </div>
-                    </TabsContent>
-
-                    <TabsContent value="past">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {past.map((c) => (
                                 <EventCard
-                                    title="Full-Stack Development"
-                                    organizer="WebMasters"
-                                    date="5-7 Mayo, 2023"
-                                    location="Online"
-                                    participants={145}
-                                    prize="$6,000"
-                                    tags={["JavaScript", "Node.js", "React"]}
-                                    status="completed"
-                                    result="2nd Place"
+                                    key={c.id}
+                                    event={toEventCardData(c)}
                                 />
-                                <EventCard
-                                    title="Mobile App Innovation"
-                                    organizer="AppGenius"
-                                    date="15-17 Abril, 2023"
-                                    location="Madrid, España"
-                                    participants={98}
-                                    prize="$5,000"
-                                    tags={["Flutter", "React Native", "Mobile"]}
-                                    status="completed"
-                                    result="Participated"
-                                />
-                            </div>
+                            ))}
                         </div>
                     </TabsContent>
                 </Tabs>

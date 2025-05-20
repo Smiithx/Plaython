@@ -40,7 +40,6 @@ async function seedTags() {
     console.log("✅ Tags seeded");
 }
 
-
 async function main() {
     console.log("🌱 Seeding database...");
     await seedDifficulties();
