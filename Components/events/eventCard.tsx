@@ -12,7 +12,7 @@ interface EventCardProps {
   prize: string;
   tags: string[];
   featured?: boolean;
-  status?: "upcoming" | "registered" | "completed";
+  status?: "registered" | "completed";
   result?: string;
 }
 
@@ -25,26 +25,26 @@ export function EventCard({
   prize,
   tags,
   featured = false,
-  status = "upcoming",
+  status = "registered",
   result,
 }: EventCardProps) {
   return (
     <Card
       className={
         featured
-          ? "bg-gradient-to-r from-[#0B5D0B]/70 to-[#041F04]/70 border border-[#107C10]/30 shadow-[0_4px_15px_rgba(0,0,0,0.5)] backdrop-blur-md relative overflow-hidden group"
-          : "bg-[#1E1E1E]/60 border-[#2D2D2D] shadow-[0_4px_15px_rgba(0,0,0,0.5)] backdrop-blur-md relative overflow-hidden group"
+          ? "bg-gradient-to-r from-purple-600 to-indigo-600 border border-indigo-600 shadow-[0_4px_15px_rgba(0,0,0,0.5)] backdrop-blur-md relative overflow-hidden group"
+          : "bg-gradient-to-r from-blue-700 to-indigo-500 border-indigo-500 shadow-[0_4px_15px_rgba(0,0,0,0.5)] backdrop-blur-md relative overflow-hidden group"
       }
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-[#107C10]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-[#9458ec]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <div>
             <CardTitle className="text-lg font-bold">{title}</CardTitle>
-            <p className="text-gray-400 text-sm">{organizer}</p>
+            <p className="text-gray-300 text-sm">{organizer}</p>
           </div>
           {status === "registered" && (
-            <Badge className="bg-[#107C10]">Registrado</Badge>
+            <Badge className="bg-[#ff00ff]">Registrado</Badge>
           )}
           {status === "completed" && result && (
             <Badge
@@ -57,22 +57,22 @@ export function EventCard({
           )}
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex flex-col gap-2">
+      <CardContent className="space-y-4 ">
+        <div className="flex flex-col gap-2 text-gray-100">
           <div className="flex items-center text-sm">
-            <Calendar className="h-4 w-4 mr-2 text-[#107C10]" />
+            <Calendar className="h-4 w-4 mr-2 text-white/50" />
             <span>{date}</span>
           </div>
           <div className="flex items-center text-sm">
-            <MapPin className="h-4 w-4 mr-2 text-[#107C10]" />
+            <MapPin className="h-4 w-4 mr-2 text-white/50" />
             <span>{location}</span>
           </div>
           <div className="flex items-center text-sm">
-            <Users className="h-4 w-4 mr-2 text-[#107C10]" />
+            <Users className="h-4 w-4 mr-2 text-white/50" />
             <span>{participants} participantes</span>
           </div>
           <div className="flex items-center text-sm">
-            <Award className="h-4 w-4 mr-2 text-[#107C10]" />
+            <Award className="h-4 w-4 mr-2 text-white/50" />
             <span>Premio: {prize}</span>
           </div>
         </div>
@@ -81,7 +81,7 @@ export function EventCard({
           {tags.map((tag, i) => (
             <span
               key={i}
-              className="px-2 py-1 rounded-full text-xs bg-[#0B5D0B]/70 border border-[#107C10]/30"
+              className="text-black px-2 py-1 z-10 rounded-full text-xs bg-white border border-[#ffffff]"
             >
               {tag}
             </span>
@@ -89,29 +89,23 @@ export function EventCard({
         </div>
 
         <div className="flex items-center justify-between pt-2">
-          <span className="text-sm text-gray-400">
-            {status === "upcoming"
-              ? "Inscripciones abiertas"
-              : status === "registered"
+          <span className="text-sm text-white font-medium">
+            {status === "registered"
               ? "Prepárate para participar"
               : "Evento finalizado"}
           </span>
           <Button
-            variant={status === "completed" ? "outline" : "default"}
+            // variant={status === "completed" ? "outline" : "default"}
             className={
               status === "completed"
-                ? "border-[#107C10]/30 hover:bg-[#0B5D0B]/30 hover:border-[#107C10]/50 text-[#107C10] hover:text-white"
-                : "relative overflow-hidden group bg-[#107C10] hover:bg-[#0B5D0B] shadow-[0_0_15px_rgba(16,124,16,0.3)]"
+                ? "bg-white text-purple-600 border-[#9146fe]/30 hover:bg-[#9458ec]/30 hover:border-[#9146fe]/50 hover:text-white"
+                : "relative overflow-hidden group bg-black text-white hover:bg-[#9458ec] shadow-[0_0_15px_rgba(16,124,16,0.3)]"
             }
           >
-            {status !== "completed" && (
-              <span className="absolute inset-0 w-full h-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-            )}
-            {status === "upcoming"
-              ? "Inscribirme"
-              : status === "registered"
-              ? "Ver detalles"
-              : "Ver resultados"}
+            {/* {status !== "completed" && (
+              <span className="absolute inset-0 w-full h-full bg-blue-600/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+            )} */}
+            {status === "registered" ? "Ver detalles" : "Ver resultados"}
           </Button>
         </div>
       </CardContent>

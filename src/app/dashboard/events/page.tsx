@@ -11,6 +11,7 @@ import {
 import { Button } from "../../../../Components/ui/button";
 import { EventCard } from "../../../../Components/events/eventCard";
 import { EventHeader } from "../../../../Components/events/event.header";
+import Link from "next/link";
 export default function PageEvents() {
   const [filter, setFilter] = useState("all");
   return (
@@ -18,10 +19,13 @@ export default function PageEvents() {
       {/* header fijo */}
       <div className="px-4 py-3 sticky top-0 z-10 bg-[#121212] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <EventHeader />
-        <Button className="relative overflow-hidden group bg-[#107C10] hover:bg-[#0B5D0B] shadow-[0_0_15px_rgba(16,124,16,0.3)]">
+        <Link
+          href="/challenges"
+          className="relative px-3 py-2 rounded overflow-hidden group bg-[#9146FF] hover:bg-[#9146FE] shadow-[0_0_15px_rgba(145,70,254,0.3)]"
+        >
           <span className="absolute inset-0 w-full h-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
           Ver Todos los Eventos
-        </Button>
+        </Link>
       </div>
 
       <main className="flex-1 overflow-auto py-6 px-4 md:px-6 space-y-6">
@@ -29,14 +33,14 @@ export default function PageEvents() {
           <SearchInput placeholder="Buscar eventos..." />
           <Button
             variant="outline"
-            className="border-[#2D2D2D] hover:bg-[#0B5D0B]/30 hover:border-[#107C10]/50"
+            className="text-black border-[#9146FD] hover:bg-[#9146FE] hover:border-[#9146FE]/50"
           >
             <Filter className="h-4 w-4 mr-2" />
             Filtros
           </Button>
         </div>
 
-        <Tabs defaultValue="upcoming" className="w-full p-2">
+        <Tabs defaultValue="registered" className="w-full p-2">
           <TabsList className="bg-[#567344]/60 border space-x-2 border-[#2D2D2D] grid grid-cols-2 w-full max-w-md">
             {/* <TabsTrigger
               value="upcoming"
@@ -46,19 +50,19 @@ export default function PageEvents() {
             </TabsTrigger> */}
             <TabsTrigger
               value="registered"
-              className="data-[state=active]:bg-[#107C10] data-[state=active]:text-black hover:bg-[#0B5D0B]/30"
+              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white rounded-md"
             >
               Registrados
             </TabsTrigger>
             <TabsTrigger
               value="past"
-              className="data-[state=active]:bg-[#107C10] data-[state=active]:text-black hover:bg-[#0B5D0B]/30"
+              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white rounded-md"
             >
               Pasados
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="upcoming" className="mt-6">
+          {/* <TabsContent value="upcoming" className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <EventCard
                 title="AI & Machine Learning Hackathon"
@@ -98,7 +102,7 @@ export default function PageEvents() {
                 tags={["Salud", "IoT", "Mobile"]}
               />
             </div>
-          </TabsContent>
+          </TabsContent> */}
 
           <TabsContent value="registered">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

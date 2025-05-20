@@ -184,20 +184,17 @@ export function SignedInSidebar({
             </div>
           </div>
 
-          <div className="flex justify-between items-center pb-3 border-b border-gray-800">
+          <div className="flex justify-between items-center pb-3">
             <span className="text-gray-400">Dificultad</span>
             <span className="font-medium text-white">
-              {difficulty_en[eventData.difficulty as keyof typeof difficulty_en] ?? ""}
+              {difficulty_en[
+                eventData.difficulty as keyof typeof difficulty_en
+              ] ?? ""}
             </span>
-          </div>
-
-          <div className="flex justify-between items-center">
-            <span className="text-gray-400">Valoración</span>
-            <div className="flex items-center"></div>
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-gray-800">
+        {/* <div className="mt-6 pt-6 border-t border-gray-800">
           <h3 className="text-lg font-semibold mb-4 text-white">
             Comparte este evento
           </h3>
@@ -292,7 +289,7 @@ export function SignedInSidebar({
               Más
             </Button>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
