@@ -15,7 +15,6 @@ export function InfoTab({ eventData, isJoined }: InfoTabProps) {
           Descripción del Evento
         </h2>
         <p className="text-gray-300 mb-4">{eventData.description}</p>
-        <p className="text-gray-300">{eventData.description}</p>
         {/* <p className="text-gray-300">
           {eventData.longDescription}
         </p> */}

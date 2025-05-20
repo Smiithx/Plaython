@@ -1,17 +1,46 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, useCallback } from "react";
+import dynamic from "next/dynamic";
 import { Challenge } from "@/types";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/ui/tabs";
 import StarField from "@/ui/animations/star-footer";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { Loader2 } from "lucide-react";
 
-// Import components
-import { InfoTab } from "@/challenge/id/components/InfoTab";
-import { ParticipantsTab } from "@/challenge/id/components/ParticipantsTab";
-import { ScheduleTab } from "@/challenge/id/components/ScheduleTab";
-import { DiscussionTab } from "@/challenge/id/components/DiscussionTab";
-import { SignedOutSidebar } from "@/challenge/id/components/SignedOutSidebar";
-import { SignedInSidebar } from "@/challenge/id/components/SignedInSidebar";
+// Fallback components for Suspense
+const TabContentFallback = ({ message }: { message: string }) => (
+  <div className="flex justify-center items-center py-12">
+    <Loader2 className="w-8 h-8 text-blue-500 animate-spin mr-3" />
+    <span className="text-gray-300">{message}</span>
+  </div>
+);
+
+// Dynamically import components with lazy loading
+const InfoTab = dynamic(() => import("@/challenge/id/components/InfoTab").then(mod => ({ default: mod.InfoTab })), {
+  ssr: true
+});
+
+const ParticipantsTab = dynamic(() => import("@/challenge/id/components/ParticipantsTab").then(mod => ({ default: mod.ParticipantsTab })), {
+  ssr: true
+});
+
+const ScheduleTab = dynamic(() => import("@/challenge/id/components/ScheduleTab").then(mod => ({ default: mod.ScheduleTab })), {
+  ssr: true
+});
+
+const DiscussionTab = dynamic(() => import("@/challenge/id/components/DiscussionTab").then(mod => ({ default: mod.DiscussionTab })), {
+  ssr: true
+});
+
+const SignedOutSidebar = dynamic(() => import("@/challenge/id/components/SignedOutSidebar").then(mod => ({ default: mod.SignedOutSidebar })), {
+  ssr: true
+});
+
+const SignedInSidebar = dynamic(() => import("@/challenge/id/components/SignedInSidebar").then(mod => ({ default: mod.SignedInSidebar })), {
+  ssr: true
+});
+
+// Keep ChallengeHeader non-lazy as it's immediately visible
 import { ChallengeHeader } from "@/challenge/id/components/ChallengeHeader";
 
 // Import server actions
@@ -39,9 +68,12 @@ export default function ChallengeDetailClient({
   const startDate = new Date(eventData.startDate!);
   const endDate = new Date(eventData.endDate!);
 
-  // Check registration status on component mount
+  // Fetch registration status on component mount
   useEffect(() => {
     async function checkStatus() {
+      setIsLoading(true);
+      setError(null);
+
       try {
         const status = await checkRegistrationStatus(eventData.id);
         setIsJoined(status.isRegistered);
@@ -49,13 +81,15 @@ export default function ChallengeDetailClient({
       } catch (err) {
         console.error("Error checking registration status:", err);
         setError("Failed to check registration status");
+      } finally {
+        setIsLoading(false);
       }
     }
 
     checkStatus();
   }, [eventData.id]);
 
-  const formatDate = (date: Date): string => {
+  const formatDate = useCallback((date: Date): string => {
     if (isNaN(date.getTime())) {
       throw new Error("Fecha inválida");
     }
@@ -65,12 +99,13 @@ export default function ChallengeDetailClient({
       month: "long",
       year: "numeric",
     });
-  };
+  }, []);
 
-  const formatTime = (date: Date): string =>
-    date.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+  const formatTime = useCallback((date: Date): string =>
+    date.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" }),
+  []);
 
-  const calculateDuration = (): string => {
+  const calculateDuration = useCallback((): string => {
     const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const diffHours = Math.ceil(diffTime / (1000 * 60 * 60)) % 24;
@@ -79,9 +114,9 @@ export default function ChallengeDetailClient({
       return `${diffDays} días y ${diffHours} horas`;
     if (diffDays > 0) return `${diffDays} días`;
     return `${diffHours} horas`;
-  };
+  }, [startDate, endDate]);
 
-  const handleJoinEvent = async () => {
+  const handleJoinEvent = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
@@ -113,7 +148,7 @@ export default function ChallengeDetailClient({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [eventData.id, isJoined, setIsLoading, setError, setIsJoined, setGroupId]);
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
@@ -178,19 +213,27 @@ export default function ChallengeDetailClient({
                 </div>
 
                 <TabsContent value="info" className="p-6">
-                  <InfoTab eventData={eventData} isJoined={isJoined} />
+                  <Suspense fallback={<TabContentFallback message="Cargando información..." />}>
+                    <InfoTab eventData={eventData} isJoined={isJoined} />
+                  </Suspense>
                 </TabsContent>
 
                 <TabsContent value="participants" className="p-6">
-                  <ParticipantsTab eventData={eventData} groupId={groupId} />
+                  <Suspense fallback={<TabContentFallback message="Cargando participantes..." />}>
+                    <ParticipantsTab eventData={eventData} groupId={groupId} />
+                  </Suspense>
                 </TabsContent>
 
                 <TabsContent value="schedule" className="p-6">
-                  <ScheduleTab eventData={eventData} />
+                  <Suspense fallback={<TabContentFallback message="Cargando agenda..." />}>
+                    <ScheduleTab eventData={eventData} />
+                  </Suspense>
                 </TabsContent>
 
                 <TabsContent value="discussion" className="p-6">
-                  <DiscussionTab eventData={eventData} />
+                  <Suspense fallback={<TabContentFallback message="Cargando discusión..." />}>
+                    <DiscussionTab eventData={eventData} />
+                  </Suspense>
                 </TabsContent>
               </Tabs>
             </div>
@@ -199,21 +242,25 @@ export default function ChallengeDetailClient({
           {/* Sidebar */}
           <div className="lg:w-1/3">
             <SignedOut>
-              <SignedOutSidebar eventData={eventData} />
+              <Suspense fallback={<TabContentFallback message="Cargando..." />}>
+                <SignedOutSidebar eventData={eventData} />
+              </Suspense>
             </SignedOut>
             <SignedIn>
-              <SignedInSidebar
-                eventData={eventData}
-                setIsJoined={setIsJoined}
-                isJoined={isJoined}
-                isLoading={isLoading}
-                error={error}
-                groupId={groupId}
-                handleJoinEvent={handleJoinEvent}
-                formatDate={formatDate}
-                formatTime={formatTime}
-                calculateDuration={calculateDuration}
-              />
+              <Suspense fallback={<TabContentFallback message="Cargando..." />}>
+                <SignedInSidebar
+                  eventData={eventData}
+                  setIsJoined={setIsJoined}
+                  isJoined={isJoined}
+                  isLoading={isLoading}
+                  error={error}
+                  groupId={groupId}
+                  handleJoinEvent={handleJoinEvent}
+                  formatDate={formatDate}
+                  formatTime={formatTime}
+                  calculateDuration={calculateDuration}
+                />
+              </Suspense>
             </SignedIn>
           </div>
         </div>

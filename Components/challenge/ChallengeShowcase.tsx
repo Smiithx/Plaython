@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import ChallengeCard from "./ChallengeCard";
+import {ChallengeCard} from "./ChallengeCard";
 import ParticleEffect from "../ui/animations/paticle-events";
 import { Challenge, Tag, Difficulty, Status } from "@/types";
 

@@ -91,6 +91,17 @@ pnpm seed
 pnpm seed:challenges
 ```
 
+### Database Migrations
+- When you need to modify the Supabase schema (tables, columns, RLS policies, etc.), **always** add your SQL changes to `scripts/migrate.js`.
+- **Always** include `created_at` and `updated_at` columns on **every** new table, with `NOT NULL DEFAULT now()`.
+- To apply migrations, run:
+```bash
+  node scripts/migrate.js
+  # or
+  pnpm migrate
+  ```
+- Include clear comments in `scripts/migrate.js` explaining each change and commit the updated file together with your code changes.
+
 ## Testing
 
 The project uses Jest and React Testing Library for testing.

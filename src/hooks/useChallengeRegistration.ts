@@ -13,17 +13,28 @@ export function useChallengeRegistration(challengeId: string) {
 
     useEffect(() => {
         const controller = new AbortController();
+
         (async () => {
+            setIsLoading(true);
+            setError(null);
+
             try {
                 const status = await checkRegistrationStatus(challengeId);
-                setIsJoined(status.isRegistered);
-                setGroupId(status.groupId);
+                if (!controller.signal.aborted) {
+                    setIsJoined(status.isRegistered);
+                    setGroupId(status.groupId);
+                }
             } catch (err) {
                 if (!controller.signal.aborted) {
                     setError("No se pudo obtener el estado de inscripción");
                 }
+            } finally {
+                if (!controller.signal.aborted) {
+                    setIsLoading(false);
+                }
             }
         })();
+
         return () => { controller.abort() };
     }, [challengeId]);
 
