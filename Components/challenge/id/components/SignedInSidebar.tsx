@@ -62,8 +62,8 @@ export function SignedInSidebar({
 
   const difficulty_en = {
     easy: "Facil",
-    half: "Medio",
-    dificil: "difficult",
+    mid: "Medio",
+    hard: "Dificil",
     expert: "Experto",
   };
 
@@ -187,7 +187,7 @@ export function SignedInSidebar({
           <div className="flex justify-between items-center pb-3 border-b border-gray-800">
             <span className="text-gray-400">Dificultad</span>
             <span className="font-medium text-white">
-              {difficulty_en[eventData.difficulty]}
+              {difficulty_en[eventData.difficulty as keyof typeof difficulty_en] ?? ""}
             </span>
           </div>
 
