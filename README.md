@@ -2,6 +2,12 @@
 
 Plaython is a matchmaking platform for programming challenges and events. It connects professionals from different specialties, forms balanced teams, and coordinates activities. Its intelligent algorithm optimizes role assignment and task planning, ensuring successful collaborations in hackathons and codeathons.
 
+## Demo
+
+Visit the live demo at: [https://plaython.vercel.app/](https://plaython.vercel.app/)
+
+[Dashboard Screenshot](public/welcome.png)
+
 ## Project Overview
 
 Plaython is built with:
@@ -145,6 +151,19 @@ The application uses a comprehensive error handling strategy with:
 - User-friendly error messages and fallback UIs
 
 See `docs/error-handling.md` for more details.
+
+### Authentication with Clerk
+
+Plaython uses Clerk for authentication and user management:
+
+- **User Authentication**: Users sign up or log in through Clerk's authentication UI components
+- **JWT Tokens**: Clerk provides JWT tokens that are used to authenticate requests to Supabase
+- **User Identification**: The application uses Clerk's user ID to identify users in the Supabase database
+- **Middleware Protection**: Routes are protected using Clerk middleware
+- **User Context**: A custom user context integrates with Clerk's `useUser()` hook to provide user data throughout the application
+- **Internationalization**: Clerk is configured with localization support for multiple languages
+
+The integration between Clerk and Supabase ensures secure authentication while leveraging Supabase's database capabilities.
 
 ## Contributing
 
