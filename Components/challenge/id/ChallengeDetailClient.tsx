@@ -182,7 +182,7 @@ export default function ChallengeDetailClient({
                 </TabsContent>
 
                 <TabsContent value="participants" className="p-6">
-                  <ParticipantsTab eventData={eventData} />
+                  <ParticipantsTab eventData={eventData} groupId={groupId} />
                 </TabsContent>
 
                 <TabsContent value="schedule" className="p-6">

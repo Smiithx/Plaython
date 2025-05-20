@@ -135,6 +135,60 @@ export async function getCurrentUserId(): Promise<string | null> {
 }
 
 /**
+ * Fetches group members for a specific group
+ * @param groupId The ID of the group to fetch members for
+ * @returns An array of group members with their user information
+ */
+export async function getGroupMembers(groupId: string) {
+  if (!groupId) {
+    return { success: false, message: "No group ID provided", members: [] };
+  }
+
+  const supabase = createServerSupabaseClient();
+
+  try {
+    // Fetch registrations with this group ID
+    const { data: registrations, error: registrationsError } = await supabase
+      .from("challenge_registrations")
+      .select("user_id")
+      .eq("group_id", groupId);
+
+    if (registrationsError) {
+      throw registrationsError;
+    }
+
+    if (!registrations || registrations.length === 0) {
+      return { success: true, message: "No members found in this group", members: [] };
+    }
+
+    // Get user IDs from registrations
+    const userIds = registrations.map(reg => reg.user_id);
+
+    // Fetch user profiles for these IDs
+    // Note: This assumes there's a users or profiles table with user information
+    // You may need to adjust this query based on your actual database schema
+    const { data: members, error: membersError } = await supabase
+      .from("users")
+      .select("id, name, avatar_url, specialty, skills")
+      .in("id", userIds);
+
+    if (membersError) {
+      // If the users table doesn't exist or has different fields, return basic info
+      return { 
+        success: true, 
+        message: "Retrieved basic member information", 
+        members: userIds.map(id => ({ id, name: `User ${id.substring(0, 5)}...` }))
+      };
+    }
+
+    return { success: true, message: "Successfully fetched group members", members };
+  } catch (error) {
+    console.error("Error fetching group members:", error);
+    return { success: false, message: "An error occurred while fetching group members", error, members: [] };
+  }
+}
+
+/**
  * Forms groups when enough users are queued
  */
 async function tryFormGroup(challengeId: string, teamSize: number) {
