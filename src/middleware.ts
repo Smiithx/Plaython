@@ -38,7 +38,7 @@ export default async function middleware(request: NextRequest) {
   }
 
   // Otherwise, continue with auth middleware
-  return authMiddleware(request);
+  return authMiddleware(request, {});
 }
 
 // Configure the middleware to match all routes except for static files

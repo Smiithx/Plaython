@@ -110,7 +110,7 @@ const GroupMembersList = memo(({ groupId }: { groupId: string }) => {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {groupMembers.map((member) => {
         // Use random skills for demo if member doesn't have skills
-        const skills = member.skills || getRandomSkills();
+        const skills: string[] = member.skills || getRandomSkills();
 
         return (
           <div
@@ -119,7 +119,7 @@ const GroupMembersList = memo(({ groupId }: { groupId: string }) => {
           >
             <div className="flex items-start">
               <Avatar className="w-12 h-12 mr-3 border-2 border-blue-600">
-                <AvatarImage src={member.avatar_url} />
+                <AvatarImage src={member.avatar_url || undefined} />
                 <AvatarFallback className="bg-blue-900 text-blue-300">
                   {member.name?.substring(0, 2) || "U"}
                 </AvatarFallback>

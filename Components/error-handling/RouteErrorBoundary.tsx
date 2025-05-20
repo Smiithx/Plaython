@@ -1,15 +1,12 @@
 "use client";
 
 import React from 'react';
-import { ErrorBoundary } from './ErrorBoundary';
+import { ErrorBoundary, FallbackProps } from './ErrorBoundary';
 import { MapPin, Home } from 'lucide-react';
 import { Button } from '@/ui/button';
 import Link from 'next/link';
 
-interface RouteErrorFallbackProps {
-  error: Error;
-  resetErrorBoundary: () => void;
-}
+type RouteErrorFallbackProps = FallbackProps;
 
 /**
  * A fallback component for route errors
@@ -21,7 +18,7 @@ function RouteErrorFallback({ error, resetErrorBoundary }: RouteErrorFallbackPro
         <MapPin className="h-6 w-6 text-blue-500 mr-2" />
         <h2 className="text-xl font-semibold">Navigation Error</h2>
       </div>
-      
+
       <div className="mb-4">
         <p className="text-gray-300 mb-2">
           We encountered a problem while loading this page. The route might be invalid or there might be an issue with the page content.
@@ -30,7 +27,7 @@ function RouteErrorFallback({ error, resetErrorBoundary }: RouteErrorFallbackPro
           {error.message}
         </pre>
       </div>
-      
+
       <div className="flex space-x-3">
         <Button 
           variant="outline" 
@@ -38,7 +35,7 @@ function RouteErrorFallback({ error, resetErrorBoundary }: RouteErrorFallbackPro
         >
           Try Again
         </Button>
-        
+
         <Button 
           variant="default"
           asChild
@@ -84,14 +81,14 @@ export function withRouteErrorBoundary<P extends object>(
   errorBoundaryProps?: Omit<RouteErrorBoundaryProps, 'children'>
 ) {
   const displayName = Component.displayName || Component.name || 'Component';
-  
+
   const ComponentWithRouteErrorBoundary = (props: P) => (
     <RouteErrorBoundary {...errorBoundaryProps}>
       <Component {...props} />
     </RouteErrorBoundary>
   );
-  
+
   ComponentWithRouteErrorBoundary.displayName = `withRouteErrorBoundary(${displayName})`;
-  
+
   return ComponentWithRouteErrorBoundary;
 }

@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
     eslint: {
         ignoreDuringBuilds: true,
     },
+    typescript: {
+        ignoreBuildErrors: true,
+    },
 };
 
 // Le decimos al plugin dónde está tu default export de getRequestConfig

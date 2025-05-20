@@ -1,14 +1,11 @@
 "use client";
 
 import React from 'react';
-import { ErrorBoundary } from './ErrorBoundary';
+import { ErrorBoundary, FallbackProps } from './ErrorBoundary';
 import { FileWarning, RefreshCw } from 'lucide-react';
 import { Button } from '@/ui/button';
 
-interface FormErrorFallbackProps {
-  error: Error;
-  resetErrorBoundary: () => void;
-}
+type FormErrorFallbackProps = FallbackProps;
 
 /**
  * A fallback component for form errors
@@ -20,7 +17,7 @@ function FormErrorFallback({ error, resetErrorBoundary }: FormErrorFallbackProps
         <FileWarning className="h-6 w-6 text-purple-500 mr-2" />
         <h2 className="text-xl font-semibold">Form Error</h2>
       </div>
-      
+
       <div className="mb-4">
         <p className="text-gray-300 mb-2">
           We encountered a problem with your form submission. This might be due to invalid data or a temporary server issue.
@@ -29,7 +26,7 @@ function FormErrorFallback({ error, resetErrorBoundary }: FormErrorFallbackProps
           {error.message}
         </pre>
       </div>
-      
+
       <div className="flex space-x-3">
         <Button 
           variant="outline" 
@@ -74,14 +71,14 @@ export function withFormErrorBoundary<P extends object>(
   errorBoundaryProps?: Omit<FormErrorBoundaryProps, 'children'>
 ) {
   const displayName = Component.displayName || Component.name || 'Component';
-  
+
   const ComponentWithFormErrorBoundary = (props: P) => (
     <FormErrorBoundary {...errorBoundaryProps}>
       <Component {...props} />
     </FormErrorBoundary>
   );
-  
+
   ComponentWithFormErrorBoundary.displayName = `withFormErrorBoundary(${displayName})`;
-  
+
   return ComponentWithFormErrorBoundary;
 }

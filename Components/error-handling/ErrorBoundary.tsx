@@ -4,9 +4,16 @@ import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { Button } from '@/ui/button';
 import { AlertTriangle } from 'lucide-react';
 
+export interface FallbackProps {
+  error: Error;
+  resetErrorBoundary: () => void;
+}
+
+export type FallbackType = ReactNode | ((props: FallbackProps) => ReactNode);
+
 interface ErrorBoundaryProps {
   children: ReactNode;
-  fallback?: ReactNode;
+  fallback?: FallbackType;
   onError?: (error: Error, errorInfo: ErrorInfo) => void;
   resetKey?: any;
 }
@@ -40,7 +47,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Log the error to an error reporting service
     console.error('Error caught by ErrorBoundary:', error, errorInfo);
-    
+
     // Call the onError callback if provided
     if (this.props.onError) {
       this.props.onError(error, errorInfo);
@@ -57,10 +64,23 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     }
   }
 
+  resetErrorBoundary = () => {
+    this.setState({
+      hasError: false,
+      error: null,
+    });
+  };
+
   render() {
-    if (this.state.hasError) {
+    if (this.state.hasError && this.state.error) {
       // Render the fallback UI if provided, otherwise render the default fallback
       if (this.props.fallback) {
+        if (typeof this.props.fallback === 'function') {
+          return this.props.fallback({
+            error: this.state.error,
+            resetErrorBoundary: this.resetErrorBoundary,
+          });
+        }
         return this.props.fallback;
       }
 
@@ -70,7 +90,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             <AlertTriangle className="h-6 w-6 text-red-500 mr-2" />
             <h2 className="text-xl font-semibold">Something went wrong</h2>
           </div>
-          
+
           <div className="mb-4">
             <p className="text-gray-300 mb-2">
               An error occurred while rendering this component.
@@ -81,7 +101,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               </pre>
             )}
           </div>
-          
+
           <Button
             variant="destructive"
             onClick={() => this.setState({ hasError: false, error: null })}
@@ -104,14 +124,14 @@ export function withErrorBoundary<P extends object>(
   errorBoundaryProps?: Omit<ErrorBoundaryProps, 'children'>
 ) {
   const displayName = Component.displayName || Component.name || 'Component';
-  
+
   const ComponentWithErrorBoundary = (props: P) => (
     <ErrorBoundary {...errorBoundaryProps}>
       <Component {...props} />
     </ErrorBoundary>
   );
-  
+
   ComponentWithErrorBoundary.displayName = `withErrorBoundary(${displayName})`;
-  
+
   return ComponentWithErrorBoundary;
 }

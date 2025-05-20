@@ -41,9 +41,9 @@ interface ChallengesContextType {
   // Challenge actions
   fetchChallenges: () => Promise<void>;
   fetchChallengeById: (id: string) => Promise<Challenge | null>;
-  registerForChallenge: (challengeId: string) => Promise<{ success: boolean; message: string; isRegistered?: boolean }>;
-  unregisterFromChallenge: (challengeId: string) => Promise<{ success: boolean; message: string; isRegistered?: boolean }>;
-  checkRegistrationStatus: (challengeId: string) => Promise<{ isRegistered: boolean }>;
+  registerForChallenge: (challengeId: string) => Promise<{ success: boolean; message: string; isRegistered?: boolean; error?: any }>;
+  unregisterFromChallenge: (challengeId: string) => Promise<{ success: boolean; message: string; isRegistered?: boolean; error?: any }>;
+  checkRegistrationStatus: (challengeId: string) => Promise<{ isRegistered: boolean; groupId?: string | null; error?: any }>;
 }
 
 // Default filters

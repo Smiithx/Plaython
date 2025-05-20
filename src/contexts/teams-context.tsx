@@ -4,6 +4,14 @@ import { ReactNode, useEffect, useState, useCallback } from 'react';
 import { createTypedContext, ContextProvider } from './context-utils';
 import { getGroupMembers } from '@/lib/actions/challenge-registration';
 
+// Define the return type of getGroupMembers
+interface GroupMembersResult {
+  success: boolean;
+  message: string;
+  members: Participant[];
+  error?: any;
+}
+
 // Define participant type
 interface Participant {
   id: string;
@@ -27,7 +35,7 @@ interface TeamsContextType {
   currentTeam: Team | null;
   isLoading: boolean;
   error: string | null;
-  
+
   // Team actions
   fetchTeamMembers: (groupId: string) => Promise<void>;
   clearTeam: () => void;
@@ -46,20 +54,20 @@ export function TeamsProvider({ children }: ContextProvider) {
   const [currentTeam, setCurrentTeam] = useState<Team | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Function to fetch team members
   const fetchTeamMembers = useCallback(async (groupId: string) => {
     if (!groupId) {
       setError("No group ID provided");
       return;
     }
-    
+
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      const result = await getGroupMembers(groupId);
-      
+      const result: GroupMembersResult = await getGroupMembers(groupId);
+
       if (result.success) {
         setCurrentTeam({
           id: groupId,
@@ -77,12 +85,12 @@ export function TeamsProvider({ children }: ContextProvider) {
       setIsLoading(false);
     }
   }, []);
-  
+
   // Function to clear the current team
   const clearTeam = useCallback(() => {
     setCurrentTeam(null);
   }, []);
-  
+
   // Create the context value
   const contextValue: TeamsContextType = {
     currentTeam,
@@ -91,7 +99,7 @@ export function TeamsProvider({ children }: ContextProvider) {
     fetchTeamMembers,
     clearTeam,
   };
-  
+
   return (
     <TeamsContextProvider value={contextValue}>
       {children}
