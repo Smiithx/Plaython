@@ -1,40 +1,47 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import {createServerSupabaseClient} from "../supabaseClient";
+import { createServerSupabaseClient } from "../supabaseClient";
 import { clerkClient } from "@clerk/nextjs/server";
 
 /**
  * Registers the current user for a challenge
  */
 export async function registerForChallenge(challengeId: string) {
-  const { userId  } = await auth();
+  const { userId } = await auth();
   if (!userId) {
-    return { success: false, message: "You must be signed in to register for a challenge" };
+    return {
+      success: false,
+      message: "You must be signed in to register for a challenge",
+    };
   }
   const supabase = await createServerSupabaseClient();
 
   try {
     // Check existing registration
     const { data: existingRegistration, error: checkError } = await supabase
-        .from("challenge_registrations")
-        .select("*")
-        .eq("user_id", userId)
-        .eq("challenge_id", challengeId)
-        .single();
+      .from("challenge_registrations")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("challenge_id", challengeId)
+      .single();
     if (checkError && checkError.code !== "PGRST116") {
       throw checkError;
     }
     if (existingRegistration) {
-      return { success: true, message: "You are already registered for this challenge", isRegistered: true };
+      return {
+        success: true,
+        message: "You are already registered for this challenge",
+        isRegistered: true,
+      };
     }
 
     // Fetch team size
     const { data: challenge, error: challengeError } = await supabase
-        .from("challenges")
-        .select("team_size")
-        .eq("id", challengeId)
-        .single();
+      .from("challenges")
+      .select("team_size")
+      .eq("id", challengeId)
+      .single();
 
     if (challengeError) {
       throw challengeError;
@@ -42,13 +49,13 @@ export async function registerForChallenge(challengeId: string) {
 
     // Insert registration
     const registrationBuilder = supabase
-        .from("challenge_registrations")
-        .insert({
-          user_id: userId,
-          challenge_id: challengeId,
-          joined_at: new Date().toISOString(),
-          group_id: null,
-        });
+      .from("challenge_registrations")
+      .insert({
+        user_id: userId,
+        challenge_id: challengeId,
+        joined_at: new Date().toISOString(),
+        group_id: null,
+      });
     const { error: registrationError } = await registrationBuilder;
     if (registrationError) {
       throw registrationError;
@@ -57,10 +64,18 @@ export async function registerForChallenge(challengeId: string) {
     // Attempt to form a group
     await tryFormGroup(challengeId, challenge.team_size);
 
-    return { success: true, message: "Successfully registered for the challenge", isRegistered: true };
+    return {
+      success: true,
+      message: "Successfully registered for the challenge",
+      isRegistered: true,
+    };
   } catch (error) {
     console.error("Error registering for challenge:", error);
-    return { success: false, message: "An error occurred while registering for the challenge", error };
+    return {
+      success: false,
+      message: "An error occurred while registering for the challenge",
+      error,
+    };
   }
 }
 
@@ -77,15 +92,11 @@ export async function checkRegistrationStatus(challengeId: string) {
 
   try {
     const { data, error } = await supabase
-        .from("challenge_registrations")
-        .select("*")
-        .eq("user_id", userId)
-        .eq("challenge_id", challengeId)
-        .single();
-
-    console.log(`checkRegistrationStatus`)
-    console.log({ data, error, userId, challengeId })
-
+      .from("challenge_registrations")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("challenge_id", challengeId)
+      .single();
     if (error && error.code !== "PGRST116") {
       throw error;
     }
@@ -102,15 +113,16 @@ export async function checkRegistrationStatus(challengeId: string) {
 export async function unregisterFromChallenge(challengeId: string) {
   const { userId } = await auth();
   if (!userId) {
-    return { success: false, message: "You must be signed in to unregister from a challenge" };
+    return {
+      success: false,
+      message: "You must be signed in to unregister from a challenge",
+    };
   }
 
   const supabase = await createServerSupabaseClient();
 
   try {
-    const builder = supabase
-        .from("challenge_registrations")
-        .delete();
+    const builder = supabase.from("challenge_registrations").delete();
 
     // Apply filters without chaining on promise
     builder.eq("user_id", userId);
@@ -121,10 +133,18 @@ export async function unregisterFromChallenge(challengeId: string) {
       throw error;
     }
 
-    return { success: true, message: "Successfully unregistered from the challenge", isRegistered: false };
+    return {
+      success: true,
+      message: "Successfully unregistered from the challenge",
+      isRegistered: false,
+    };
   } catch (error) {
     console.error("Error unregistering from challenge:", error);
-    return { success: false, message: "An error occurred while unregistering from the challenge", error };
+    return {
+      success: false,
+      message: "An error occurred while unregistering from the challenge",
+      error,
+    };
   }
 }
 
@@ -161,12 +181,15 @@ export async function getGroupMembers(groupId: string) {
     }
 
     if (!registrations || registrations.length === 0) {
-      return { success: true, message: "No members found in this group", members: [] };
+      return {
+        success: true,
+        message: "No members found in this group",
+        members: [],
+      };
     }
 
     // Get user IDs from registrations
-    const userIds = registrations.map(reg => reg.user_id);
-
+    const userIds = registrations.map((reg) => reg.user_id);
 
     // 2. Recuperar datos de usuario desde Clerk
     const clerk = await clerkClient();
@@ -176,18 +199,23 @@ export async function getGroupMembers(groupId: string) {
     });
 
     // 3. Mapear al formato deseado
-    const members = users.map(user => ({
+    const members = users.map((user) => ({
       id: user.id,
       name: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
       avatar_url: user.imageUrl,
       specialty: user.publicMetadata?.specialty,
       skills: user.publicMetadata?.skills,
     }));
-
+    console.log("miembros del grupo ", members);
     return { success: true, message: "Fetched group members", members };
   } catch (error) {
     console.error("Error fetching group members:", error);
-    return { success: false, message: "An error occurred while fetching group members", error, members: [] };
+    return {
+      success: false,
+      message: "An error occurred while fetching group members",
+      error,
+      members: [],
+    };
   }
 }
 
@@ -195,16 +223,15 @@ export async function getGroupMembers(groupId: string) {
  * Forms groups when enough users are queued
  */
 async function tryFormGroup(challengeId: string, teamSize: number) {
-
   const supabase = await createServerSupabaseClient();
 
   try {
     const { data: queuedUsers, error: queueError } = await supabase
-        .from("challenge_registrations")
-        .select("*")
-        .eq("challenge_id", challengeId)
-        .is("group_id", null)
-        .order("joined_at", { ascending: true });
+      .from("challenge_registrations")
+      .select("*")
+      .eq("challenge_id", challengeId)
+      .is("group_id", null)
+      .order("joined_at", { ascending: true });
 
     if (queueError) {
       throw queueError;
@@ -214,10 +241,13 @@ async function tryFormGroup(challengeId: string, teamSize: number) {
     }
 
     const { data: newGroup, error: groupError } = await supabase
-        .from("challenge_groups")
-        .insert({ challenge_id: challengeId, created_at: new Date().toISOString() })
-        .select("id")
-        .single();
+      .from("challenge_groups")
+      .insert({
+        challenge_id: challengeId,
+        created_at: new Date().toISOString(),
+      })
+      .select("id")
+      .single();
     if (groupError) {
       throw groupError;
     }
@@ -225,9 +255,9 @@ async function tryFormGroup(challengeId: string, teamSize: number) {
     const usersToAssign = queuedUsers.slice(0, teamSize);
     for (const user of usersToAssign) {
       await supabase
-          .from("challenge_registrations")
-          .update({ group_id: newGroup.id })
-          .eq("id", user.id);
+        .from("challenge_registrations")
+        .update({ group_id: newGroup.id })
+        .eq("id", user.id);
     }
   } catch (error) {
     console.error("Error forming group:", error);
