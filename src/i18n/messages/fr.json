@@ -1,0 +1,131 @@
+{
+  "common": {
+    "appName": "Plaython",
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "retry": "Réessayer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "submit": "Soumettre",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Voir",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "all": "Tous",
+    "none": "Aucun",
+    "yes": "Oui",
+    "no": "Non",
+    "success": "Succès",
+    "failure": "Échec",
+    "warning": "Avertissement",
+    "info": "Information",
+    "language": "Language"
+  },
+  "auth": {
+    "signIn": "Se Connecter",
+    "signUp": "S'inscrire",
+    "signOut": "Se Déconnecter",
+    "forgotPassword": "Mot de Passe Oublié",
+    "resetPassword": "Réinitialiser le Mot de Passe",
+    "email": "Email",
+    "password": "Mot de Passe",
+    "confirmPassword": "Confirmer le Mot de Passe",
+    "username": "Nom d'Utilisateur",
+    "fullName": "Nom Complet"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "dashboard": "Tableau de Bord",
+    "challenges": "Défis",
+    "teams": "Équipes",
+    "profile": "Profil",
+    "settings": "Paramètres",
+    "help": "Aide",
+    "about": "À Propos"
+  },
+  "challenges": {
+    "title": "Défis",
+    "register": "S'inscrire",
+    "unregister": "Se Désinscrire",
+    "participants": "Participants",
+    "myGroup": "Mon Groupe",
+    "discussion": "Discussion",
+    "agenda": "Agenda",
+    "details": "Détails",
+    "startDate": "Date de Début",
+    "endDate": "Date de Fin",
+    "difficulty": "Difficulté",
+    "teamSize": "Taille de l'Équipe",
+    "status": {
+      "upcoming": "À Venir",
+      "active": "Actif",
+      "completed": "Terminé",
+      "cancelled": "Annulé"
+    },
+    "difficulty": {
+      "beginner": "Débutant",
+      "intermediate": "Intermédiaire",
+      "advanced": "Avancé",
+      "expert": "Expert"
+    }
+  },
+  "teams": {
+    "title": "Équipes",
+    "create": "Créer une Équipe",
+    "join": "Rejoindre une Équipe",
+    "leave": "Quitter l'Équipe",
+    "members": "Membres",
+    "leader": "Chef d'Équipe",
+    "inviteMembers": "Inviter des Membres",
+    "noTeam": "Vous ne faites partie d'aucune équipe pour le moment"
+  },
+  "profile": {
+    "title": "Profil",
+    "personalInfo": "Informations Personnelles",
+    "skills": "Compétences",
+    "experience": "Expérience",
+    "education": "Éducation",
+    "achievements": "Réalisations",
+    "settings": "Paramètres",
+    "language": "Langue",
+    "theme": "Thème",
+    "notifications": "Notifications",
+    "privacy": "Confidentialité"
+  },
+  "errors": {
+    "notFound": "Page non trouvée",
+    "serverError": "Erreur du serveur",
+    "unauthorized": "Accès non autorisé",
+    "forbidden": "Accès interdit",
+    "validation": "Erreur de validation",
+    "network": "Erreur de réseau",
+    "unknown": "Erreur inconnue"
+  },
+  "home": {
+    "hero": {
+      "title": "Rejoignez la Révolution du Codage",
+      "subtitle": "Connectez-vous avec des développeurs, formez des équipes et relevez des défis passionnants",
+      "cta": "Commencer"
+    },
+    "features": {
+      "title": "Pourquoi Plaython?",
+      "teamwork": {
+        "title": "Travail d'Équipe Collaboratif",
+        "description": "Formez des équipes équilibrées avec des professionnels de différentes spécialités"
+      },
+      "challenges": {
+        "title": "Défis Passionnants",
+        "description": "Relevez des problèmes du monde réel et améliorez vos compétences"
+      },
+      "community": {
+        "title": "Communauté Dynamique",
+        "description": "Connectez-vous avec des développeurs partageant les mêmes idées et élargissez votre réseau"
+      }
+    }
+  }
+}

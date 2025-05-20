@@ -1,56 +1,155 @@
 # Plaython
 
-Plaython: plataforma de matchmaking para retos y eventos de programación. Conecta profesionales de distintas especialidades, forma equipos balanceados y coordina actividades. Su algoritmo inteligente optimiza la asignación de roles y la planificación de tareas, asegurando colaboraciones exitosas en hackathons y codeathons.
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Plaython is a matchmaking platform for programming challenges and events. It connects professionals from different specialties, forms balanced teams, and coordinates activities. Its intelligent algorithm optimizes role assignment and task planning, ensuring successful collaborations in hackathons and codeathons.
 
-## Getting Started
+## Project Overview
 
-First, run the development server:
+Plaython is built with:
+- React 19
+- Next.js 15.3.2
+- TypeScript
+- Clerk for authentication
+- Supabase for backend/database
+- Tailwind CSS for styling
+- GSAP and Motion for animations
+- Shadcn UI and Radix UI for components
+
+## Prerequisites
+
+- Node.js (latest LTS version recommended)
+- pnpm 10.10.0 or later
+
+## Setup Instructions
+
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/plaython.git
+cd plaython
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Environment Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy the example environment file and fill in your values:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp .env.example .env
+```
 
-## Learn More
+Required environment variables:
+```
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="your-clerk-publishable-key"
+CLERK_SECRET_KEY="your-clerk-secret-key"
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-public-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Install Dependencies
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Set Up the Database
 
-## Deploy on Vercel
+Run the migration script to set up the Supabase database schema:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm migrate
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 5. Seed the Database
 
-## Dependencies:
+Populate the database with initial data:
 
-1. npm install @clerk/nextjs
+```bash
+pnpm seed
+pnpm seed:challenges
+```
 
-npm install --save-dev @types/react @types/react-dom
-npm install lucide-react
-npm install motion
-npm install lenis
-npm i react-simple-typewriter
+### 6. Start the Development Server
 
-## Theme
+```bash
+pnpm dev
+```
 
-npm install @radix-ui/themes
-npm i tailwind-merge
-npm i clsx
-npm install class-variance-authority
+The application will be available at http://localhost:3000.
+
+## Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start the development server with Turbopack |
+| `pnpm build` | Create a production build |
+| `pnpm start` | Start the production server |
+| `pnpm lint` | Run ESLint to check for code issues |
+| `pnpm type-check` | Run TypeScript type checking |
+| `pnpm check` | Run both linting and type checking |
+| `pnpm test` | Run all tests |
+| `pnpm test:watch` | Run tests in watch mode |
+| `pnpm test:coverage` | Run tests with coverage report |
+| `pnpm migrate` | Run database migrations |
+| `pnpm seed` | Seed general data |
+| `pnpm seed:challenges` | Seed challenges data |
+
+## Project Structure
+
+```
+plaython/
+├── Components/         # UI components
+│   ├── ui/             # Reusable UI components
+│   ├── challenge/      # Challenge-related components
+│   └── ...
+├── src/
+│   ├── app/            # Next.js App Router pages
+│   ├── lib/            # Utility functions and services
+│   ├── contexts/       # React contexts for state management
+│   └── hooks/          # Custom React hooks
+├── scripts/            # Database migration and seed scripts
+├── docs/               # Project documentation
+└── __tests__/          # Test files
+```
+
+## Architecture
+
+Plaython follows a client-server architecture with:
+- Next.js App Router for routing and server components
+- React Server Components (RSC) for server-rendered UI
+- Client components for interactive elements
+- Supabase for database and backend services
+- Clerk for authentication and user management
+
+### State Management
+
+The application uses React Context for global state management, with separate contexts for different domains:
+- User context for user-related state
+- Challenges context for challenge-related state
+- Teams context for team-related state
+- Error context for error handling
+
+See `docs/state-management.md` for more details.
+
+### Data Fetching
+
+The application uses a combination of:
+- Server components for initial data loading
+- Custom hooks with React Query for client-side data fetching
+- Server actions for mutations
+
+### Error Handling
+
+The application uses a comprehensive error handling strategy with:
+- Custom error boundaries for different parts of the application
+- Standardized error handling for API calls
+- User-friendly error messages and fallback UIs
+
+See `docs/error-handling.md` for more details.
+
+## Contributing
+
+Please read the development guidelines in `.junie/guidelines.md` before contributing to the project.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

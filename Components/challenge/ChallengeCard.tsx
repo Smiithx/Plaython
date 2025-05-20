@@ -1,11 +1,13 @@
 import Link from "next/link";
 import {Challenge} from "@/types";
 
-interface Props {
+export interface ChallengeCardProps {
     challenge: Challenge;
+    onRegister?: (challengeId: string) => Promise<void>;
+    isRegistered?: boolean;
 }
 
-export default function ChallengeCard({challenge}: Props) {
+export function ChallengeCard({challenge, onRegister, isRegistered = false}: ChallengeCardProps) {
     // Traducción de dificultad a español con mapeo seguro
     const difficultyLabels = {
         easy: "Fácil",

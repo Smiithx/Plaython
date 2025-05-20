@@ -1,0 +1,130 @@
+{
+  "common": {
+    "appName": "Plaython",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "all": "All",
+    "none": "None",
+    "yes": "Yes",
+    "no": "No",
+    "success": "Success",
+    "failure": "Failure",
+    "warning": "Warning",
+    "info": "Information"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "forgotPassword": "Forgot Password",
+    "resetPassword": "Reset Password",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "username": "Username",
+    "fullName": "Full Name"
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "challenges": "Challenges",
+    "teams": "Teams",
+    "profile": "Profile",
+    "settings": "Settings",
+    "help": "Help",
+    "about": "About"
+  },
+  "challenges": {
+    "title": "Challenges",
+    "register": "Register",
+    "unregister": "Unregister",
+    "participants": "Participants",
+    "myGroup": "My Group",
+    "discussion": "Discussion",
+    "agenda": "Agenda",
+    "details": "Details",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "difficulty": "Difficulty",
+    "teamSize": "Team Size",
+    "status": {
+      "upcoming": "Upcoming",
+      "active": "Active",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "difficulty": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "expert": "Expert"
+    }
+  },
+  "teams": {
+    "title": "Teams",
+    "create": "Create Team",
+    "join": "Join Team",
+    "leave": "Leave Team",
+    "members": "Members",
+    "leader": "Team Leader",
+    "inviteMembers": "Invite Members",
+    "noTeam": "You are not part of any team yet"
+  },
+  "profile": {
+    "title": "Profile",
+    "personalInfo": "Personal Information",
+    "skills": "Skills",
+    "experience": "Experience",
+    "education": "Education",
+    "achievements": "Achievements",
+    "settings": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "notifications": "Notifications",
+    "privacy": "Privacy"
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "serverError": "Server error",
+    "unauthorized": "Unauthorized access",
+    "forbidden": "Forbidden access",
+    "validation": "Validation error",
+    "network": "Network error",
+    "unknown": "Unknown error"
+  },
+  "home": {
+    "hero": {
+      "title": "Join the Coding Revolution",
+      "subtitle": "Connect with developers, form teams, and tackle exciting challenges",
+      "cta": "Get Started"
+    },
+    "features": {
+      "title": "Why Plaython?",
+      "teamwork": {
+        "title": "Collaborative Teamwork",
+        "description": "Form balanced teams with professionals from different specialties"
+      },
+      "challenges": {
+        "title": "Exciting Challenges",
+        "description": "Tackle real-world problems and improve your skills"
+      },
+      "community": {
+        "title": "Vibrant Community",
+        "description": "Connect with like-minded developers and expand your network"
+      }
+    }
+  }
+}
