@@ -1,7 +1,7 @@
 // src/app/dashboard/events/page.tsx
 import dynamic from "next/dynamic";
 import {Suspense} from "react";
-import {getAllChallenges} from "@/lib/services/challenges";
+import {getRegisteredChallenges} from "@/lib/services/challenges";
 
 const EventsPageClient = dynamic(
     () => import("./EventsPageClient"),
@@ -21,7 +21,8 @@ const EventsPageClient = dynamic(
 );
 
 export default async function Page() {
-    const challenges  = await getAllChallenges();
+    const { current, upcoming, past }  = await getRegisteredChallenges ();
+    console.log(`past`, past)
     return (
         <Suspense
             fallback={
@@ -30,7 +31,7 @@ export default async function Page() {
                 </div>
             }
         >
-            <EventsPageClient challenges={challenges}/>
+            <EventsPageClient current={current} upcoming={upcoming} past={past}/>
         </Suspense>
     );
 }
