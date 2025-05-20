@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { Challenge } from "@/types";
 import { Button } from "@/ui/button";
 import { 
@@ -15,11 +15,11 @@ import { Input } from "@/ui/input";
 import { Textarea } from "@/ui/textarea";
 import { Badge } from "@/ui/badge";
 
-interface DiscussionTabProps {
+export interface DiscussionTabProps {
   eventData: Challenge;
 }
 
-interface Discussion {
+export interface Discussion {
   id: string;
   user: string;
   userId: string;
@@ -38,7 +38,7 @@ export function DiscussionTab({ eventData }: DiscussionTabProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Generate demo discussions
-  const generateDemoDiscussions = (): Discussion[] => {
+  const generateDemoDiscussions = useMemo((): Discussion[] => {
     const now = new Date();
     const yesterday = new Date(now);
     yesterday.setDate(yesterday.getDate() - 1);
@@ -83,12 +83,12 @@ export function DiscussionTab({ eventData }: DiscussionTabProps) {
         isLiked: false
       }
     ];
-  };
+  }, []);
 
-  const [discussions, setDiscussions] = useState<Discussion[]>(generateDemoDiscussions());
+  const [discussions, setDiscussions] = useState<Discussion[]>(generateDemoDiscussions);
 
   // Format date to relative time (e.g., "2 days ago")
-  const formatRelativeTime = (dateString: string): string => {
+  const formatRelativeTime = useCallback((dateString: string): string => {
     const date = new Date(dateString);
     const now = new Date();
     const diffTime = Math.abs(now.getTime() - date.getTime());
@@ -105,11 +105,11 @@ export function DiscussionTab({ eventData }: DiscussionTabProps) {
     } else {
       return "justo ahora";
     }
-  };
+  }, []);
 
   // Handle like button click
-  const handleLike = (id: string) => {
-    setDiscussions(discussions.map(discussion => {
+  const handleLike = useCallback((id: string) => {
+    setDiscussions(prevDiscussions => prevDiscussions.map(discussion => {
       if (discussion.id === id) {
         const isLiked = !discussion.isLiked;
         return {
@@ -120,10 +120,10 @@ export function DiscussionTab({ eventData }: DiscussionTabProps) {
       }
       return discussion;
     }));
-  };
+  }, []);
 
   // Handle new post submission
-  const handleSubmitPost = () => {
+  const handleSubmitPost = useCallback(() => {
     if (!newPostContent.trim()) return;
 
     const newPost: Discussion = {
@@ -138,17 +138,17 @@ export function DiscussionTab({ eventData }: DiscussionTabProps) {
       isLiked: false
     };
 
-    setDiscussions([newPost, ...discussions]);
+    setDiscussions(prevDiscussions => [newPost, ...prevDiscussions]);
     setNewPostContent("");
     setShowNewPost(false);
-  };
+  }, [newPostContent]);
 
   // Filter discussions based on search query
-  const filteredDiscussions = discussions.filter(discussion => 
+  const filteredDiscussions = useMemo(() => discussions.filter(discussion => 
     discussion.message.toLowerCase().includes(searchQuery.toLowerCase()) ||
     discussion.user.toLowerCase().includes(searchQuery.toLowerCase()) ||
     discussion.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  ), [discussions, searchQuery]);
 
   return (
     <div>
@@ -230,7 +230,7 @@ export function DiscussionTab({ eventData }: DiscussionTabProps) {
             >
               <div className="flex items-start mb-3">
                 <Avatar className="w-10 h-10 mr-3">
-                  <AvatarImage src={discussion.avatar} />
+                  <AvatarImage src={discussion.avatar ?? ''} alt={discussion.user}/>
                   <AvatarFallback className="bg-blue-900 text-blue-300">
                     {discussion.user.substring(0, 2)}
                   </AvatarFallback>

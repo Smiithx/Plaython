@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { createServerSupabaseClient } from "../supabaseClient";
+import {createServerSupabaseClient} from "../supabaseClient";
 import { clerkClient } from "@clerk/nextjs/server";
 
 /**
@@ -12,11 +12,10 @@ export async function registerForChallenge(challengeId: string) {
   if (!userId) {
     return { success: false, message: "You must be signed in to register for a challenge" };
   }
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
 
   try {
     // Check existing registration
-    console.log(`userId`, userId)
     const { data: existingRegistration, error: checkError } = await supabase
         .from("challenge_registrations")
         .select("*")
@@ -74,7 +73,7 @@ export async function checkRegistrationStatus(challengeId: string) {
     return { isRegistered: false };
   }
 
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
 
   try {
     const { data, error } = await supabase
@@ -83,6 +82,9 @@ export async function checkRegistrationStatus(challengeId: string) {
         .eq("user_id", userId)
         .eq("challenge_id", challengeId)
         .single();
+
+    console.log(`checkRegistrationStatus`)
+    console.log({ data, error, userId, challengeId })
 
     if (error && error.code !== "PGRST116") {
       throw error;
@@ -103,7 +105,7 @@ export async function unregisterFromChallenge(challengeId: string) {
     return { success: false, message: "You must be signed in to unregister from a challenge" };
   }
 
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
 
   try {
     const builder = supabase
@@ -145,7 +147,7 @@ export async function getGroupMembers(groupId: string) {
     return { success: false, message: "No group ID provided", members: [] };
   }
 
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
 
   try {
     // 1. Traer registros de inscripciones
@@ -194,7 +196,7 @@ export async function getGroupMembers(groupId: string) {
  */
 async function tryFormGroup(challengeId: string, teamSize: number) {
 
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
 
   try {
     const { data: queuedUsers, error: queueError } = await supabase

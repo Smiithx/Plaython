@@ -1,45 +1,7 @@
-export interface Challenge {
-  id: string;
-  title: string;
-  description: string;
-  difficultyId?: number;
-  difficulty?: string;
-  statusId?: number;
-  status?: string;
-  teamSize: number;
-  startDate: string;
-  endDate?: string;
-  tags: string[];
-  estimatedTime?: string;
-  organizer?: string;
-  location?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+/**
+ * This file re-exports all types from src/types/index.ts for backward compatibility.
+ * New code should import directly from '@/types'.
+ * @deprecated Use imports from '@/types' instead.
+ */
 
-export interface Tag {
-  id: number;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface Difficulty {
-  id: number;
-  label: string;
-  sortOrder: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface Status {
-  id: number;
-  label: string;
-  sortOrder: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface ChallengePageProps {
-  params: Promise<{ id: string }>;
-}
+export * from './types/index';
