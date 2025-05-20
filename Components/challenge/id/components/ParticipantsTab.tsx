@@ -26,7 +26,7 @@ interface Team {
   complete: boolean;
 }
 
-export function ParticipantsTab({groupId }: ParticipantsTabProps) {
+export function ParticipantsTab({ groupId }: ParticipantsTabProps) {
   const [groupMembers, setGroupMembers] = useState<Participant[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -56,39 +56,21 @@ export function ParticipantsTab({groupId }: ParticipantsTabProps) {
     fetchGroupMembers();
   }, [groupId]);
 
-  // Generate random skills for demo purposes
-  const demoSkills = [
-    "JavaScript", "React", "TypeScript", "Node.js", "Python", 
-    "UI/UX", "Design", "Product Management", "Marketing", "Data Science"
-  ];
-
-  function getRandomSkills() {
-    const count = Math.floor(Math.random() * 3) + 1; // 1-3 skills
-    const skills = [];
-    for (let i = 0; i < count; i++) {
-      const skill = demoSkills[Math.floor(Math.random() * demoSkills.length)];
-      if (!skills.includes(skill)) {
-        skills.push(skill);
-      }
-    }
-    return skills;
-  }
-
   return (
     <div className="space-y-8">
       {groupId ? (
         <div>
           <div className="flex items-center mb-6">
             <Users className="w-6 h-6 mr-2 text-blue-400" />
-            <h2 className="text-2xl font-bold text-white">
-              Mi Grupo
-            </h2>
+            <h2 className="text-2xl font-bold text-white">Mi Grupo</h2>
           </div>
 
           {isLoading ? (
             <div className="flex justify-center items-center py-12">
               <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
-              <span className="ml-2 text-gray-300">Cargando miembros del grupo...</span>
+              <span className="ml-2 text-gray-300">
+                Cargando miembros del grupo...
+              </span>
             </div>
           ) : error ? (
             <div className="bg-red-900/20 border border-red-800 rounded-lg p-4 text-red-300">
@@ -97,14 +79,13 @@ export function ParticipantsTab({groupId }: ParticipantsTabProps) {
           ) : groupMembers.length === 0 ? (
             <div className="bg-gray-800 rounded-lg p-6 border border-gray-700 text-center">
               <User className="w-12 h-12 mx-auto mb-3 text-gray-500" />
-              <p className="text-gray-300">No hay miembros en este grupo todavía.</p>
+              <p className="text-gray-300">
+                No hay miembros en este grupo todavía.
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {groupMembers.map((member) => {
-                // Use random skills for demo if member doesn't have skills
-                const skills = member.skills || getRandomSkills();
-
                 return (
                   <div
                     key={member.id}
@@ -125,11 +106,11 @@ export function ParticipantsTab({groupId }: ParticipantsTabProps) {
                           {member.specialty || "Participante"}
                         </p>
                         <div className="flex flex-wrap gap-1">
-                          {skills.map((skill, i) => (
+                          {/* {skills.map((skill, i) => (
                             <Badge key={i} variant="outline" className="text-xs bg-gray-700 text-gray-300">
                               {skill}
                             </Badge>
-                          ))}
+                          ))} */}
                         </div>
                       </div>
                     </div>
@@ -142,9 +123,12 @@ export function ParticipantsTab({groupId }: ParticipantsTabProps) {
       ) : (
         <div className="bg-gray-800 rounded-lg p-6 border border-gray-700 text-center">
           <Users className="w-12 h-12 mx-auto mb-3 text-gray-500" />
-          <h3 className="text-xl font-semibold text-white mb-2">No estás en un grupo</h3>
+          <h3 className="text-xl font-semibold text-white mb-2">
+            No estás en un grupo
+          </h3>
           <p className="text-gray-300 mb-4">
-            Cuando te unas a un desafío, serás asignado a un grupo automáticamente cuando haya suficientes participantes.
+            Cuando te unas a un desafío, serás asignado a un grupo
+            automáticamente cuando haya suficientes participantes.
           </p>
           <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
             Unirse al Desafío

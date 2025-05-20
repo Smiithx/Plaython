@@ -8,7 +8,6 @@ export default async function ChallengeDetailServer({
 }: ChallengePageProps) {
   const { id } = await params;
   const eventData = await getChallengeById(id);
-  console.log(" datos by id ", eventData);
   if (!eventData) {
     notFound();
   }
