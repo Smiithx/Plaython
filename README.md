@@ -6,7 +6,7 @@ Plaython is a matchmaking platform for programming challenges and events. It con
 
 Visit the live demo at: [https://plaython.vercel.app/](https://plaython.vercel.app/)
 
-[Dashboard Screenshot](public/welcome.png)
+![Preview](public/welcome.png)
 
 ## Project Overview
 
