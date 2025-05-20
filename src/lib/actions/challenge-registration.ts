@@ -209,6 +209,7 @@ async function tryFormGroup(challengeId: string, teamSize: number) {
     if (queueError) {
       throw queueError;
     }
+    console.log(`Usuarios en cola para ${challengeId}:`, queuedUsers.length);
     if (!queuedUsers || queuedUsers.length < teamSize) {
       return;
     }
@@ -221,14 +222,23 @@ async function tryFormGroup(challengeId: string, teamSize: number) {
     if (groupError) {
       throw groupError;
     }
+    if (!newGroup?.id) {
+      throw new Error("No se devolvió el id del nuevo grupo");
+    }
+    console.log("Nuevo grupo id=", newGroup.id);
 
     const usersToAssign = queuedUsers.slice(0, teamSize);
-    for (const user of usersToAssign) {
-      await supabase
-          .from("challenge_registrations")
-          .update({ group_id: newGroup.id })
-          .eq("id", user.id);
-    }
+    const idsToAssign = usersToAssign.map(u => u.id);
+    const { error: updateError, data: updated } = await supabase
+        .from("challenge_registrations")
+        .update({ group_id: newGroup.id })
+        .in("id", idsToAssign)
+        .select();
+
+    if (updateError) throw updateError;
+    const count = updated?.length ?? 0;
+    console.log(`Asignados ${count} registros al grupo ${newGroup.id}`);
+
   } catch (error) {
     console.error("Error forming group:", error);
   }

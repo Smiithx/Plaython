@@ -47,8 +47,8 @@ export function SignedInSidebar({
 
   const difficulty_en = {
     easy: "Facil",
-    half: "Medio",
-    dificil: "Dificil",
+    mid: "Medio",
+    hard: "Dificil",
     expert: "Experto",
   };
 
