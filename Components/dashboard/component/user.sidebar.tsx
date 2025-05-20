@@ -3,8 +3,6 @@ import { TwoName } from "../../../lib/helpers/functions";
 
 export function UserSidebar() {
   const { user } = useUser();
-
-  console.log(" user ", user);
   return (
     <div className="p-4 border-t border-[#2D2D2D]">
       <div className="flex items-center gap-3">
@@ -13,10 +11,10 @@ export function UserSidebar() {
         </div>
         <div>
           <p className="font-medium text-white">{user?.fullName}</p>
-          <div className="flex items-center gap-1">
+          {/* <div className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-full bg-purple-500"></div>
             <p className="text-xs text-gray-400">Nivel 42 • 12,345 XP</p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

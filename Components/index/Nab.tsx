@@ -35,7 +35,7 @@ const Navbar = () => {
   return (
     <>
       <header
-        className={`px-4 py-3 sticky top-0 z-10
+        className={`px-4 py-3 sticky top-0 z-100
     ${
       scrolled
         ? "bg-transparent backdrop-blur-md shadow-md"
@@ -67,16 +67,7 @@ const Navbar = () => {
                 </Link>
               </span>
               <SignedIn>
-                {/* <span className="border-b-2 border-transparent transition-colors duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40 hover:rounded-t-lg px-4 py-2">
-                  <Link
-                    href="/challenges"
-                    className="font-[var(--font-bebas)] text-sm text-white/80 inline-block"
-                  >
-                    Eventos
-                  </Link>
-                </span> */}
-
-                <span className="border-b-2 border-transparent transition-colors duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40 hover:rounded-t-lg px-4 py-2">
+                <span className="border-b-2 border-transparent transition-colors duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40 hover:rounded-t-lg sm:px-4 py-2">
                   <Link
                     href="/dashboard"
                     className="font-[var(--font-bebas)] text-sm text-white/80 inline-block"
@@ -86,7 +77,7 @@ const Navbar = () => {
                 </span>
               </SignedIn>
               <SignedOut>
-                <span className="border-b-2 border-transparent transition-colors duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40 hover:rounded-t-lg px-4 py-2">
+                <span className="border-b-2 border-transparent transition-colors duration-300 hover:bg-gradient-to-r hover:from-[#FF9A8B]/20 hover:via-[#5865F2]/20 hover:to-[#9146FF]/20 hover:border-white/40 hover:rounded-t-lg sm:px-4 py-2">
                   <Link
                     href="/como-funciona"
                     className="font-[var(--font-bebas)] text-sm text-white/80 inline-block"
@@ -127,7 +118,7 @@ const Navbar = () => {
               className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-400 hover:bg-blue-50 focus:outline-none"
               aria-expanded="false"
             >
-              <span className="sr-only">Abrir menú principal</span>
+              {/* <span className="sr-only">Abrir menú principal</span> */}
               {isMenuOpen ? (
                 <svg
                   className="block h-6 w-6"

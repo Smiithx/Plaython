@@ -197,7 +197,7 @@ export async function getGroupMembers(groupId: string) {
  */
 async function tryFormGroup(challengeId: string, teamSize: number) {
 
-  const supabase = await supabaseAdmin;
+  const supabase = await createServerSupabaseClient();
 
   try {
     const { data: queuedUsers, error: queueError } = await supabase

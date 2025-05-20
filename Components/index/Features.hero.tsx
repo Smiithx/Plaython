@@ -26,19 +26,17 @@ const features = [
     desc: "Accede a hackathons, codeathons y desafíos exclusivos con empresas líderes del sector tecnológico.",
   },
 ];
-
-//
 export default function FeaturesSection() {
   return (
     <section id="features" className="section-horizontal pt-16">
       <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-black via-[#0b0b0b] to-transparent z-10 pointer-events-none"></div>
       <HexagonGrid />
-      <div className="horizontal-inner space-x-4 gap-3 pt-16">
-        <div className="relative panel items-center justify-center text-center px-4">
+      <div className="horizontal-inner space-x-4 gap-3">
+        <div className="relative panel items-center justify-center text-center px-4 pt-16">
           {/* Fondo difuminado detrás del texto */}
           <div className="absolute inset-x-0 top-1/4 h-64 bg-black/60 blur-lg rounded-xl z-0 mx-auto max-w-5xl"></div>
 
-          <div className="relative z-10">
+          <div className="relative z-10 pt-32">
             <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white">
               Características{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
@@ -59,34 +57,30 @@ export default function FeaturesSection() {
           </div>
         </div>
 
-        {features.map((feature, i) => (
-          <motion.div
-            key={i}
-            className="panel"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: i * 0.1 }}
-            viewport={{ once: true }}
-          >
-            {/* Ícono con glow */}
-            <div className="relative flex items-center justify-center mb-6">
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 blur-md opacity-60 animate-pulse" />
-              <div className="h-12 w-12 z-10 rounded-lg bg-[#4C1D95] flex items-center justify-center text-white shadow-md">
+        <motion.div
+          className="panel grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 p-6"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          {features.map((feature, i) => (
+            <div
+              key={i}
+              className="flex h-[100%] w-[50%] flex-col items-center p-4 bg-white/5 rounded-lg border border-white/10"
+            >
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center mb-3 animate-pulse">
                 {feature.icon}
               </div>
+              <h3 className="text-lg font-bold text-white mb-1 drop-shadow">
+                {feature.title}
+              </h3>
+              <p className="text-white/70 text-sm text-center drop-shadow-sm">
+                {feature.desc}
+              </p>
             </div>
-
-            {/* Título */}
-            <h3 className="text-xl md:text-2xl font-bold text-white mb-3 drop-shadow">
-              {feature.title}
-            </h3>
-
-            {/* Descripción */}
-            <p className="text-white/80 leading-relaxed tracking-wide drop-shadow-sm">
-              {feature.desc}
-            </p>
-          </motion.div>
-        ))}
+          ))}
+        </motion.div>
       </div>
       <FloatingIcons />
     </section>
