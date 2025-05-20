@@ -2,6 +2,7 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { createServerSupabaseClient } from "../supabaseClient";
+import { clerkClient } from "@clerk/nextjs/server";
 
 /**
  * Registers the current user for a challenge
@@ -147,7 +148,7 @@ export async function getGroupMembers(groupId: string) {
   const supabase = createServerSupabaseClient();
 
   try {
-    // Fetch registrations with this group ID
+    // 1. Traer registros de inscripciones
     const { data: registrations, error: registrationsError } = await supabase
       .from("challenge_registrations")
       .select("user_id")
@@ -164,24 +165,24 @@ export async function getGroupMembers(groupId: string) {
     // Get user IDs from registrations
     const userIds = registrations.map(reg => reg.user_id);
 
-    // Fetch user profiles for these IDs
-    // Note: This assumes there's a users or profiles table with user information
-    // You may need to adjust this query based on your actual database schema
-    const { data: members, error: membersError } = await supabase
-      .from("users")
-      .select("id, name, avatar_url, specialty, skills")
-      .in("id", userIds);
 
-    if (membersError) {
-      // If the users table doesn't exist or has different fields, return basic info
-      return { 
-        success: true, 
-        message: "Retrieved basic member information", 
-        members: userIds.map(id => ({ id, name: `User ${id.substring(0, 5)}...` }))
-      };
-    }
+    // 2. Recuperar datos de usuario desde Clerk
+    const clerk = await clerkClient();
+    const { data: users, totalCount } = await clerk.users.getUserList({
+      userId: userIds,
+      limit: userIds.length,
+    });
 
-    return { success: true, message: "Successfully fetched group members", members };
+    // 3. Mapear al formato deseado
+    const members = users.map(user => ({
+      id: user.id,
+      name: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
+      avatar_url: user.imageUrl,
+      specialty: user.publicMetadata?.specialty,
+      skills: user.publicMetadata?.skills,
+    }));
+
+    return { success: true, message: "Fetched group members", members };
   } catch (error) {
     console.error("Error fetching group members:", error);
     return { success: false, message: "An error occurred while fetching group members", error, members: [] };

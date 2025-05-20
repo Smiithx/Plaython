@@ -26,7 +26,7 @@ interface Team {
   complete: boolean;
 }
 
-export function ParticipantsTab({ eventData, groupId }: ParticipantsTabProps) {
+export function ParticipantsTab({groupId }: ParticipantsTabProps) {
   const [groupMembers, setGroupMembers] = useState<Participant[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
