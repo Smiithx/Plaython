@@ -1,4 +1,11 @@
-import React, { useState, useEffect, Suspense, useCallback, useMemo, memo } from "react";
+import React, {
+  useState,
+  useEffect,
+  Suspense,
+  useCallback,
+  useMemo,
+  memo,
+} from "react";
 import { Challenge } from "@/types";
 import { Button } from "@/ui/button";
 import { Badge } from "@/ui/badge";
@@ -71,10 +78,21 @@ const GroupMembersList = memo(({ groupId }: { groupId: string }) => {
   }, [groupId]);
 
   // Generate random skills for demo purposes
-  const demoSkills = useMemo(() => [
-    "JavaScript", "React", "TypeScript", "Node.js", "Python", 
-    "UI/UX", "Design", "Product Management", "Marketing", "Data Science"
-  ], []);
+  const demoSkills = useMemo(
+    () => [
+      "JavaScript",
+      "React",
+      "TypeScript",
+      "Node.js",
+      "Python",
+      "UI/UX",
+      "Design",
+      "Product Management",
+      "Marketing",
+      "Data Science",
+    ],
+    []
+  );
 
   const getRandomSkills = useCallback(() => {
     const count = Math.floor(Math.random() * 3) + 1; // 1-3 skills
@@ -125,15 +143,17 @@ const GroupMembersList = memo(({ groupId }: { groupId: string }) => {
                 </AvatarFallback>
               </Avatar>
               <div>
-                <h4 className="font-semibold text-white mb-1">
-                  {member.name}
-                </h4>
+                <h4 className="font-semibold text-white mb-1">{member.name}</h4>
                 <p className="text-sm text-gray-400 mb-2">
                   {member.specialty || "Participante"}
                 </p>
                 <div className="flex flex-wrap gap-1">
                   {skills.map((skill, i) => (
-                    <Badge key={i} variant="outline" className="text-xs bg-gray-700 text-gray-300">
+                    <Badge
+                      key={i}
+                      variant="outline"
+                      className="text-xs bg-gray-700 text-gray-300"
+                    >
                       {skill}
                     </Badge>
                   ))}
@@ -155,21 +175,19 @@ export function ParticipantsTab({ eventData, groupId }: ParticipantsTabProps) {
         <div>
           <div className="flex items-center mb-6">
             <Users className="w-6 h-6 mr-2 text-blue-400" />
-            <h2 className="text-2xl font-bold text-white">
-              Mi Grupo
-            </h2>
+            <h2 className="text-2xl font-bold text-white">Mi Grupo</h2>
           </div>
-
-          <Suspense fallback={<GroupMembersLoading />}>
-            <GroupMembersList groupId={groupId} />
-          </Suspense>
+          <GroupMembersList groupId={groupId} />
         </div>
       ) : (
         <div className="bg-gray-800 rounded-lg p-6 border border-gray-700 text-center">
           <Users className="w-12 h-12 mx-auto mb-3 text-gray-500" />
-          <h3 className="text-xl font-semibold text-white mb-2">No estás en un grupo</h3>
+          <h3 className="text-xl font-semibold text-white mb-2">
+            No estás en un grupo
+          </h3>
           <p className="text-gray-300 mb-4">
-            Cuando te unas a un desafío, serás asignado a un grupo automáticamente cuando haya suficientes participantes.
+            Cuando te unas a un desafío, serás asignado a un grupo
+            automáticamente cuando haya suficientes participantes.
           </p>
           <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
             Unirse al Desafío
