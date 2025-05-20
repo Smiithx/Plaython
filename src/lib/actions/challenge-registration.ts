@@ -3,6 +3,7 @@
 import { auth } from "@clerk/nextjs/server";
 import {createServerSupabaseClient} from "../supabaseClient";
 import { clerkClient } from "@clerk/nextjs/server";
+import {supabaseAdmin} from "@/lib/supabaseAdmin";
 
 /**
  * Registers the current user for a challenge
@@ -83,8 +84,8 @@ export async function checkRegistrationStatus(challengeId: string) {
         .eq("challenge_id", challengeId)
         .single();
 
-    console.log(`checkRegistrationStatus`)
-    console.log({ data, error, userId, challengeId })
+    // console.log(`checkRegistrationStatus`)
+    // console.log({ data, error, userId, challengeId })
 
     if (error && error.code !== "PGRST116") {
       throw error;
@@ -196,7 +197,7 @@ export async function getGroupMembers(groupId: string) {
  */
 async function tryFormGroup(challengeId: string, teamSize: number) {
 
-  const supabase = await createServerSupabaseClient();
+  const supabase = await supabaseAdmin;
 
   try {
     const { data: queuedUsers, error: queueError } = await supabase
@@ -209,7 +210,6 @@ async function tryFormGroup(challengeId: string, teamSize: number) {
     if (queueError) {
       throw queueError;
     }
-    console.log(`Usuarios en cola para ${challengeId}:`, queuedUsers.length);
     if (!queuedUsers || queuedUsers.length < teamSize) {
       return;
     }

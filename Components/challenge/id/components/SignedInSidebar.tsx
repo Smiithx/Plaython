@@ -38,7 +38,7 @@ export function SignedInSidebar({
     const alreadyShown = sessionStorage.getItem("group-toast-shown");
 
     if (!alreadyShown && groupId) {
-      toas.success(`¡Has sido asignado a un grupo! ID: ${groupId}`);
+      // toas.success(`¡Has sido asignado a un grupo! ID: ${groupId}`);
       sessionStorage.setItem("group-toast-shown", "true");
     }
   }, [groupId]);
