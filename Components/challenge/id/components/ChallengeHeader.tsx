@@ -83,16 +83,8 @@ export function ChallengeHeader({
           </div>
 
           <div className="flex items-center">
-            <MapPin className="h-5 w-5 mr-2 text-pink-400" />
-            {/* <span>{eventData.location}</span> */}
-          </div>
-
-          <div className="flex items-center">
             <Users className="h-5 w-5 mr-2 text-green-400" />
-            {/* <span>
-              {eventData.currentParticipants}/{eventData.maxParticipants}{" "}
-              participantes
-            </span> */}
+            <span>{eventData.teamSize} participantes</span>
           </div>
         </div>
       </div>
