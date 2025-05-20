@@ -147,9 +147,9 @@ const MIGRATIONS = [
       COMMENT ON TABLE public.challenge_registrations IS 'Stores user registrations for challenges';
       ALTER TABLE public.challenge_registrations ENABLE ROW LEVEL SECURITY;
       DROP POLICY IF EXISTS "Read own registrations" ON public.challenge_registrations;
-      CREATE POLICY "Read own registrations"
+      CREATE POLICY "Authenticated can read all registrations"
         ON public.challenge_registrations FOR SELECT
-        USING (((select auth.jwt()->>'sub') = (user_id)::text));
+        USING (true);
       DROP POLICY IF EXISTS "Insert registrations" ON public.challenge_registrations;
       CREATE POLICY "Insert registrations"
         ON public.challenge_registrations FOR INSERT TO authenticated
