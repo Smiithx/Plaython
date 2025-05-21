@@ -122,9 +122,11 @@ export interface DbChallengeWithRelations extends DbChallenge {
  */
 export interface DbDiscussion {
   id: string;
-  userId: string;
+  user_id: string;
   userName: string;
   userAvatarUrl?: string;
   message: string;
   timestamp: string;
+  likes: number;
+  isLiked?: boolean;
 }

@@ -4,7 +4,7 @@ import {
   createAnonSupabaseClient,
   createServerSupabaseClient,
 } from "../supabaseClient";
-import { Challenge, Discussion } from "@/types";
+import { Discussion } from "@/types";
 import { DbDiscussion } from "@/types/database";
 import { unstable_cache, revalidateTag } from "next/cache";
 
@@ -18,12 +18,14 @@ function mapRawToDiscuccion(c: DbDiscussion): Discussion {
     timestamp: c.timestamp,
     userName: c.userName,
     userAvatarUrl: c.userAvatarUrl ?? "",
-    userId: c.userId,
+    user_id: c.user_id,
+    likes: c.likes,
+    isLiked: c?.isLiked,
   };
 }
 
 // Wrapped with unstable_cache for server-side caching
-export const getAllChallenges = unstable_cache(
+export const getAllDiscussions = unstable_cache(
   async (): Promise<Discussion[]> => {
     const supabase = createAnonSupabaseClient();
     const { data, error } = await supabase
@@ -45,11 +47,11 @@ export const getAllChallenges = unstable_cache(
 );
 
 // Wrapped with unstable_cache for server-side caching
-export const getChallengeById = unstable_cache(
+export const getDiscussionById = unstable_cache(
   async (id: string): Promise<Discussion> => {
     const supabase = createAnonSupabaseClient();
     const { data, error } = await supabase
-      .from("challenge_discussion")
+      .from("challenge_discussions")
       .select("*")
       .eq("id", id)
       .single();
@@ -69,14 +71,14 @@ export const getChallengeById = unstable_cache(
 export async function createDiscussion(input: Omit<Discussion, "id">) {
   const supabase = await createServerSupabaseClient();
   const { data, error } = await supabase
-    .from("challenge_discussion")
+    .from("challenge_discussions")
     .insert(input)
     .single();
 
   if (error) throw error;
 
   // Invalidate the challenge_discussion cache tag to refresh all challenge_discussion-related data
-  revalidateTag("challenge_discussion");
+  revalidateTag("challenge_discussions");
 
   return mapRawToDiscuccion(data!);
 }

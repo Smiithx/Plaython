@@ -52,8 +52,8 @@ export interface Challenge {
   endDate?: string;
   tags: string[];
   estimatedTime?: string; // Not in database, but used in application
-  organizer?: string;     // Not in database, but used in application
-  location?: string;      // Not in database, but used in application
+  organizer?: string; // Not in database, but used in application
+  location?: string; // Not in database, but used in application
   createdAt: string;
   updatedAt: string;
 }
@@ -137,13 +137,14 @@ export interface Participant {
  */
 export interface Discussion {
   id: string;
-  userId: string;
-  userName: string;
+  user_id: string;
+  userName?: string;
   userAvatarUrl?: string;
   message: string;
   timestamp: string;
+  likes: number;
+  isLiked?: boolean;
 }
-
 /**
  * Schedule item
  */
@@ -180,4 +181,4 @@ export interface RegistrationStatusResponse {
 }
 
 // Re-export database types for convenience
-export * from './database';
+export * from "./database";
