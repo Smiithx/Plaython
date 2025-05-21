@@ -7,7 +7,7 @@ export function ContenHero() {
     <>
       <section className="section-vertical items-center justify-center relative">
         <HexagonGrid />
-        <div className="container relative z-10 mx-auto px-4 text-center space-y-8">
+        <div className="container relative z-9 mx-auto px-4 text-center space-y-8">
           <h2 className="text-4xl md:text-5xl font-bold text-white">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 pr-4">
               ¿Listo para comenzar

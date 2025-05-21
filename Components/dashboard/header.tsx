@@ -24,7 +24,7 @@ export function DashHeader() {
       </div>
 
       <div className="flex items-center gap-4">
-        <span className="hidden md:block text-sm text-gray-400">
+        {/* <span className="hidden md:block text-sm text-gray-400">
           Desafío activo:{" "}
           <span className="text-[#107C10] font-medium">AI Hackathon</span>
         </span>
@@ -33,7 +33,7 @@ export function DashHeader() {
           <Bell className="h-5 w-5" />
           <span className="absolute top-1 right-1 w-2 h-2 bg-[#107C10] rounded-full"></span>
           <span className="sr-only">Notificaciones</span>
-        </Button>
+        </Button> */}
 
         <DropdownMenu>
           <UserButton />

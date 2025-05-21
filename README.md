@@ -1,154 +1,117 @@
-# Plaython
+# Plaython 🚀
 
-Plaython is a matchmaking platform for programming challenges and events. It connects professionals from different specialties, forms balanced teams, and coordinates activities. Its intelligent algorithm optimizes role assignment and task planning, ensuring successful collaborations in hackathons and codeathons.
+¡Únete a un reto y diviértete programando! 🤖
 
-## Project Overview
+Plaython es una plataforma de matchmaking para retos y eventos de programación. 
+Conecta a profesionales de distintas especialidades, forma equipos balanceados y coordina actividades. 
+Su algoritmo inteligente optimiza la asignación de roles y la planificación de tareas, asegurando colaboraciones exitosas en hackathons y codeathons.
 
-Plaython is built with:
-- React 19
-- Next.js 15.3.2
-- TypeScript
-- Clerk for authentication
-- Supabase for backend/database
-- Tailwind CSS for styling
-- GSAP and Motion for animations
-- Shadcn UI and Radix UI for components
+## 📝 Descripción del proyecto
 
-## Prerequisites
+Plaython facilita la organización de eventos de programación mediante:
 
-- Node.js (latest LTS version recommended)
-- pnpm 10.10.0 or later
+Registro y autenticación de usuarios a través de Clerk 🔐
 
-## Setup Instructions
+Gestión de retos y equipos colaborativos
 
-### 1. Clone the Repository
+Planificación de tareas y roles dentro de los equipos
 
-```bash
-git clone https://github.com/your-username/plaython.git
-cd plaython
+Notificaciones en tiempo real y seguimiento del progreso
+
+
+## 🔗 Demo en vivo
+
+Visita la demo en Vercel para ver Plaython en acción:: [https://plaython.vercel.app/](https://plaython.vercel.app/)
+
+## 🖼 Captura de pantalla
+
+![Preview](public/welcome.png)
+
+## 🔐 Integración con Clerk
+
+Clerk se utiliza para la autenticación y gestión de usuarios:
+
+Registro e inicio de sesión: Componentes de Clerk integrados en React para manejar flujos de autenticación.
+
+Tokens JWT: Clerk emite JSON Web Tokens para autenticar solicitudes al backend.
+
+Protección de rutas: Middleware de Clerk asegura que solo usuarios autenticados accedan a rutas sensibles.
+
+Contexto de usuario: useUser() de Clerk proporciona datos del usuario en toda la app.
+
+## ⚙️ Instalación y configuración
+
+Sigue estos pasos para ejecutar Plaython localmente:
+
+Clona el repositorio:
+
+```
+git clone https://github.com/Smiithx/Plaython.git
+cd Plaython
 ```
 
-### 2. Environment Setup
-
-Copy the example environment file and fill in your values:
-
-```bash
+Copia el archivo de entorno:
+```
 cp .env.example .env
 ```
-
-Required environment variables:
+Configura tus variables de entorno en el archivo .env:
 ```
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="your-clerk-publishable-key"
-CLERK_SECRET_KEY="your-clerk-secret-key"
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-public-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="tu-clerk-publishable-key"
+CLERK_SECRET_KEY="tu-clerk-secret-key"
+NEXT_PUBLIC_SUPABASE_URL="https://tu-proyecto.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="tu-supabase-anon-key"
+SUPABASE_SERVICE_ROLE_KEY="tu-supabase-service-role-key"
 ```
-
-### 3. Install Dependencies
-
-```bash
-pnpm install
+Instala dependencias:
 ```
-
-### 4. Set Up the Database
-
-Run the migration script to set up the Supabase database schema:
-
-```bash
-pnpm migrate
+npm install
 ```
-
-### 5. Seed the Database
-
-Populate the database with initial data:
-
-```bash
-pnpm seed
-pnpm seed:challenges
+Ejecuta migraciones de la base de datos:
 ```
-
-### 6. Start the Development Server
-
-```bash
-pnpm dev
+npm run migrate
 ```
+Carga datos iniciales (seed):
+```
+npm run seed
+npm run seed:challenges (solo para desarrollo)
+```
+Arranca el servidor de desarrollo:
+```
+npm run dev
+```
+Abre http://localhost:3000 en tu navegador.
 
-The application will be available at http://localhost:3000.
+## 🧱 Tecnologías y estructura del proyecto
 
-## Available Scripts
+Tech Stack:
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start the development server with Turbopack |
-| `pnpm build` | Create a production build |
-| `pnpm start` | Start the production server |
-| `pnpm lint` | Run ESLint to check for code issues |
-| `pnpm type-check` | Run TypeScript type checking |
-| `pnpm check` | Run both linting and type checking |
-| `pnpm test` | Run all tests |
-| `pnpm test:watch` | Run tests in watch mode |
-| `pnpm test:coverage` | Run tests with coverage report |
-| `pnpm migrate` | Run database migrations |
-| `pnpm seed` | Seed general data |
-| `pnpm seed:challenges` | Seed challenges data |
+Frontend: React, Next.js, TypeScript, Tailwind CSS, Framer Motion
 
-## Project Structure
+Autenticación: Clerk
+
+Backend & DB: Supabase (PostgreSQL)
+
+Animaciones: GSAP, Framer Motion
+
+UI Components: Shadcn UI, Radix UI
+
+Estructura principal:
 
 ```
 plaython/
-├── Components/         # UI components
-│   ├── ui/             # Reusable UI components
-│   ├── challenge/      # Challenge-related components
-│   └── ...
+├── Components/         # Componentes de UI reutilizables
+│   ├── ui/             # Componentes genéricos (botones, inputs...)
+│   └── challenge/      # Componentes específicos de retos
 ├── src/
-│   ├── app/            # Next.js App Router pages
-│   ├── lib/            # Utility functions and services
-│   ├── contexts/       # React contexts for state management
-│   └── hooks/          # Custom React hooks
-├── scripts/            # Database migration and seed scripts
-├── docs/               # Project documentation
-└── __tests__/          # Test files
+│   ├── app/            # Rutas y páginas de Next.js
+│   ├── lib/            # Lógica de negocio y utilidades
+│   ├── contexts/       # Contextos de React
+│   └── hooks/          # Hooks personalizados
+├── scripts/            # Migraciones y seeds de la base de datos
+├── public/             # Recursos estáticos (imágenes, GIFs)
+├── docs/               # Documentación adicional
+└── __tests__/          # Pruebas unitarias (Jest)
 ```
-
-## Architecture
-
-Plaython follows a client-server architecture with:
-- Next.js App Router for routing and server components
-- React Server Components (RSC) for server-rendered UI
-- Client components for interactive elements
-- Supabase for database and backend services
-- Clerk for authentication and user management
-
-### State Management
-
-The application uses React Context for global state management, with separate contexts for different domains:
-- User context for user-related state
-- Challenges context for challenge-related state
-- Teams context for team-related state
-- Error context for error handling
-
-See `docs/state-management.md` for more details.
-
-### Data Fetching
-
-The application uses a combination of:
-- Server components for initial data loading
-- Custom hooks with React Query for client-side data fetching
-- Server actions for mutations
-
-### Error Handling
-
-The application uses a comprehensive error handling strategy with:
-- Custom error boundaries for different parts of the application
-- Standardized error handling for API calls
-- User-friendly error messages and fallback UIs
-
-See `docs/error-handling.md` for more details.
-
-## Contributing
-
-Please read the development guidelines in `.junie/guidelines.md` before contributing to the project.
 
 ## License
 

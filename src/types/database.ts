@@ -115,3 +115,18 @@ export interface DbChallengeWithRelations extends DbChallenge {
   status?: { label: string };
   challenge_tags?: Array<{ tags: { name: string } }>;
 }
+
+/**
+ * Association between users create discussion event
+ * Table: challenge_discuccion
+ */
+export interface DbDiscussion {
+  id: string;
+  user_id: string;
+  userName: string;
+  userAvatarUrl?: string;
+  message: string;
+  timestamp: string;
+  likes: number;
+  isLiked?: boolean;
+}
