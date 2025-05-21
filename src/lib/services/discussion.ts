@@ -27,7 +27,7 @@ function mapRawToDiscuccion(c: DbDiscussion): Discussion {
 // Wrapped with unstable_cache for server-side caching
 export const getAllDiscussions = unstable_cache(
   async (): Promise<Discussion[]> => {
-    const supabase = createAnonSupabaseClient();
+  const supabase = await createServerSupabaseClient();
     const { data, error } = await supabase
       .from("challenge_discussion")
       .select("*")
@@ -73,6 +73,7 @@ export async function createDiscussion(input: Omit<Discussion, "id">) {
   const { data, error } = await supabase
     .from("challenge_discussions")
     .insert(input)
+    .select("*")
     .single();
 
   if (error) throw error;
